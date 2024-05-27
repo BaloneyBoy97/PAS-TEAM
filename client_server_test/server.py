@@ -18,7 +18,7 @@ def connection_handle(c):
     conn = sqlite3.connect("Userdata.db")
     curr = conn.cursor()
 
-    curr.execute("SELECT * FROM Userdata WHERE Username = ? AND Password = ?", (username, password))
+    curr.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
 
     if curr.fetchall():
         c.send("Logged in!".encode())
