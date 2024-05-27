@@ -15,7 +15,7 @@ def connection_handle(c):
     password = c.recv(1024).decode()
     password = hashlib.sha256(password.encode()).hexdigest()
 
-    conn = sqlite3.connect("Userdata.db")
+    conn = sqlite3.connect("appdata.db")
     curr = conn.cursor()
 
     curr.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
