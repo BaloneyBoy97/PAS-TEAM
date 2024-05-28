@@ -47,7 +47,8 @@ It focuses on general travelers, airport and airline administrations.
 - Admin panel will interact with Database to manage flight, user, booking and perform CRUD operation in DB
 - Admin panel will also interact with Check In Management system to manipulate/update check in data
 
-
+	<img width="527" alt="Screenshot 2024-05-28 at 2 18 32 AM" src="https://github.com/BaloneyBoy97/PSD-TEAM/assets/142546682/7dc93fe0-ceb6-474b-aa87-0105529db9d6">
+	<img width="448" alt="Screenshot 2024-05-28 at 2 18 42 AM" src="https://github.com/BaloneyBoy97/PSD-TEAM/assets/142546682/e79dfa64-14ba-4057-b609-37b4b587d32c">
 **Team Expertise**
 
 Zanxiang Wang:
