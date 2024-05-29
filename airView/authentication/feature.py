@@ -4,7 +4,6 @@ from flask_restful import Resource
 from werkzeug.security import generate_password_hash
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 from werkzeug.security import generate_password_hash, check_password_hash
-from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 from flask_mail import Mail, Message
 
 mail = Mail()  # Instantiate Mail object here
