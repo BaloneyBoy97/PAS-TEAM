@@ -4,9 +4,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # perform user registration and add user data to db
 def create_user(email, username, password, is_admin=False):
-    conn = sqlite3.connect("Userdata.db")
+    conn = sqlite3.connect("appdata.db")
     curr = conn.cursor()
-    curr.execute("INSERT INTO Userdata (email, userName, Password, is_admin) VALUES (?, ?, ?, ?)",
+    curr.execute("INSERT INTO userdata (email, userName, Password, is_admin) VALUES (?, ?, ?, ?)",
                  (email, username, password, is_admin))
     conn.commit()
     conn.close()
@@ -21,9 +21,9 @@ def get_user_by_email(email):
     return user
 # check username existance
 def get_user_by_username(username):
-    conn = sqlite3.connect("Userdata.db")
+    conn = sqlite3.connect("appdata.db")
     curr = conn.cursor()
-    curr.execute("SELECT * FROM Userdata WHERE username = ?", (username,))
+    curr.execute("SELECT * FROM userdata WHERE username = ?", (username,))
     user = curr.fetchone()
     conn.close()
     if user:
