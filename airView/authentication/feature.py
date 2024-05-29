@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 from flask_mail import Message
-from app import mail
+from airView.evnironment.app import mail
 
 class UserRegistration(Resource):
     def post(self):
