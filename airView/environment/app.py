@@ -10,6 +10,7 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration
 
+
 # Load environment variables from .env file
 load_dotenv()
 # Initialize Flask app
