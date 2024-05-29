@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from flask import request, jsonify
 from flask_restful import Resource
+from werkzeug.security import generate_password_hash
+from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 from werkzeug.security import generate_password_hash, check_password_hash
 from .operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 from flask_mail import Mail, Message
@@ -45,7 +47,7 @@ class UserLogin(Resource):
             return jsonify({'message': 'Email or password is empty!'}), 400
 
         user = get_user_by_email(email)
-        if user and check_password_hash(user['password'], password):
+        if user and check_user_credentials(password, email):
             return jsonify({'message': 'Logged in!'})
         else:
             return jsonify({'message': 'Failed!'}), 401
