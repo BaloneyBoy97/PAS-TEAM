@@ -3,6 +3,7 @@ import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # perform user registration and add user data to db
+# password will be hashed before storing in db
 def create_user(email, username, password, is_admin=False):
     conn = sqlite3.connect("appdata.db")
     curr = conn.cursor()
