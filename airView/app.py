@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from dotenv import load_dotenv
-
+from authentication.feature import UserRegistration, UserLogin, AdminRegistration
 # Load environment variables from .env file
 load_dotenv()
 # Initialize Flask app
@@ -27,9 +27,9 @@ jwt = JWTManager(app)
 mail = Mail(app)
 
 # Add resource endpoints
-# api.add_resource(UserRegistration, '/register')
-# api.add_resource(UserLogin, '/login')
-# api.add_resource(AdminRegistration, '/admin/register')
+api.add_resource(UserRegistration, '/register')
+api.add_resource(UserLogin, '/login')
+api.add_resource(AdminRegistration, '/admin/register')
 
 # Run the app
 if __name__ == '__main__':
