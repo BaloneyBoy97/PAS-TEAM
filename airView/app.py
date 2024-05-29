@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-
 # Initialize Flask app
 app = Flask(__name__)
 
