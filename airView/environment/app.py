@@ -6,11 +6,13 @@ from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from dotenv import load_dotenv
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration
+
 # Load environment variables from .env file
 load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
+# connect to HTML homepage
 @app.route('/')
 def serve_html():
     return send_from_directory('/Users/baloneyboy/Downloads/PSD-TEAM/airView', 'index.html')
