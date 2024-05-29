@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
@@ -11,6 +11,9 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
+@app.route('/')
+def serve_html():
+    return send_from_directory('/Users/baloneyboy/Downloads/PSD-TEAM/airView', 'index.html')
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
