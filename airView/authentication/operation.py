@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 # perform user registration and add user data to db
 # password will be hashed before storing in db
