@@ -2,10 +2,10 @@
 from flask import request, jsonify
 from flask_restful import Resource
 from werkzeug.security import generate_password_hash, check_password_hash
-# from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
-from flask_mail import Message
-from airView.environment.app import mail
+from flask_mail import Mail, Message
+
+mail = Mail()  # Instantiate Mail object here
 
 class UserRegistration(Resource):
     def post(self):

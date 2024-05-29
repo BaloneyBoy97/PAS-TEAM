@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+# from flask_cors import CORS
 from flask_mail import Mail
 from dotenv import load_dotenv
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration
@@ -11,11 +14,16 @@ from authentication.feature import UserRegistration, UserLogin, AdminRegistratio
 load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
+# CORS(app)
 
 # connect to HTML homepage
 @app.route('/')
 def serve_html():
-    return send_from_directory('/Users/baloneyboy/Downloads/PSD-TEAM/airView', 'index.html')
+    try:
+        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'index.html')
+    except Exception as e:
+        return str(e), 500
+
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
