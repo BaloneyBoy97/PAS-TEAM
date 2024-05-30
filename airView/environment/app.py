@@ -21,7 +21,7 @@ app = Flask(__name__)
 @app.route('/')
 def serve_html():
     try:
-        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'index.html')
+        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'login.html')
     except Exception as e:
         return str(e), 500
 
