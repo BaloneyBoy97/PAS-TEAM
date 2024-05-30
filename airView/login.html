@@ -32,9 +32,8 @@
       .login-container {
         background-color: #f8f5f6;
         padding: 30px 50px 30px 30px;
-        border: ridge #5ebec4;
         border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
         width: 400px;
         height: 400px;
         text-align: center;
@@ -78,11 +77,50 @@
         text-decoration: underline;
       }
     </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.querySelector("form");
+        const errorMessage = document.querySelector(".error-message");
+
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const email = event.target.email.value;
+          const password = event.target.password.value;
+
+          try {
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Login failed");
+            }
+
+            const data = await response.json();
+            if (data.success) {
+              window.location.href = "/dashboard"; // Redirect to the dashboard page
+            } else {
+              errorMessage.textContent =
+                data.message || "Login failed. Please try again.";
+              errorMessage.style.display = "block";
+            }
+          } catch (error) {
+            errorMessage.textContent = error.message;
+            errorMessage.style.display = "block";
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="login-container">
       <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
-      <form action="/login" method="post">
+      <form>
         <input type="email" name="email" placeholder="Email" required />
         <input
           type="password"
@@ -94,6 +132,7 @@
       </form>
       <a href="/signup">Don't have an account? Sign up</a>
       <a href="/forgot-password">Forgot your password?</a>
+      <p class="error-message"></p>
     </div>
   </body>
 </html>
