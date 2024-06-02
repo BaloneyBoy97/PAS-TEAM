@@ -21,7 +21,31 @@ app = Flask(__name__)
 @app.route('/')
 def serve_html():
     try:
-        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'index.html')
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'login.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/home.html')
+def login():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'home.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+
+@app.route('/signup.html')
+def signup():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'signup.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/forgot-password.html')
+def forgetPassword():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'forgot-password.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
