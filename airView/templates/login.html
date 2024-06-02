@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,9 +17,11 @@
             height: 100vh;
             margin: 0;
         }
+
         form {
             padding: 20px 20px 0px 0px;
         }
+
         .login-container {
             background-color: #fff;
             padding: 20px;
@@ -28,17 +31,20 @@
             height: 400px;
             text-align: center;
         }
+
         .login-container h1 {
             color: #5ebec4;
             margin-bottom: 10px;
             font-style: italic;
             font-size: 2em;
         }
+
         .letter {
             color: #f92c85;
             font-style: normal;
             font-size: 1.4em;
         }
+
         .login-container input[type="email"],
         .login-container input[type="password"] {
             width: 100%;
@@ -47,6 +53,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .login-container input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -58,9 +65,11 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
         .login-container input[type="submit"]:hover {
             background-color: #1ab7b1;
         }
+
         .login-container a {
             display: block;
             margin-top: 20px;
@@ -68,9 +77,11 @@
             text-decoration: none;
             font-size: 1em;
         }
+
         .login-container a:hover {
             text-decoration: underline;
         }
+
         .error-message {
             color: red;
             font-size: 0.9em;
@@ -105,7 +116,8 @@
                     }
 
                     if (data.message === "Logged in!") {
-                        window.location.href = "home.html"; 
+                        localStorage.setItem("token", data.access_token);  // Store the JWT token
+                        window.location.href = "home.html";
                     } else {
                         errorMessage.textContent = data.message;
                         errorMessage.style.display = "block";

@@ -2,12 +2,13 @@
 from flask import request, jsonify, make_response
 from flask_restful import Resource
 from werkzeug.security import generate_password_hash
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from flask_mail import Mail, Message
 from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 import logging
 
-mail = Mail()  # Instantiate Mail object here
+mail = Mail()
 logger = logging.getLogger(__name__)
 
 class UserRegistration(Resource):
@@ -17,26 +18,21 @@ class UserRegistration(Resource):
         username = data.get('username')
         password = data.get('password')
 
-        # Input validation
         if not email or not username or not password:
             return make_response(jsonify({'message': 'Email, username, or password is empty!'}), 400)
 
-        # Email validation
         try:
             valid = validate_email(email)
             email = valid.email
         except EmailNotValidError as e:
             return make_response(jsonify({'message': str(e)}), 400)
 
-        # Check if user already exists
         if get_user_by_email(email) or get_user_by_username(username):
             return make_response(jsonify({'message': 'User already exists!'}), 400)
         
-        # Create new user
         hashed_password = generate_password_hash(password)
         create_user(email, username, hashed_password)
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
-
 
 class UserLogin(Resource):
     def post(self):
@@ -44,16 +40,15 @@ class UserLogin(Resource):
         email = data.get('email')
         password = data.get('password')
         
-        # Input validation
         if not email or not password:
             return make_response(jsonify({'error': 'Email or password is empty!'}), 400)
 
         user = get_user_by_email(email)
         if user and check_user_credentials(password, email):
-            return make_response(jsonify({'message': 'Logged in!'}), 200)
+            access_token = create_access_token(identity=email)
+            return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token}), 200)
         else:
             return make_response(jsonify({'error': 'Invalid email or password!'}), 401)
-
 
 class AdminRegistration(Resource):
     def post(self):
@@ -62,22 +57,25 @@ class AdminRegistration(Resource):
         username = data.get('username')
         password = data.get('password')
 
-        # Input validation
         if not email or not username or not password:
             return make_response(jsonify({'message': 'Email, username, or password is empty!'}), 400)
 
-        # Email validation
         try:
             valid = validate_email(email)
             email = valid.email
         except EmailNotValidError as e:
             return make_response(jsonify({'message': str(e)}), 400)
 
-        # Check if user already exists
         if get_user_by_email(email) or get_user_by_username(username):
             return make_response(jsonify({'message': 'User already exists!'}), 400)
 
-        # Create new admin user
         hashed_password = generate_password_hash(password)
         create_user(email, username, hashed_password, is_admin=True)
         return make_response(jsonify({'message': 'Admin registered successfully!'}), 201)
+
+class UserLogout(Resource):
+    @jwt_required()
+    def post(self):
+        response = jsonify({'message': 'Logged out successfully!'})
+        unset_jwt_cookies(response)
+        return response

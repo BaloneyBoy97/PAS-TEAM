@@ -62,9 +62,47 @@
         color: #000;
       }
     </style>
-    <script src=""></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const logoutButton = document.querySelector("#logout-button");
+
+        logoutButton.addEventListener("click", async () => {
+          try {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+              console.error("No token found. You are not logged in.");
+              return;
+            }
+
+            const response = await fetch("/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              localStorage.removeItem("token");
+              window.location.href = "/";
+            } else {
+              console.error("Logout failed:", data);
+            }
+          } catch (error) {
+            console.error("Logout error:", error);
+          }
+        });
+      });
+    </script>
   </head>
   <body>
+    <div class="home-container">
+      <h1>Welcome to Air View</h1>
+      <button id="logout-button">Logout</button>
+    </div>
     <div class="main">
       <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
 
