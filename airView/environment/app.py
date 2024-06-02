@@ -2,9 +2,10 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, send_from_directory, jsonify, Response, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from werkzeug.exceptions import HTTPException
 # from flask_cors import CORS
 from flask_mail import Mail
 from dotenv import load_dotenv
@@ -23,8 +24,32 @@ def serve_html():
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'login.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
-        return jsonify({'error': 'An internal server error occurred'}), 500
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/home.html')
+def login():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'home.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
+@app.route('/signup.html')
+def signup():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'signup.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/forgot-password.html')
+def forgetPassword():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'forgot-password.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -43,8 +68,19 @@ mail = Mail(app)
 # Add a global error handler to catch any unhandled exceptions
 @app.errorhandler(Exception)
 def handle_exception(e):
+    error_type = type(e).__name__
     app.logger.error('An error occurred: %s', str(e))
-    return jsonify({'error': 'An internal server error occurred'}), 500
+    app.logger.error('Error type: %s', error_type)
+    
+    # Handle HTTPException specifically
+    if isinstance(e, HTTPException):
+        response = e.get_response()
+        response.data = jsonify({'error': e.description}).data
+        response.content_type = 'application/json'
+        return response
+    
+    # Handle generic exceptions
+    return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
 # Add resource endpoints
 api.add_resource(UserRegistration, '/register')

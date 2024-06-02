@@ -1,6 +1,5 @@
 import sqlite3
 import logging
-from werkzeug.security import check_password_hash
 import os
 
 # Get the current directory of the script
@@ -52,8 +51,8 @@ def check_user_credentials(password, email):
         logger.debug("User found during credential check")
         hashed_password = user['password']
         logger.debug("Hashed password retrieved from database: %s", hashed_password)
-        logger.debug("Hashed password retrieved from database: %s", hashed_password)
-        if check_password_hash(hashed_password, password):
+        logger.debug("password retrieved from user: %s", password)
+        if (hashed_password == password):
             logger.debug("Password matched")
             return True
     logger.debug("Invalid credentials")

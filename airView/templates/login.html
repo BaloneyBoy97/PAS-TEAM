@@ -105,10 +105,16 @@
                     }
 
                     if (data.message === "Logged in!") {
-                        window.location.href = "/dashboard"; // Redirect to the dashboard page
+                        window.location.href = "home.html"; 
                     } else {
                         errorMessage.textContent = data.message;
                         errorMessage.style.display = "block";
+
+                        // Reset error message after 5 seconds
+                        setTimeout(() => {
+                            errorMessage.textContent = "";
+                            errorMessage.style.display = "none";
+                        }, 5000);
                     }
                 } catch (error) {
                     errorMessage.textContent = error.message;
