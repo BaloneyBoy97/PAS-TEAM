@@ -5,8 +5,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
+import logging
 
 mail = Mail()  # Instantiate Mail object here
+logger = logging.getLogger(__name__)
 
 class UserRegistration(Resource):
     def post(self):
@@ -46,10 +48,20 @@ class UserLogin(Resource):
             return jsonify({'message': 'Email or password is empty!'}), 400
 
         user = get_user_by_email(email)
-        if user and check_user_credentials(password, email):
-            return jsonify({'message': 'Logged in!'}), 200
+        if user:
+            logger.debug("User found during login attempt")
+            logger.debug("Hashed password retrieved from database: %s", user['password'])
+            if check_password_hash(user['password'], password):
+                logger.debug("Password matched")
+                return jsonify({'message': 'Logged in!'}), 200
+            else:
+                logger.debug("Invalid password")
         else:
-            return jsonify({'message': 'Failed!'}), 401
+            logger.debug("User not found during login attempt")
+
+        logger.error("Login failed")
+        return jsonify({'message': 'Failed!'}), 401
+
 
 class AdminRegistration(Resource):
     def post(self):

@@ -1,8 +1,13 @@
 import sqlite3
 import logging
 from werkzeug.security import check_password_hash
+import os
 
-DATABASE = 'appdata.db'
+# Get the current directory of the script
+current_dir = os.path.dirname(__file__)
+
+# Construct the full path to the database file
+DATABASE = os.path.join(current_dir, '..', 'database', 'appdata.db')
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -38,14 +43,17 @@ def get_user_by_username(username):
     cursor.execute('SELECT * FROM userdata WHERE username = ?', (username,))
     user = cursor.fetchone()
     conn.close()
-    logger.debug("User retrieved by username: %s", user)  # Add logging statement
     return user
 
 def check_user_credentials(password, email):
+    logger.debug("password: %s", password)
     user = get_user_by_email(email)
     if user:
         logger.debug("User found during credential check")
-        if check_password_hash(user['password'], password):
+        hashed_password = user['password']
+        logger.debug("Hashed password retrieved from database: %s", hashed_password)
+        logger.debug("Hashed password retrieved from database: %s", hashed_password)
+        if check_password_hash(hashed_password, password):
             logger.debug("Password matched")
             return True
     logger.debug("Invalid credentials")
