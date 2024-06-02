@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <style>
+      body {
+        background-color: #fdf5df;
+        font-family: "Times New Roman", Times, serif;
+      }
+      h1 {
+        text-align: center;
+        color: #5ebec4;
+        font-style: italic;
+        font-size: 300%;
+      }
+      .letter {
+        color: #f92c85;
+        font-style: normal;
+      }
+      .navbar {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        justify-items: center;
+        background-color: #eee;
+        padding: 10px 0;
+      }
+      .navbar a {
+        text-decoration: none;
+        color: #000;
+        padding: 10px;
+      }
+      footer {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
+        align-items: baseline;
+        background-color: #ddd;
+        padding: 10px 10px;
+      }
+      footer h3 {
+        grid-column: 1 / -1;
+        text-align: center;
+      }
+      footer .contact,
+      footer .socials,
+      footer .copyright {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      footer .contact ul,
+      footer .socials ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      footer .contact ul a,
+      footer .socials ul a {
+        text-decoration: none;
+        color: #000;
+      }
+    </style>
+    <script src=""></script>
+  </head>
+  <body>
+    <div class="main">
+      <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
+
+      <nav class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Flights</a>
+        <a href="#">Check-in</a>
+        <a href="#">Baggage</a>
+        <a href="#">Help</a>
+      </nav>
+
+      <main>
+        <center>
+          <p>This is a paragraph.</p>
+          <p>This is another paragraph.</p>
+        </center>
+      </main>
+
+      <footer>
+        <h3>Contact Us</h3>
+        <div class="contact">
+          <ul>
+            <li><a href="tel:314673829">+1 (314) 435-5675</a></li>
+            <li><a href="mailto:airview@gmail.com">airview@gmail.com</a></li>
+          </ul>
+        </div>
+        <div class="socials">
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+          </ul>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

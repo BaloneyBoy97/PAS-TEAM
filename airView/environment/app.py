@@ -2,29 +2,30 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify, Response, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from werkzeug.exceptions import HTTPException
 # from flask_cors import CORS
 from flask_mail import Mail
 from dotenv import load_dotenv
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration
 
-
 # Load environment variables from .env file
 load_dotenv()
+
 # Initialize Flask app
 app = Flask(__name__)
-# CORS(app)
 
 # connect to HTML homepage
 @app.route('/')
 def serve_html():
     try:
-        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'home.html')
+        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'index.html')
     except Exception as e:
-        return str(e), 500
-
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -39,6 +40,23 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
+
+# Add a global error handler to catch any unhandled exceptions
+@app.errorhandler(Exception)
+def handle_exception(e):
+    error_type = type(e).__name__
+    app.logger.error('An error occurred: %s', str(e))
+    app.logger.error('Error type: %s', error_type)
+    
+    # Handle HTTPException specifically
+    if isinstance(e, HTTPException):
+        response = e.get_response()
+        response.data = jsonify({'error': e.description}).data
+        response.content_type = 'application/json'
+        return response
+    
+    # Handle generic exceptions
+    return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
 # Add resource endpoints
 api.add_resource(UserRegistration, '/register')
