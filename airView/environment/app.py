@@ -2,7 +2,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 # from flask_cors import CORS
@@ -10,20 +10,20 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration
 
-
 # Load environment variables from .env file
 load_dotenv()
+
 # Initialize Flask app
 app = Flask(__name__)
-# CORS(app)
 
 # connect to HTML homepage
 @app.route('/')
 def serve_html():
     try:
-        return send_from_directory(os.getenv('HTML_DIR', '/default/path/to/html'), 'login.html')
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'login.html')
     except Exception as e:
-        return str(e), 500
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return jsonify({'error': 'An internal server error occurred'}), 500
 
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -39,6 +39,12 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
+
+# Add a global error handler to catch any unhandled exceptions
+@app.errorhandler(Exception)
+def handle_exception(e):
+    app.logger.error('An error occurred: %s', str(e))
+    return jsonify({'error': 'An internal server error occurred'}), 500
 
 # Add resource endpoints
 api.add_resource(UserRegistration, '/register')
