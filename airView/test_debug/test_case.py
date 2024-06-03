@@ -1,7 +1,10 @@
 import unittest
 from flask import Flask
 from flask_testing import TestCase
-from app import app  # Import your Flask app
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from environment.app import app  # Import your Flask app
 from flask_mail import Mail
 
 class TestUserRegistration(TestCase):
