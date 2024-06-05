@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS flights(
     destination TEXT NOT NULL,
     departuretime TEXT NOT NULL,
     arrivaltime TEXT NOT NULL,
-    status TEXT NOT NULL
+    status TEXT NOT NULL,
+    gate_number TEXT NOT NULL
 )
 """)
 # Create bookings table to store user booking data
@@ -90,25 +91,25 @@ curr.execute("""
 
 # Sample data for flights table
 flights = [
-    ('AA100', 'St. Louis', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled'),
-    ('BA200', 'St. Louis', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled'),
-    ('CA300', 'St. Louis', 'San Francisco', '2024-06-03 10:00:00', '2024-06-03 13:00:00', 'Scheduled'),
-    ('DA400', 'St. Louis', 'Sydney', '2024-06-04 11:00:00', '2024-06-04 14:00:00', 'Scheduled'),
-    ('EA500', 'St. Louis', 'Tokyo', '2024-06-05 12:00:00', '2024-06-05 15:00:00', 'Scheduled'),
-    ('FA600', 'St. Louis', 'Chicago', '2024-06-06 13:00:00', '2024-06-06 16:00:00', 'Scheduled'),
-    ('GA700', 'St. Louis', 'San Francisco', '2024-06-07 14:00:00', '2024-06-07 17:00:00', 'Scheduled'),
-    ('HA800', 'St. Louis', 'Vancouver', '2024-06-08 15:00:00', '2024-06-08 18:00:00', 'Scheduled'),
-    ('IA900', 'St. Louis', 'London', '2024-06-09 16:00:00', '2024-06-09 19:00:00', 'Scheduled'),
-    ('JA1000', 'St. Louis', 'Buenos Aires', '2024-06-10 17:00:00', '2024-06-10 20:00:00', 'Scheduled'),
-    ('KA1100', 'St. Louis', 'Dubai', '2024-06-11 18:00:00', '2024-06-11 21:00:00', 'Scheduled'),
-    ('LA1200', 'St. Louis', 'Cairo', '2024-06-12 19:00:00', '2024-06-12 22:00:00', 'Scheduled'),
-    ('MA1300', 'St. Louis', 'Miami', '2024-06-13 20:00:00', '2024-06-13 23:00:00', 'Scheduled'),
-    ('NA1400', 'St. Louis', 'Lisbon', '2024-06-14 21:00:00', '2024-06-15 00:00:00', 'Scheduled'),
-    ('OA1500', 'St. Louis', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled')
+    ('AA100', 'St. Louis', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('BA200', 'St. Louis', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('CA300', 'St. Louis', 'San Francisco', '2024-06-03 10:00:00', '2024-06-03 13:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('DA400', 'St. Louis', 'Sydney', '2024-06-04 11:00:00', '2024-06-04 14:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('EA500', 'St. Louis', 'Tokyo', '2024-06-05 12:00:00', '2024-06-05 15:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('FA600', 'St. Louis', 'Chicago', '2024-06-06 13:00:00', '2024-06-06 16:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('GA700', 'St. Louis', 'San Francisco', '2024-06-07 14:00:00', '2024-06-07 17:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('HA800', 'St. Louis', 'Vancouver', '2024-06-08 15:00:00', '2024-06-08 18:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('IA900', 'St. Louis', 'London', '2024-06-09 16:00:00', '2024-06-09 19:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('JA1000', 'St. Louis', 'Buenos Aires', '2024-06-10 17:00:00', '2024-06-10 20:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('KA1100', 'St. Louis', 'Dubai', '2024-06-11 18:00:00', '2024-06-11 21:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('LA1200', 'St. Louis', 'Cairo', '2024-06-12 19:00:00', '2024-06-12 22:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('MA1300', 'St. Louis', 'Miami', '2024-06-13 20:00:00', '2024-06-13 23:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('NA1400', 'St. Louis', 'Lisbon', '2024-06-14 21:00:00', '2024-06-15 00:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
+    ('OA1500', 'St. Louis', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}")
 ]
 
 # Insert sample data into flights table
-curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status) VALUES (?, ?, ?, ?, ?, ?)", flights)
+curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status, gate_number) VALUES (?, ?, ?, ?, ?, ?, ?)", flights)
 
 # Create sample seat classes and insert it into seat class table
 seat_class = [
