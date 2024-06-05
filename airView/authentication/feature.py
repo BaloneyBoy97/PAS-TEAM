@@ -102,4 +102,6 @@ class UserLogout(Resource):
         response = jsonify({'message': 'Logged out successfully!'})
         unset_jwt_cookies(response)
         logger.info('User logged out: %s', email)
+        response.status_code = 200
         return response
+
