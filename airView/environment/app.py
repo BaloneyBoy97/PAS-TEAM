@@ -2,7 +2,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from flask import Flask, send_from_directory, jsonify, Response, make_response
+from flask import Flask, send_from_directory, jsonify, make_response, request, redirect, url_for
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
@@ -19,7 +19,7 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# connect to HTML homepage
+# Connect to HTML homepage
 @app.route('/')
 def serve_html():
     try:
@@ -28,15 +28,23 @@ def serve_html():
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
     
-@app.route('/home.html')
-def login():
+@app.route('/home')
+def home():
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'home.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
-@app.route('/signup.html')
+@app.route('/admin-home')
+def admin_home():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'admin-home.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+
+@app.route('/signup')
 def signup():
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'signup.html')
@@ -44,14 +52,27 @@ def signup():
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
     
-@app.route('/forgot-password.html')
-def forgetPassword():
+@app.route('/forgot-password')
+def forget_password():
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'forgot-password.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    response = UserLogin().post()
+    response_data = response.get_json()
     
+    if response.status_code == 200:
+        if response_data.get('isAdmin'):
+            return redirect(url_for('admin_home'))
+        else:
+            return redirect(url_for('home'))
+    return response
+
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
