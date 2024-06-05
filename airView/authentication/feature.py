@@ -10,6 +10,11 @@ import logging
 
 mail = Mail()
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 class UserRegistration(Resource):
     def post(self):
@@ -19,19 +24,23 @@ class UserRegistration(Resource):
         password = data.get('password')
 
         if not email or not username or not password:
+            logger.warning('Empty email, username, or password in registration attempt.')
             return make_response(jsonify({'message': 'Email, username, or password is empty!'}), 400)
 
         try:
             valid = validate_email(email)
             email = valid.email
         except EmailNotValidError as e:
+            logger.error('Email validation error: %s', str(e))
             return make_response(jsonify({'message': str(e)}), 400)
 
         if get_user_by_email(email) or get_user_by_username(username):
+            logger.warning('Registration attempt with existing email or username: %s, %s', email, username)
             return make_response(jsonify({'message': 'User already exists!'}), 400)
         
         hashed_password = generate_password_hash(password)
         create_user(email, username, hashed_password)
+        logger.info('User registered successfully: %s', email)
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
 
 class UserLogin(Resource):
@@ -41,13 +50,19 @@ class UserLogin(Resource):
         password = data.get('password')
         
         if not email or not password:
+            logger.warning('Empty email or password in login attempt.')
             return make_response(jsonify({'error': 'Email or password is empty!'}), 400)
 
         user = get_user_by_email(email)
         if user and check_user_credentials(password, email):
             access_token = create_access_token(identity=email)
+<<<<<<< HEAD
+=======
+            logger.info('User logged in: %s', email)
+>>>>>>> deepak_login
             return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token}), 200)
         else:
+            logger.warning('Invalid login attempt for email: %s', email)
             return make_response(jsonify({'error': 'Invalid email or password!'}), 401)
 
 class AdminRegistration(Resource):
@@ -58,24 +73,35 @@ class AdminRegistration(Resource):
         password = data.get('password')
 
         if not email or not username or not password:
+            logger.warning('Empty email, username, or password in admin registration attempt.')
             return make_response(jsonify({'message': 'Email, username, or password is empty!'}), 400)
 
         try:
             valid = validate_email(email)
             email = valid.email
         except EmailNotValidError as e:
+            logger.error('Email validation error: %s', str(e))
             return make_response(jsonify({'message': str(e)}), 400)
 
         if get_user_by_email(email) or get_user_by_username(username):
+            logger.warning('Admin registration attempt with existing email or username: %s, %s', email, username)
             return make_response(jsonify({'message': 'User already exists!'}), 400)
 
         hashed_password = generate_password_hash(password)
         create_user(email, username, hashed_password, is_admin=True)
+        logger.info('Admin registered successfully: %s', email)
         return make_response(jsonify({'message': 'Admin registered successfully!'}), 201)
 
 class UserLogout(Resource):
     @jwt_required()
     def post(self):
+<<<<<<< HEAD
         response = jsonify({'message': 'Logged out successfully!'})
         unset_jwt_cookies(response)
+=======
+        email = get_jwt_identity()
+        response = jsonify({'message': 'Logged out successfully!'})
+        unset_jwt_cookies(response)
+        logger.info('User logged out: %s', email)
+>>>>>>> deepak_login
         return response

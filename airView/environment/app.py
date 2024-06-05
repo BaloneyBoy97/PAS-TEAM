@@ -11,6 +11,7 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
 
 # Load environment variables from .env file
@@ -70,6 +71,11 @@ mail = Mail(app)
 
 # Logging configuration
 logging.basicConfig(level=logging.DEBUG)
+file_handler = logging.FileHandler('app.log')
+file_handler.setLevel(logging.WARNING)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+app.logger.addHandler(file_handler)
 
 # Add a global error handler to catch any unhandled exceptions
 @app.errorhandler(Exception)

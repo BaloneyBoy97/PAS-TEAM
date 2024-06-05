@@ -1,6 +1,7 @@
 import sqlite3
 import logging
 import os
+from werkzeug.security import check_password_hash
 
 # Get the current directory of the script
 current_dir = os.path.dirname(__file__)
@@ -18,33 +19,38 @@ def get_db_connection():
     return conn
 
 def create_user(email, username, password, is_admin=False):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute(
-        'INSERT INTO userdata (email, username, password, isAdmin) VALUES (?, ?, ?, ?)',
-        (email, username, password, is_admin)
-    )
-    conn.commit()
-    conn.close()
+    try:
+        with get_db_connection() as conn:
+            conn.execute(
+                'INSERT INTO userdata (email, username, password, isAdmin) VALUES (?, ?, ?, ?)',
+                (email, username, password, is_admin)
+            )
+        logger.info("User created: %s", email)
+    except sqlite3.Error as e:
+        logger.error("Error creating user: %s", e)
 
 def get_user_by_email(email):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM userdata WHERE email = ?', (email,))
-    user = cursor.fetchone()
-    conn.close()
-    logger.debug("User retrieved by email: %s", user)  # Add logging statement
-    return user
+    try:
+        with get_db_connection() as conn:
+            user = conn.execute('SELECT * FROM userdata WHERE email = ?', (email,)).fetchone()
+        logger.debug("User retrieved by email: %s", email)
+        return user
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user by email: %s", e)
+        return None
 
 def get_user_by_username(username):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM userdata WHERE username = ?', (username,))
-    user = cursor.fetchone()
-    conn.close()
-    return user
+    try:
+        with get_db_connection() as conn:
+            user = conn.execute('SELECT * FROM userdata WHERE username = ?', (username,)).fetchone()
+        logger.debug("User retrieved by username: %s", username)
+        return user
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user by username: %s", e)
+        return None
 
 def check_user_credentials(password, email):
+<<<<<<< HEAD
     logger.debug("password: %s", password)
     user = get_user_by_email(email)
     if user:
@@ -53,6 +59,16 @@ def check_user_credentials(password, email):
         logger.debug("password retrieved from user: %s", password)
         if (user and check_user_credentials(user[3], password)):
             logger.debug("Password matched")
+=======
+    try:
+        user = get_user_by_email(email)
+        if user and check_password_hash(user['password'], password):
+            logger.info("Credentials verified for user: %s", email)
+>>>>>>> deepak_login
             return True
-    logger.debug("Invalid credentials")
-    return False
+        else:
+            logger.warning("Invalid credentials for user: %s", email)
+            return False
+    except Exception as e:
+        logger.error("Error checking user credentials: %s", e)
+        return False
