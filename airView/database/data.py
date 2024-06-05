@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
+import random
 import os
 
 
@@ -57,8 +58,7 @@ curr.execute("""
 curr.execute("""
     CREATE TABLE IF NOT EXISTS seat_classes(
         classid INTEGER PRIMARY KEY,
-        classname TEXT NOT NULL,
-        price REAL NOT NULL
+        classname TEXT NOT NULL
     )
     """)
 
@@ -69,6 +69,7 @@ curr.execute("""
         flightid INTEGER,
         seatnumber TEXT NOT NULL,
         classid INTEGER,
+        price REAL,
         is_available BOOLEAN NOT NULL DEFAULT 1,
         FOREIGN KEY (flightid) REFERENCES flights(flightid),
         FOREIGN KEY (classid) REFERENCES seat_classes(classid)
@@ -81,12 +82,14 @@ curr.execute("""
         luggageid INTEGER PRIMARY KEY,
         bookingid INTEGER,
         weight REAL NOT NULL,
+        free_luggage INTEGER DEFAULT 0,
+        paid_luggage INTEGER DEFAULT 0,
         FOREIGN KEY (bookingid) REFERENCES bookings(bookingid)
     )
     """)
 
 # Sample data for flights table
-sample_flights = [
+flights = [
     ('AA100', 'New York', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled'),
     ('BA200', 'London', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled'),
     ('CA300', 'Beijing', 'San Francisco', '2024-06-03 10:00:00', '2024-06-03 13:00:00', 'Scheduled'),
@@ -104,12 +107,31 @@ sample_flights = [
     ('OA1500', 'Bangkok', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled')
 ]
 
-# Sample data for bookings table
-sample_bookings = [(i+1, i+1) for i in range(15)]
-
 # Insert sample data into flights table
-curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status) VALUES (?, ?, ?, ?, ?, ?)", sample_flights)
+curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status) VALUES (?, ?, ?, ?, ?, ?)", flights)
 
+# Create sample seat classes and insert it into seat class table
+seat_class = [
+    ('Economy',),
+    ('Economy Plus',),
+    ('Business',),
+    ('First Class',)
+]
+curr.executemany("INSERT INTO seat_classes (classname) VALUES (?)", seat_class)
+
+# create mock data for seat prices for each flights
+seats = []
+for flight_id in range(1, 16): # 15 mock flights data
+    for class_id in range(1, 5): # 4 sample seats class
+        for seat_number in range(1, 10): # assuming 10 seats in each class
+            # create randomnized seats prices using random
+            seat_id = len(seats) + 1
+            seat_num = f'{class_id}-{seat_number}'
+            price = random.uniform(79.99, 359.79) * class_id
+            seats.append((seat_id, flight_id, seat_num, class_id, 1, price))
+curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, is_available, price) VALUES (?, ?, ?, ?, ?, ?)", seats)
+
+# 
 # Commit changes and close connection
 conn.commit()
 conn.close()
