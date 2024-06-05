@@ -38,16 +38,52 @@ CREATE TABLE IF NOT EXISTS flights(
 """)
 # Create bookings table to store user booking data
 curr.execute("""
-CREATE TABLE IF NOT EXISTS bookings(
-    bookingid INTEGER PRIMARY KEY,
-    userid INTEGER,
-    flightid INTEGER,
-    FOREIGN KEY (userid) REFERENCES userdata(userid),
-    FOREIGN KEY (flightid) REFERENCES flights(flightid)
-)
-""")
+    CREATE TABLE IF NOT EXISTS bookings(
+        bookingid INTEGER PRIMARY KEY,
+        userid INTEGER,
+        flightid INTEGER,
+        classid INTEGER,
+        seatid INTEGER,
+        num_luggage INTEGER,
+        booking_time TEXT NOT NULL,
+        FOREIGN KEY (userid) REFERENCES userdata(userid),
+        FOREIGN KEY (flightid) REFERENCES flights(flightid),
+        FOREIGN KEY (classid) REFERENCES seat_classes(classid),
+        FOREIGN KEY (seatid) REFERENCES seats(seatid)
+    )
+    """)
 
+# Create seat class table (first class/economy plus/etc.) to store different seat classes
+curr.execute("""
+    CREATE TABLE IF NOT EXISTS seat_classes(
+        classid INTEGER PRIMARY KEY,
+        classname TEXT NOT NULL,
+        price REAL NOT NULL
+    )
+    """)
 
+# Create seats table to store seating information in a flight
+curr.execute("""
+    CREATE TABLE IF NOT EXISTS seats(
+        seatid INTEGER PRIMARY KEY,
+        flightid INTEGER,
+        seatnumber TEXT NOT NULL,
+        classid INTEGER,
+        is_available BOOLEAN NOT NULL DEFAULT 1,
+        FOREIGN KEY (flightid) REFERENCES flights(flightid),
+        FOREIGN KEY (classid) REFERENCES seat_classes(classid)
+    )
+    """)
+
+# Create luggage table to store luggage information
+curr.execute("""
+    CREATE TABLE IF NOT EXISTS luggage(
+        luggageid INTEGER PRIMARY KEY,
+        bookingid INTEGER,
+        weight REAL NOT NULL,
+        FOREIGN KEY (bookingid) REFERENCES bookings(bookingid)
+    )
+    """)
 
 # Sample data for flights table
 sample_flights = [
@@ -73,9 +109,6 @@ sample_bookings = [(i+1, i+1) for i in range(15)]
 
 # Insert sample data into flights table
 curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status) VALUES (?, ?, ?, ?, ?, ?)", sample_flights)
-
-# Insert sample data into bookings table
-curr.executemany("INSERT INTO bookings (userid, flightid) VALUES (?, ?)", sample_bookings)
 
 # Commit changes and close connection
 conn.commit()
