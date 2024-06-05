@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Page Title</title>
+    <title>AirView Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="" />
     <style>
@@ -21,13 +21,19 @@
         font-style: italic;
         font-size: 300%;
       }
+      main h3 {
+        text-align: center;
+        color: #003538;
+        font-style: italic;
+        font-size: 150%;
+      }
       .letter {
         color: #f92c85;
         font-style: normal;
       }
       .navbar {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         justify-items: center;
         background-color: #eee;
         padding: 10px 0;
@@ -83,7 +89,7 @@
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
               },
             });
 
@@ -103,10 +109,6 @@
     </script>
   </head>
   <body>
-    <div class="home-container">
-      <h1>Welcome to Air View</h1>
-      <button id="logout-button">Logout</button>
-    </div>
     <div class="main">
       <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
 
@@ -116,11 +118,12 @@
         <a href="#">Check-in</a>
         <a href="#">Baggage</a>
         <a href="#">Help</a>
+        <button id="logout-button">Logout</button>
       </nav>
 
       <main>
         <center>
-          <p>This is a paragraph.</p>
+          <h3>Welcome to Air View.</h3>
           <p>This is another paragraph.</p>
         </center>
       </main>

@@ -50,21 +50,10 @@ def get_user_by_username(username):
         return None
 
 def check_user_credentials(password, email):
-<<<<<<< HEAD
-    logger.debug("password: %s", password)
-    user = get_user_by_email(email)
-    if user:
-        logger.debug("User found during credential check")
-        logger.debug("Hashed password retrieved from database: %s", user[3])
-        logger.debug("password retrieved from user: %s", password)
-        if (user and check_user_credentials(user[3], password)):
-            logger.debug("Password matched")
-=======
     try:
         user = get_user_by_email(email)
         if user and check_password_hash(user['password'], password):
             logger.info("Credentials verified for user: %s", email)
->>>>>>> deepak_login
             return True
         else:
             logger.warning("Invalid credentials for user: %s", email)

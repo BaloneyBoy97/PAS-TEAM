@@ -50,20 +50,23 @@ class UserLogin(Resource):
         password = data.get('password')
         
         if not email or not password:
-            logger.warning('Empty email or password in login attempt.')
+            logger.warning('Login attempt with empty email or password')
             return make_response(jsonify({'error': 'Email or password is empty!'}), 400)
 
+        logger.debug('Attempting to log in user with email: %s', email)
         user = get_user_by_email(email)
-        if user and check_user_credentials(password, email):
-            access_token = create_access_token(identity=email)
-<<<<<<< HEAD
-=======
-            logger.info('User logged in: %s', email)
->>>>>>> deepak_login
-            return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token}), 200)
+        if user:
+            logger.debug('User found with email: %s', email)
+            if check_user_credentials(password, email):
+                logger.info('User logged in successfully: %s', email)
+                access_token = create_access_token(identity=email)
+                return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token, 'username': user['username']}), 200)
+            else:
+                logger.warning('Invalid password attempt for email: %s', email)
         else:
-            logger.warning('Invalid login attempt for email: %s', email)
-            return make_response(jsonify({'error': 'Invalid email or password!'}), 401)
+            logger.warning('No user found with email: %s', email)
+        
+        return make_response(jsonify({'error': 'Invalid email or password!'}), 401)
 
 class AdminRegistration(Resource):
     def post(self):
@@ -95,13 +98,8 @@ class AdminRegistration(Resource):
 class UserLogout(Resource):
     @jwt_required()
     def post(self):
-<<<<<<< HEAD
-        response = jsonify({'message': 'Logged out successfully!'})
-        unset_jwt_cookies(response)
-=======
         email = get_jwt_identity()
         response = jsonify({'message': 'Logged out successfully!'})
         unset_jwt_cookies(response)
         logger.info('User logged out: %s', email)
->>>>>>> deepak_login
         return response

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from flask import Flask, send_from_directory, jsonify, Response, make_response
+from flask import Flask, send_from_directory, jsonify, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
-# from flask_cors import CORS
+# from flask_cors import CORS  # Uncomment if CORS is needed
 from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+
+# Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
 
 # Load environment variables from .env file
@@ -20,7 +22,11 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
+# Uncomment if CORS is needed
+# CORS(app)
+
 # connect to HTML homepage
+
 @app.route('/')
 def serve_html():
     try:
@@ -54,12 +60,12 @@ def forgetPassword():
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
     
 # Configure app from environment variables
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'supersecretjwtkey')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'localhost')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 25))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'False').lower() in ['true', '1', 't']
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
