@@ -9,7 +9,9 @@ from werkzeug.exceptions import HTTPException
 # from flask_cors import CORS
 from flask_mail import Mail
 from dotenv import load_dotenv
-from authentication.feature import UserRegistration, UserLogin, AdminRegistration
+from datetime import timedelta
+import logging
+from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
 
 # Load environment variables from .env file
 load_dotenv()
@@ -74,6 +76,7 @@ def login():
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
 app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
@@ -85,6 +88,9 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
+
+# Logging configuration
+logging.basicConfig(level=logging.DEBUG)
 
 # Add a global error handler to catch any unhandled exceptions
 @app.errorhandler(Exception)
@@ -106,6 +112,7 @@ def handle_exception(e):
 # Add resource endpoints
 api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
+api.add_resource(UserLogout, '/logout')
 api.add_resource(AdminRegistration, '/admin/register')
 
 # Run the app

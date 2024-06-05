@@ -111,11 +111,7 @@
               }
 
               if (data.message === "Logged in!") {
-                if (data.isAdmin) {
-                  window.location.href = "admin-home.html";
-                } else {
-                  window.location.href = "home.html";
-                }
+                window.location.href = "home.html";
               } else {
                 errorMessage.textContent = data.message;
                 errorMessage.style.display = "block";
