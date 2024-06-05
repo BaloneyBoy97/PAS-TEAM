@@ -49,10 +49,9 @@ def check_user_credentials(password, email):
     user = get_user_by_email(email)
     if user:
         logger.debug("User found during credential check")
-        hashed_password = user['password']
-        logger.debug("Hashed password retrieved from database: %s", hashed_password)
+        logger.debug("Hashed password retrieved from database: %s", user[3])
         logger.debug("password retrieved from user: %s", password)
-        if (hashed_password == password):
+        if (user and check_user_credentials(user[3], password)):
             logger.debug("Password matched")
             return True
     logger.debug("Invalid credentials")
