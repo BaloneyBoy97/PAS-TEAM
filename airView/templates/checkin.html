@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Check-in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="" />
+    <style>
+        body {
+            background-color: #fdf5df;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            /* Full viewport height */
+            width: 100vw;
+            /* Full viewport width */
+        }
+
+        h1 {
+            text-align: center;
+            color: #5ebec4;
+            font-style: italic;
+            font-size: 300%;
+        }
+
+        h3 {
+            text-align: center;
+            color: #003538;
+            font-style: italic;
+            font-size: 150%;
+        }
+
+        .navbar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            justify-items: center;
+            background-color: #eee;
+            padding: 10px 0;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #000;
+            padding: 10px;
+        }
+
+        #logout-button {
+            border: none;
+            background-color: #5ebec4;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .flights {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .flight {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                window.location.href = "/"; // Redirect to login page if not logged in
+                return;
+            }
+
+            const logoutButton = document.querySelector("#logout-button");
+            logoutButton.addEventListener("click", async () => {
+                try {
+                    const response = await fetch("/logout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        localStorage.removeItem("token");
+                        window.location.href = "/"; // Redirect to login page
+                    } else {
+                        console.error("Logout failed:", data);
+                    }
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
+            });
+
+            fetchBookedFlights(token);
+        });
+
+        async function fetchBookedFlights(token) {
+            try {
+                const response = await fetch("/api/booked-flights", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayFlights(data.flights);
+                } else {
+                    console.error("Failed to fetch booked flights:", data);
+                }
+            } catch (error) {
+                console.error("Error fetching booked flights:", error);
+            }
+        }
+
+        function displayFlights(flights) {
+            const flightsContainer = document.querySelector(".flights");
+            flightsContainer.innerHTML = "";
+
+            if (flights.length === 0) {
+                flightsContainer.innerHTML = "<p>No flights booked.</p>";
+                return;
+            }
+
+            flights.forEach(flight => {
+                const flightDiv = document.createElement("div");
+                flightDiv.className = "flight";
+                flightDiv.innerHTML = `
+                    <p>Flight Number: ${flight.flightnumber}</p>
+                    <p>Origin: ${flight.origin}</p>
+                    <p>Destination: ${flight.destination}</p>
+                    <p>Departure: ${flight.departuretime}</p>
+                    <p>Arrival: ${flight.arrivaltime}</p>
+                    <p>Status: ${flight.status}</p>
+                    <p>Gate: ${flight.gate_number}</p>
+                `;
+                flightsContainer.appendChild(flightDiv);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <h1>Check-in</h1>
+
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">Flights</a>
+            <a href="#">Check-in</a>
+            <a href="#">Baggage</a>
+            <a href="#">Help</a>
+            <button id="logout-button">Logout</button>
+        </nav>
+
+        <main>
+            <center>
+                <h3>Your Booked Flights</h3>
+                <div class="flights">
+                    <p>Loading...</p>
+                </div>
+            </center>
+        </main>
+    </div>
+</body>
+
+</html>

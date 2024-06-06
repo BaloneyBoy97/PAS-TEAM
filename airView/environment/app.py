@@ -10,11 +10,13 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+import threading
+import webbrowser
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
+from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout, UserBookedFlights
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,6 +60,15 @@ def forgetPassword():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+
+@app.route('/checkin.html')
+def checkin():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'checkin.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+
     
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
@@ -105,6 +116,7 @@ api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(AdminRegistration, '/admin/register')
+api.add_resource(UserBookedFlights, '/api/booked-flights')
 
 def open_browser():
     host = '127.0.0.1'

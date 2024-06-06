@@ -7,8 +7,12 @@ from flask_mail import Mail, Message
 from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 import logging
+import sqlite3
 
+# Initialize mail
 mail = Mail()
+
+# Configure logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
@@ -105,3 +109,37 @@ class UserLogout(Resource):
         response.status_code = 200
         return response
 
+class UserBookedFlights(Resource):
+    @jwt_required()
+    def get(self):
+        email = get_jwt_identity()
+        try:
+            user = get_user_by_email(email)
+            if user:
+                user_id = user['userid']
+                flights = get_booked_flights(user_id)
+                return make_response(jsonify({'flights': flights}), 200)
+            else:
+                return make_response(jsonify({'error': 'User not found'}), 404)
+        except Exception as e:
+            logger.error('Error fetching booked flights: %s', e)
+            return make_response(jsonify({'error': 'An error occurred while fetching booked flights'}), 500)
+
+def get_booked_flights(user_id):
+    try:
+        with get_db_connection() as conn:
+            flights = conn.execute('''
+                SELECT f.flightnumber, f.origin, f.destination, f.departuretime, f.arrivaltime, f.status, f.gate_number
+                FROM bookings b
+                JOIN flights f ON b.flightid = f.flightid
+                WHERE b.userid = ?
+            ''', (user_id,)).fetchall()
+        return [dict(flight) for flight in flights]
+    except sqlite3.Error as e:
+        logger.error('Error retrieving booked flights: %s', e)
+        return []
+
+def get_db_connection():
+    # This function should return a database connection
+    # Replace with your actual database connection code
+    pass
