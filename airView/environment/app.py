@@ -10,6 +10,8 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+import threading
+import webbrowser
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
