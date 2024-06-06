@@ -64,3 +64,5 @@
 2024-06-05 14:46:54,714 - app - ERROR - Error type: NotFound
 2024-06-05 14:47:40,638 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-05 14:47:40,639 - app - ERROR - Error type: NotFound
+2024-06-05 15:23:05,088 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 15:23:05,088 - app - ERROR - Error type: NotFound
