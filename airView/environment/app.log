@@ -56,3 +56,11 @@
 2024-06-05 15:34:18,493 - app - ERROR - Error type: NotFound
 2024-06-05 20:00:02,396 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
 2024-06-05 20:00:02,396 - app - ERROR - Error type: AttributeError
+2024-06-05 20:50:19,765 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 20:50:19,771 - app - ERROR - Error type: NotFound
+2024-06-05 20:50:36,782 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 20:50:36,788 - app - ERROR - Error type: NotFound
+2024-06-05 21:00:44,539 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 21:00:44,539 - app - ERROR - Error type: NotFound
+2024-06-05 21:03:14,202 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 21:03:14,202 - app - ERROR - Error type: NotFound
