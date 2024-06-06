@@ -10,6 +10,8 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+import threading
+import webbrowser
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -106,6 +108,15 @@ api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(AdminRegistration, '/admin/register')
 
+def open_browser():
+    host = '127.0.0.1'
+    port = 5000
+    url = f"http://{host}:{port}/"
+    webbrowser.open_new(url)
+
 # Run the app
 if __name__ == '__main__':
+    if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        threading.Timer(1, open_browser).start()  # Open browser after 1 second delay
+    
     app.run(debug=True)
