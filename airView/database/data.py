@@ -48,6 +48,7 @@ curr.execute("""
         seatid INTEGER,
         num_luggage INTEGER,
         booking_time TEXT NOT NULL,
+        isCheckedin BOOLEAN NOT NULL DEFAULT 0,
         FOREIGN KEY (userid) REFERENCES userdata(userid),
         FOREIGN KEY (flightid) REFERENCES flights(flightid),
         FOREIGN KEY (classid) REFERENCES seat_classes(classid),
@@ -131,6 +132,13 @@ for flight_id in range(1, 16): # 15 mock flights data
             price = random.uniform(79.99, 359.79) * class_id
             seats.append((seat_id, flight_id, seat_num, class_id, 1, price))
 curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, is_available, price) VALUES (?, ?, ?, ?, ?, ?)", seats)
+
+# Hardcoded mock data for bookings
+bookings = [
+    (1, 1, 1, 1, 1, '2024-06-01 07:00:00',0),
+    (2, 2, 2, 11, 2, '2024-06-02 08:00:00',0)
+    ]
+curr.executemany("INSERT INTO bookings (userid, flightid, classid, seatid, num_luggage, booking_time, isCheckedin) VALUES (?, ?, ?, ?, ?, ?, ?)", bookings)
 
 # 
 # Commit changes and close connection
