@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import sys
 import os
-import webbrowser
-import threading
 from flask import Flask, send_from_directory, jsonify, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
