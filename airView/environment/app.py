@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import sys
 import os
-import webbrowser
-import threading
 from flask import Flask, send_from_directory, jsonify, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
@@ -12,6 +10,8 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+import webbrowser
+import threading
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

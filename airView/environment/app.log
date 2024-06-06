@@ -54,3 +54,27 @@
 2024-06-05 15:34:09,494 - app - ERROR - Error type: NotFound
 2024-06-05 15:34:18,492 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-05 15:34:18,493 - app - ERROR - Error type: NotFound
+2024-06-05 19:46:57,370 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-05 19:46:57,370 - app - ERROR - Error type: NotFound
+2024-06-05 19:47:54,872 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:47:54,872 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:22,948 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:22,949 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:25,139 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:25,140 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:25,944 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:25,944 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:26,180 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:26,180 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,247 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,247 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,389 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,389 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,574 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,574 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,680 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,680 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,913 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,914 - app - ERROR - Error type: AttributeError
+2024-06-05 19:48:27,961 - app - ERROR - An error occurred: module 'hashlib' has no attribute 'scrypt'
+2024-06-05 19:48:27,962 - app - ERROR - Error type: AttributeError
