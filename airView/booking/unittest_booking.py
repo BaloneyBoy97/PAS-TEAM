@@ -6,7 +6,7 @@ import sqlite3
 from flask import Flask
 from flask_testing import TestCase
 from environment.app import app
-from booking.operation import get_db_connection
+# from booking.operation import get_db_connection
 
 class BookingTest(TestCase):
     def create_app(self):
