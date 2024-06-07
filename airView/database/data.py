@@ -136,6 +136,14 @@ rows_per_class = {
     'Economy': 24
 } # 6 rows of first class, 6 rows of business class, 10 rows of economy plus and 24 rows of economy
 
+# generate a price range for each class
+price_ranges = {
+    'First Class': (300.00, 400.00),
+    'Business': (200.00, 300.00),
+    'Economy Plus': (100.00, 200.00),
+    'Economy': (50.00, 100.00)
+}
+
 classNames = ['First Class', 'Business', 'Economy Plus', 'Economy']
 class_id_map = {name: idx + 1 for idx, name in enumerate(classNames)} # mapping seat class names to seat id
 
@@ -144,14 +152,15 @@ for flight_id in range(1, 16):  # flights data (created 15 mock data)
     for name in classNames: # assign seat class id
         class_id = class_id_map[name]
         num_rows = rows_per_class[name] # pull number of rows for the loop to generate seat number and price
+        min_price, max_price = price_ranges[name]
         for row in range(current_row, current_row + num_rows): # 1-6, 7-12, 13-23, 24-48
             for column in columns: # A-F
                 seat_id = len(seats) + 1 # auto increment generated id
                 seat_num = f'{row}{column}' #1A,1B,1C, etc
-                price = round(random.uniform(79.99, 359.79) * class_id, 2)
+                price = round(random.uniform(min_price, max_price), 2)
                 seats.append((seat_id, flight_id, seat_num, class_id, price, 1))
         current_row += num_rows
-curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, is_available, price) VALUES (?, ?, ?, ?, ?, ?)", seats)
+curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, price, is_available) VALUES (?, ?, ?, ?, ?, ?)", seats)
 
 # Commit changes and close connection
 conn.commit()
