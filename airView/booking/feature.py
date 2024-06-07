@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, jsonify
 from flask_mail import Mail
-from .operation import book_flight, get_available_seats
+from booking.operation import booking_flight, get_available_seats
 
 # create booking blueprint to define routes of booking page
 booking_bp = Blueprint('booking_bp',__name__)
