@@ -48,6 +48,7 @@ curr.execute("""
         seatid INTEGER,
         num_luggage INTEGER,
         booking_time TEXT NOT NULL,
+        is_checkedin BOOLEAN NOT NULL DEFAULT 0,
         FOREIGN KEY (userid) REFERENCES userdata(userid),
         FOREIGN KEY (flightid) REFERENCES flights(flightid),
         FOREIGN KEY (classid) REFERENCES seat_classes(classid),
