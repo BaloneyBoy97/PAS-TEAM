@@ -48,7 +48,6 @@ curr.execute("""
         seatid INTEGER,
         num_luggage INTEGER,
         booking_time TEXT NOT NULL,
-        isCheckedin BOOLEAN NOT NULL DEFAULT 0,
         FOREIGN KEY (userid) REFERENCES userdata(userid),
         FOREIGN KEY (flightid) REFERENCES flights(flightid),
         FOREIGN KEY (classid) REFERENCES seat_classes(classid),
@@ -90,23 +89,27 @@ curr.execute("""
     )
     """)
 
+# create unique rng gate number
+gates = [f"Gate {letter}{number}" for letter in 'ABCDE' for number in range(1, 31)]
+random.shuffle(gates)
+
 # Sample data for flights table
 flights = [
-    ('AA100', 'St. Louis', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('BA200', 'St. Louis', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('CA300', 'St. Louis', 'San Francisco', '2024-06-03 10:00:00', '2024-06-03 13:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('DA400', 'St. Louis', 'Sydney', '2024-06-04 11:00:00', '2024-06-04 14:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('EA500', 'St. Louis', 'Tokyo', '2024-06-05 12:00:00', '2024-06-05 15:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('FA600', 'St. Louis', 'Chicago', '2024-06-06 13:00:00', '2024-06-06 16:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('GA700', 'St. Louis', 'San Francisco', '2024-06-07 14:00:00', '2024-06-07 17:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('HA800', 'St. Louis', 'Vancouver', '2024-06-08 15:00:00', '2024-06-08 18:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('IA900', 'St. Louis', 'London', '2024-06-09 16:00:00', '2024-06-09 19:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('JA1000', 'St. Louis', 'Buenos Aires', '2024-06-10 17:00:00', '2024-06-10 20:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('KA1100', 'St. Louis', 'Dubai', '2024-06-11 18:00:00', '2024-06-11 21:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('LA1200', 'St. Louis', 'Cairo', '2024-06-12 19:00:00', '2024-06-12 22:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('MA1300', 'St. Louis', 'Miami', '2024-06-13 20:00:00', '2024-06-13 23:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('NA1400', 'St. Louis', 'Lisbon', '2024-06-14 21:00:00', '2024-06-15 00:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}"),
-    ('OA1500', 'St. Louis', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled', f"Gate {random.choice(['A', 'B', 'C', 'D', 'E'])}{random.randint(1, 20)}")
+    ('AA100', 'St. Louis', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled', gates.pop()),
+    ('BA200', 'St. Louis', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled', gates.pop()),
+    ('CA300', 'St. Louis', 'San Francisco', '2024-06-03 10:00:00', '2024-06-03 13:00:00', 'Scheduled', gates.pop()),
+    ('DA400', 'St. Louis', 'Sydney', '2024-06-04 11:00:00', '2024-06-04 14:00:00', 'Scheduled', gates.pop()),
+    ('EA500', 'St. Louis', 'Tokyo', '2024-06-05 12:00:00', '2024-06-05 15:00:00', 'Scheduled', gates.pop()),
+    ('FA600', 'St. Louis', 'Chicago', '2024-06-06 13:00:00', '2024-06-06 16:00:00', 'Scheduled', gates.pop()),
+    ('GA700', 'St. Louis', 'San Francisco', '2024-06-07 14:00:00', '2024-06-07 17:00:00', 'Scheduled', gates.pop()),
+    ('HA800', 'St. Louis', 'Vancouver', '2024-06-08 15:00:00', '2024-06-08 18:00:00', 'Scheduled', gates.pop()),
+    ('IA900', 'St. Louis', 'London', '2024-06-09 16:00:00', '2024-06-09 19:00:00', 'Scheduled', gates.pop()),
+    ('JA1000', 'St. Louis', 'Buenos Aires', '2024-06-10 17:00:00', '2024-06-10 20:00:00', 'Scheduled', gates.pop()),
+    ('KA1100', 'St. Louis', 'Dubai', '2024-06-11 18:00:00', '2024-06-11 21:00:00', 'Scheduled', gates.pop()),
+    ('LA1200', 'St. Louis', 'Cairo', '2024-06-12 19:00:00', '2024-06-12 22:00:00', 'Scheduled', gates.pop()),
+    ('MA1300', 'St. Louis', 'Miami', '2024-06-13 20:00:00', '2024-06-13 23:00:00', 'Scheduled', gates.pop()),
+    ('NA1400', 'St. Louis', 'Lisbon', '2024-06-14 21:00:00', '2024-06-15 00:00:00', 'Scheduled', gates.pop()),
+    ('OA1500', 'St. Louis', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled', gates.pop())
 ]
 
 # Insert sample data into flights table
@@ -122,25 +125,33 @@ seat_class = [
 curr.executemany("INSERT INTO seat_classes (classname) VALUES (?)", seat_class)
 
 # create mock data for seat prices for each flights
+# assign seat numbers (seperate from seat id exmp: 1A, 1B, 1C) similar to a boeing 737
 seats = []
-for flight_id in range(1, 16): # 15 mock flights data
-    for class_id in range(1, 5): # 4 sample seats class
-        for seat_number in range(1, 10): # assuming 10 seats in each class
-            # create randomnized seats prices using random
-            seat_id = len(seats) + 1
-            seat_num = f'{class_id}-{seat_number}'
-            price = random.uniform(79.99, 359.79) * class_id
-            seats.append((seat_id, flight_id, seat_num, class_id, 1, price))
+columns = 'ABCDEF' # 6 seats per row
+rows_per_class = {
+    'First Class': 6,
+    'Business': 6,
+    'Economy Plus': 10,
+    'Economy': 24
+} # 6 rows of first class, 6 rows of business class, 10 rows of economy plus and 24 rows of economy
+
+classNames = ['First Class', 'Business', 'Economy Plus', 'Economy']
+class_id_map = {name: idx + 1 for idx, name in enumerate(classNames)} # mapping seat class names to seat id
+
+for flight_id in range(1, 16):  # flights data (created 15 mock data)
+    current_row = 1
+    for name in classNames: # assign seat class id
+        class_id = class_id_map[name]
+        num_rows = rows_per_class[name] # pull number of rows for the loop to generate seat number and price
+        for row in range(current_row, current_row + num_rows): # 1-6, 7-12, 13-23, 24-48
+            for column in columns: # A-F
+                seat_id = len(seats) + 1 # auto increment generated id
+                seat_num = f'{row}{column}' #1A,1B,1C, etc
+                price = round(random.uniform(79.99, 359.79) * class_id, 2)
+                seats.append((seat_id, flight_id, seat_num, class_id, price, 1))
+        current_row += num_rows
 curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, is_available, price) VALUES (?, ?, ?, ?, ?, ?)", seats)
 
-# Hardcoded mock data for bookings
-bookings = [
-    (1, 1, 1, 1, 1, '2024-06-01 07:00:00',0),
-    (2, 2, 2, 11, 2, '2024-06-02 08:00:00',0)
-    ]
-curr.executemany("INSERT INTO bookings (userid, flightid, classid, seatid, num_luggage, booking_time, isCheckedin) VALUES (?, ?, ?, ?, ?, ?, ?)", bookings)
-
-# 
 # Commit changes and close connection
 conn.commit()
 conn.close()
