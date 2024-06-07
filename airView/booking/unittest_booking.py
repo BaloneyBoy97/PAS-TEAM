@@ -133,6 +133,7 @@ class BookingTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(data2), 3) # only 3 seats should be available
 
+    # testing to see if application stops user from double booking
     def test_not_available_seat(self):
         sample_booking_data = {
             'userid': 1,
