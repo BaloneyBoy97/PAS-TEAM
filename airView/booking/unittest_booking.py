@@ -3,10 +3,8 @@ import unittest
 import os
 import json
 import sqlite3
-from flask import Flask
 from flask_testing import TestCase
 from environment.app import app
-# from booking.operation import get_db_connection
 
 class BookingTest(TestCase):
     def create_app(self):
@@ -111,7 +109,7 @@ class BookingTest(TestCase):
             (2, '1A', 2, 220.0, 1),
             (2, '1B', 2, 100.0, 1),
             (2, '1C', 2, 230.0, 1)
-        ]) # sample seat data (flight id, price, seat number, availablity)
+        ]) # sample seat data (flight id, price, seat number, availability)
 
         conn.commit()
         conn.close()
@@ -120,32 +118,28 @@ class BookingTest(TestCase):
         os.remove(self.DATABASE)
 
     def test_get_available_seats(self):
-        # using FL001 first seats as testing sample
-        # sending GET request to endpoint '/booking/available_seats' with flight_id = 1 and class_id = 1
-        response = self.client.get('/booking/available_seats?flight_id=1&class_id=1')
+        # sending GET request to endpoint '/booking/available_seats' with flight_id = 1
+        response = self.client.get('/booking/available_seats?flight_id=1')
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(data), 2) # only 2 seats should be available
+        self.assertEqual(len(data), 2) # only 2 seats should be available (1A, 1B)
 
-        # sending GET request to endpoint '/booking/available_seats' with flight_id = 2 and class_id = 2
-        response = self.client.get('/booking/available_seats?flight_id=2&class_id=2')
+        # sending GET request to endpoint '/booking/available_seats' with flight_id = 2
+        response = self.client.get('/booking/available_seats?flight_id=2')
         data2 = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(data2), 3) # only 3 seats should be available
+        self.assertEqual(len(data2), 3) # 3 seats should be available (1A, 1B, 1C)
 
-    # testing to see if application stops user from double booking
     def test_not_available_seat(self):
         sample_booking_data = {
-            'userid': 1,
-            'flightid': 1,
-            'classid': 1,
-            'seatid': 1,
-            'num_luggage': 1,
-            'email': 'user1@unittest.com',
-            'username': 'user1'
+            'username': 'user1',
+            'seatNumber': '1A',
+            'numLuggage': 1,
+            'flightId': 1
         }
         # Initial attempt (should pass)
         response = self.client.post('/booking/book', data=json.dumps(sample_booking_data), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
 
         # Attempt to book the same seat again (should not pass)
         response = self.client.post('/booking/book', data=json.dumps(sample_booking_data), content_type='application/json')
@@ -156,13 +150,10 @@ class BookingTest(TestCase):
 
     def test_booking(self):
         sample_booking_data = {
-            'userid': 1,
-            'flightid': 1,
-            'classid': 1,
-            'seatid': 1,
-            'num_luggage': 1,
-            'email': 'user1@unittest.com',
-            'username': 'user1'
+            'username': 'user1',
+            'seatNumber': '1B',
+            'numLuggage': 1,
+            'flightId': 1
         }
 
         # sending a POST request to endpoint /booking/book
@@ -170,23 +161,20 @@ class BookingTest(TestCase):
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
         self.assertIn('message', data)
-        self.assertEqual(data['message'], 'confirm Booking!')
+        self.assertEqual(data['message'], 'Booking confirmed')
 
     def test_luggage_capacity(self):
         sample_booking_data = {
-            'userid': 1,
-            'flightid': 1,
-            'classid': 1,
-            'seatid': 1,
-            'num_luggage': 1,
-            'email': 'user1@unittest.com',
-            'username': 'user1'
+            'username': 'user1',
+            'seatNumber': '1A',
+            'numLuggage': 5,
+            'flightId': 1
         }
         response = self.client.post('/booking/book', data=json.dumps(sample_booking_data), content_type='application/json')
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 400)
         self.assertIn('error', data)
-        self.assertEqual(data['error'], 'exceeds max capacity')
+        self.assertEqual(data['error'], 'Maximum number of luggage is 4')
 
 if __name__ == '__main__':
     unittest.main()
