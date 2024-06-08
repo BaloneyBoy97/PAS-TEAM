@@ -1,22 +1,37 @@
 #!/usr/bin/env python3
-from flask import request, jsonify, make_response
-from flask_restful import Resource
+from flask import Blueprint, request, jsonify, make_response
+from flask_restful import Resource, Api
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 import logging
 
+"""
+Initialize Mail instance.
+Logging set up.
+"""
 mail = Mail()
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+"""
+User Authentication Blueprint
+"""
+auth_bp = Blueprint('auth_bp', __name__)
+api = Api(auth_bp)
 
 class UserRegistration(Resource):
+    """
+    Checking for empty field when registering.
+    Validate email, and check for existing user.
+    Create new user if all check pass
+    """
     def post(self):
         data = request.get_json()
         email = data.get('email')
@@ -44,6 +59,11 @@ class UserRegistration(Resource):
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
 
 class UserLogin(Resource):
+    """
+    Checking for empty field when login.
+    fetch user's email and authenticate
+    user credentials before login.
+    """
     def post(self):
         data = request.get_json()
         email = data.get('email')
@@ -59,7 +79,7 @@ class UserLogin(Resource):
             logger.debug('User found with email: %s', email)
             if check_user_credentials(password, email):
                 logger.info('User logged in successfully: %s', email)
-                access_token = create_access_token(identity=email)
+                access_token = create_access_token(identity=user['userid'])
                 return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token, 'username': user['username']}), 200)
             else:
                 logger.warning('Invalid password attempt for email: %s', email)
@@ -69,6 +89,9 @@ class UserLogin(Resource):
         return make_response(jsonify({'error': 'Invalid email or password!'}), 401)
 
 class AdminRegistration(Resource):
+    """
+    same logic as user login
+    """
     def post(self):
         data = request.get_json()
         email = data.get('email')
@@ -96,6 +119,9 @@ class AdminRegistration(Resource):
         return make_response(jsonify({'message': 'Admin registered successfully!'}), 201)
 
 class UserLogout(Resource):
+    """
+    fetch user email and unset JWT cookies
+    """
     @jwt_required()
     def post(self):
         email = get_jwt_identity()
@@ -104,4 +130,3 @@ class UserLogout(Resource):
         logger.info('User logged out: %s', email)
         response.status_code = 200
         return response
-
