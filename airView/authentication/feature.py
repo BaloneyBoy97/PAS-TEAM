@@ -59,7 +59,7 @@ class UserLogin(Resource):
             logger.debug('User found with email: %s', email)
             if check_user_credentials(password, email):
                 logger.info('User logged in successfully: %s', email)
-                access_token = create_access_token(identity=email)
+                access_token = create_access_token(identity=user['userid'])
                 return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token, 'username': user['username']}), 200)
             else:
                 logger.warning('Invalid password attempt for email: %s', email)
@@ -104,4 +104,3 @@ class UserLogout(Resource):
         logger.info('User logged out: %s', email)
         response.status_code = 200
         return response
-

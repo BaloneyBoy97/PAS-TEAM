@@ -1,17 +1,27 @@
-#!/usr/bin/env python3
-from flask_mail import Message
 import sqlite3
 import datetime
-import os
+from flask_mail import Message
+import logging
 
-# create database connection
+logger = logging.getLogger(__name__)
+
+DATABASE = None  # Initialize DATABASE as None
+mail = None  # Initialize mail as None
+
+def set_database_path(db_path):
+    global DATABASE
+    DATABASE = db_path
+
+def set_mail_instance(mail_instance):
+    global mail
+    mail = mail_instance
+
 def get_db_connection():
-    DATABASE = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
-# check and display available seats in the selected flight seperated by class
+# check and display available seats in the selected flight separated by class
 def get_available_seats(flight_id):
     conn = get_db_connection()
     seats = conn.execute('SELECT seatid, seatnumber, classid, is_available FROM seats WHERE flightid = ?', (flight_id,)).fetchall()
@@ -19,7 +29,8 @@ def get_available_seats(flight_id):
     return [dict(seat) for seat in seats]
 
 # create a booking ticket for the selected flight
-def booking_flight(data, user_id, mail):
+def booking_flight(data, user_id):
+    logger.debug(f"Booking flight for user_id: {user_id} with data: {data}")
     username = data['username']
     seat_number = data['seatNumber']
     num_luggage = data['numLuggage']
@@ -30,6 +41,7 @@ def booking_flight(data, user_id, mail):
     user = conn.execute('SELECT email FROM userdata WHERE userid = ?', (user_id,)).fetchone()
     if not user:
         conn.close()
+        logger.error(f"User not found for user_id: {user_id}")
         return {'error': 'User not found'}, 400
     user_email = user['email']
 
@@ -37,6 +49,7 @@ def booking_flight(data, user_id, mail):
     seat = conn.execute('SELECT seatid, classid, price, is_available FROM seats WHERE seatnumber = ? AND flightid = ?', (seat_number, flight_id)).fetchone()
     if not seat or not seat['is_available']:
         conn.close()
+        logger.error(f"Seat not available for seat_number: {seat_number}, flight_id: {flight_id}")
         return {'error': 'Seat not available'}, 400
     seat_id = seat['seatid']
     class_id = seat['classid']
@@ -46,12 +59,14 @@ def booking_flight(data, user_id, mail):
     seat_class = conn.execute('SELECT classname FROM seat_classes WHERE classid = ?', (class_id,)).fetchone()
     if not seat_class:
         conn.close()
+        logger.error(f"Invalid class for class_id: {class_id}")
         return {'error': 'Invalid Class'}, 400
-    class_name  = seat_class['classname']
+    class_name = seat_class['classname']
 
     # set a max cap for luggage per passenger to 4
     if num_luggage > 4:
         conn.close()
+        logger.error(f"Number of luggage exceeded for user_id: {user_id}, num_luggage: {num_luggage}")
         return {'error': 'Maximum number of luggage is 4'}, 400
     
     # calculate luggage fees if passenger selected more than 2 luggage to carry
@@ -96,4 +111,4 @@ def booking_flight(data, user_id, mail):
     """
     mail.send(msg)
 
-    return {'message': 'Booking confirmed', 'total_cost': total_cost}
+    return {'message': 'Booking confirmed', 'total_cost': total_cost}, 200

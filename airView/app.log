@@ -66,3 +66,35 @@
 2024-06-05 14:47:40,639 - app - ERROR - Error type: NotFound
 2024-06-05 15:23:05,088 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-05 15:23:05,088 - app - ERROR - Error type: NotFound
+2024-06-07 15:01:12,681 - environment.app - ERROR - An error occurred: You must call `@jwt_required()` or `verify_jwt_in_request()` before using this method
+2024-06-07 15:01:12,681 - environment.app - ERROR - Error type: RuntimeError
+2024-06-07 15:01:12,689 - environment.app - ERROR - An error occurred: You must call `@jwt_required()` or `verify_jwt_in_request()` before using this method
+2024-06-07 15:01:12,689 - environment.app - ERROR - Error type: RuntimeError
+2024-06-07 15:01:12,692 - environment.app - ERROR - An error occurred: You must call `@jwt_required()` or `verify_jwt_in_request()` before using this method
+2024-06-07 15:01:12,692 - environment.app - ERROR - Error type: RuntimeError
+2024-06-07 15:26:03,307 - environment.app - ERROR - An error occurred: 'bool' object has no attribute 'email'
+2024-06-07 15:26:03,307 - environment.app - ERROR - Error type: AttributeError
+2024-06-07 15:26:03,437 - environment.app - ERROR - An error occurred: 'bool' object has no attribute 'email'
+2024-06-07 15:26:03,437 - environment.app - ERROR - Error type: AttributeError
+2024-06-07 15:26:03,568 - environment.app - ERROR - An error occurred: 'bool' object has no attribute 'email'
+2024-06-07 15:26:03,568 - environment.app - ERROR - Error type: AttributeError
+2024-06-07 15:26:03,697 - environment.app - ERROR - An error occurred: 'bool' object has no attribute 'email'
+2024-06-07 15:26:03,698 - environment.app - ERROR - Error type: AttributeError
+2024-06-07 16:20:54,060 - environment.app - ERROR - An error occurred: booking_flight() missing 1 required positional argument: 'mail'
+2024-06-07 16:20:54,060 - environment.app - ERROR - Error type: TypeError
+2024-06-07 16:53:18,209 - environment.app - ERROR - An error occurred: expected str, bytes or os.PathLike object, not NoneType
+2024-06-07 16:53:18,209 - environment.app - ERROR - Error type: TypeError
+2024-06-07 16:53:18,210 - environment.app - ERROR - An error occurred: expected str, bytes or os.PathLike object, not NoneType
+2024-06-07 16:53:18,210 - environment.app - ERROR - Error type: TypeError
+2024-06-07 16:53:18,211 - environment.app - ERROR - An error occurred: expected str, bytes or os.PathLike object, not NoneType
+2024-06-07 16:53:18,211 - environment.app - ERROR - Error type: TypeError
+2024-06-07 16:53:18,212 - environment.app - ERROR - An error occurred: expected str, bytes or os.PathLike object, not NoneType
+2024-06-07 16:53:18,212 - environment.app - ERROR - Error type: TypeError
+2024-06-07 18:08:18,051 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-07 18:08:18,052 - environment.app - ERROR - Error type: gaierror
+2024-06-07 18:08:19,156 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-07 18:08:19,156 - environment.app - ERROR - Error type: gaierror
+2024-06-07 20:17:44,142 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-07 20:17:44,142 - environment.app - ERROR - Error type: gaierror
+2024-06-07 20:17:45,216 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-07 20:17:45,216 - environment.app - ERROR - Error type: gaierror

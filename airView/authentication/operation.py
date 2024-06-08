@@ -3,15 +3,15 @@ import logging
 import os
 from werkzeug.security import check_password_hash
 
-# Get the current directory of the script
-current_dir = os.path.dirname(__file__)
-
-# Construct the full path to the database file
-DATABASE = os.path.join(current_dir, '..', 'database', 'appdata.db')
+DATABASE = None  # Initialize DATABASE as None
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+def set_database_path(db_path):
+    global DATABASE
+    DATABASE = db_path
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
