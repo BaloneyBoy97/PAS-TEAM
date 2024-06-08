@@ -130,3 +130,10 @@ class UserLogout(Resource):
         logger.info('User logged out: %s', email)
         response.status_code = 200
         return response
+"""
+register the resource routes with blueprint
+"""
+api.add_resource(UserRegistration, '/register')
+api.add_resource(UserLogin, '/login')
+api.add_resource(UserLogout, '/logout')
+api.add_resource(AdminRegistration, '/admin/register')
