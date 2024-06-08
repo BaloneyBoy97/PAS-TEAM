@@ -1,6 +1,6 @@
 import sqlite3
 import logging
-import os
+from flask import session
 from werkzeug.security import check_password_hash
 
 # Initialize DATABASE.
@@ -69,6 +69,25 @@ def get_user_by_username(username):
     except sqlite3.Error as e:
         logger.error("Error retrieving user by username: %s", e)
         return None
+    
+def get_user_id_by_username(username):
+    """
+    Takes username as argument.
+    Retrieve a user ID from the database by username.
+    """
+    try:
+        with get_db_connection() as conn:
+            user_id = conn.execute('SELECT userid FROM userdata WHERE username = ?', (username,)).fetchone()
+        if user_id:
+            logger.debug("User ID retrieved for username: %s", username)
+            return user_id[0]  # Return the user ID (assuming it's the first column)
+        else:
+            logger.debug("No user found for username: %s", username)
+            return None
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user ID by username: %s", e)
+        return None
+
 
 def check_user_credentials(password, email):
     """
@@ -92,13 +111,49 @@ def check_user_credentials(password, email):
 
 # Function to fetch booked flights for a user
 def get_booked_flights(username):
-    user = get_user_by_username(username)
-    user_id = user[0]
+    try:
+        if username:
+            user_id = get_user_id_by_username(username)
+            if user_id is not None:
+                with get_db_connection() as conn:
+                    booked_flights = conn.execute("SELECT * FROM bookings WHERE userid=?", (user_id,)).fetchone()
+                    if booked_flights:
+                        logger.debug("User retrieved by flights: %s", booked_flights)
+                    else:
+                        logger.debug("No booked flights found for user with ID: %s", user_id)
+            else:
+                logger.error("No user found for username: %s", username)
+            return booked_flights
+        else:
+            logger.error("No username found in session.")
+            return None
+    except sqlite3.Error as e:
+        logger.error("Error : %s", e)
+        return None
+    
+def get_flight_details(flight_id):
+    """
+    Fetch flight details based on flight ID.
+    """
     try:
         with get_db_connection() as conn:
-            booked_filghts = conn.execute("SELECT * FROM bookings INNER JOIN flights ON bookings.flightid = flights.flightid WHERE userid=?", (user_id,)).fetchone()
-            logger.debug("User retrieved by flights: %s", booked_filghts)
-        return booked_filghts
+            flight_details = conn.execute("SELECT * FROM flights WHERE flightid=?", (flight_id,)).fetchone()
+        logger.debug("Flight details retrieved by flight ID: %s", flight_id)
+        return flight_details
     except sqlite3.Error as e:
-        logger.error("Error retrieving user by username: %s", e)
+        logger.error("Error retrieving flight details by flight ID: %s", e)
+        return None
+
+
+def get_user_details(user_id):
+    """
+    Fetch user details based on user ID.
+    """
+    try:
+        with get_db_connection() as conn:
+            user_details = conn.execute("SELECT * FROM userdata WHERE userid=?", (user_id,)).fetchone()
+        logger.debug("User details retrieved by user ID: %s", user_id)
+        return user_details
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user details by user ID: %s", e)
         return None

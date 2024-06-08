@@ -78,3 +78,19 @@
 2024-06-08 12:50:47,536 - app - ERROR - Error type: TypeError
 2024-06-08 12:58:47,892 - app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
 2024-06-08 12:58:47,892 - app - ERROR - Error type: gaierror
+2024-06-08 14:39:21,401 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 14:39:21,401 - app - ERROR - Error type: NotFound
+2024-06-08 15:37:02,461 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:37:02,463 - app - ERROR - Error type: NotFound
+2024-06-08 15:37:31,665 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:37:31,665 - app - ERROR - Error type: NotFound
+2024-06-08 15:37:39,763 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:37:39,763 - app - ERROR - Error type: NotFound
+2024-06-08 15:56:30,212 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:56:30,217 - app - ERROR - Error type: NotFound
+2024-06-08 15:57:06,127 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:57:06,135 - app - ERROR - Error type: NotFound
+2024-06-08 15:58:00,394 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 15:58:00,394 - app - ERROR - Error type: NotFound
+2024-06-08 17:38:09,237 - app - ERROR - An error occurred: jwt_required.<locals>.wrapper() missing 1 required positional argument: 'fn'
+2024-06-08 17:38:09,238 - app - ERROR - Error type: TypeError

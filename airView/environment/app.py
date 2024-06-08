@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import sys
 import os
-from flask import Flask, send_from_directory, jsonify, make_response
+from flask import Flask, send_from_directory, jsonify, make_response, request, session
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+#from werkzeug.security import generate_password_hash
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from werkzeug.exceptions import HTTPException
 from flask_mail import Mail
 from dotenv import load_dotenv
@@ -11,6 +12,8 @@ from datetime import timedelta
 import logging
 import threading
 import webbrowser
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from authentication.operation import get_booked_flights, get_flight_details
 
 """
 Add parent directory to 
@@ -79,7 +82,29 @@ def checkin():
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
         
-
+@app.route('/get-booked-flights', methods=['GET'])
+#@jwt_required()
+def get_booked_flights_endpoint():
+    try:
+        #username = get_jwt_identity()
+        username = "testuser"  # ---------------------------------hardcoded-------------
+        if username:
+            booked_flights = get_booked_flights(username)
+            if booked_flights:
+                flight_id = booked_flights['flightid']  # Assuming 'flightid' is the column name
+                # Get flight details using the flight_id
+                flight_details = get_flight_details(flight_id)
+                # Extract data from the sqlite3.Row object
+                # for column_name in flight_details.keys():
+                #     print(f"{column_name}: {flight_details[column_name]}")
+                flights_data = dict(flight_details)
+                return jsonify({'flights': flights_data}), 200
+            else:
+                return jsonify({'message': 'No booked flights found for the user.'}), 404
+        else:
+            return jsonify({'message': 'Unauthorized access. Token invalid or expired.'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')

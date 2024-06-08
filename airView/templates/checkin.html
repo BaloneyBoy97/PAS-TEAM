@@ -70,7 +70,7 @@
     <script>
         async function fetchBookedFlights(token) {
             try {
-                const response = await fetch("/api/booked-flights", {
+                const response = await fetch("/get-booked-flights", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -80,6 +80,8 @@
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data);
+                    console.log(data.flights);
                     displayBookedFlights(data.flights);
                 } else {
                     console.error("Failed to fetch booked flights:", response.statusText);
@@ -90,27 +92,21 @@
         }
 
         function displayBookedFlights(flights) {
-            const flightsContainer = document.querySelector('.flights');
-            flightsContainer.innerHTML = '';
+                const flightsContainer = document.querySelector('.flights');
+                flightsContainer.innerHTML = '';
 
-            if (flights.length === 0) {
-                flightsContainer.innerHTML = '<p>No booked flights found.</p>';
-            } else {
-                flights.forEach(flight => {
-                    const flightElement = document.createElement('div');
-                    flightElement.classList.add('flight');
-                    flightElement.innerHTML = `
-                        <p><strong>Flight Number:</strong> ${flight[8]}</p>
-                        <p><strong>Origin:</strong> ${flight[9]}</p>
-                        <p><strong>Destination:</strong> ${flight[10]}</p>
-                        <p><strong>Departure Time:</strong> ${flight[11]}</p>
-                        <p><strong>Arrival Time:</strong> ${flight[12]}</p>
-                        <p><strong>Status:</strong> ${flight[13]}</p>
-                        <p><strong>Gate Number:</strong> ${flight[14]}</p>
-                    `;
-                    flightsContainer.appendChild(flightElement);
-                });
-            }
+                const flightElement = document.createElement('div');
+                flightElement.classList.add('flight');
+                flightElement.innerHTML = `
+                    <p><strong>Flight Number:</strong> ${flights.flightnumber}</p>
+                    <p><strong>Origin:</strong> ${flights.origin}</p>
+                    <p><strong>Destination:</strong> ${flights.destination}</p>
+                    <p><strong>Departure Time:</strong> ${flights.departuretime}</p>
+                    <p><strong>Arrival Time:</strong> ${flights.arrivaltime}</p>
+                    <p><strong>Status:</strong> ${flights.status}</p>
+                    <p><strong>Gate Number:</strong> ${flights.gate_number}</p>
+                `;
+                flightsContainer.appendChild(flightElement);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -172,7 +168,7 @@
         <main>
             <center>
                 <h3>Your Booked Flights</h3>
-                <div class="flights">
+                <div class="flights" id="booked-flights">
                     <p>Loading...</p>
                 </div>
             </center>
