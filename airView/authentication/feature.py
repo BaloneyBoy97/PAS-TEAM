@@ -44,7 +44,7 @@ class UserRegistration(Resource):
             logger.warning('Registration attempt with existing email or username: %s, %s', email, username)
             return make_response(jsonify({'message': 'User already exists!'}), 400)
         
-        hashed_password = generate_password_hash(password)
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
         create_user(email, username, hashed_password)
         logger.info('User registered successfully: %s', email)
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
