@@ -62,7 +62,7 @@ class UserRegistration(Resource):
 
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
     
-    def registration_notification(self, email, username):  # Corrected method name
+    def registration_notification(self, email, username):
         msg = Message('Welcome to Our AirView!', recipients=[email])
         msg.body = f"""
         Hi {username},
