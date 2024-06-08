@@ -5,35 +5,37 @@ from flask import Flask, send_from_directory, jsonify, make_response
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
-# from flask_cors import CORS  # Uncomment if CORS is needed
 from flask_mail import Mail
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
 import threading
 import webbrowser
-import sqlite3
 
-# Add the parent directory to the Python path
+"""
+Add parent directory to 
+system path for modularization.
+"""
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+"""
+import blueprints.
+load envitonment.
+initialize Flask.
+"""
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
 from booking.feature import booking_bp
-# Load environment variables from .env file
+
 load_dotenv()
 
-# Initialize Flask app
 app = Flask(__name__)
 
-# connect to DB
-def get_db_connection():
-    DATABASE = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-# connect to HTML homepage
-
+"""
+Routes to Server:
+    - Home Page
+    - Sign Up Page
+    - Forget Password Page
+"""
 @app.route('/')
 def serve_html():
     try:
@@ -65,8 +67,11 @@ def forgetPassword():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
-    
-# Configure app from environment variables
+
+"""
+Configuration settings loaded 
+from environment variables    
+"""
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'supersecretjwtkey')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
@@ -77,12 +82,22 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
-# Initialize extensions
+
+"""
+Set the database path from 
+environment variables.
+Initialize API, JKT, MAIL
+"""
+app.config['DATABASE'] = os.getenv('DATABASE_URL', os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db'))
+
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 
-# Logging configuration
+
+"""
+Logging and error handling
+"""
 logging.basicConfig(level=logging.DEBUG)
 file_handler = logging.FileHandler('app.log')
 file_handler.setLevel(logging.WARNING)
@@ -90,24 +105,23 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 file_handler.setFormatter(formatter)
 app.logger.addHandler(file_handler)
 
-# Add a global error handler to catch any unhandled exceptions
 @app.errorhandler(Exception)
 def handle_exception(e):
     error_type = type(e).__name__
     app.logger.error('An error occurred: %s', str(e))
     app.logger.error('Error type: %s', error_type)
     
-    # Handle HTTPException specifically
     if isinstance(e, HTTPException):
         response = e.get_response()
         response.data = jsonify({'error': e.description}).data
         response.content_type = 'application/json'
         return response
     
-    # Handle generic exceptions
     return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
-# Add resource endpoints
+"""
+Register Resource and blueprints
+"""
 api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
@@ -120,9 +134,11 @@ def open_browser():
     url = f"http://{host}:{port}/"
     webbrowser.open_new(url)
 
-# Run the app
+"""
+Main entry point for the application
+"""
 if __name__ == '__main__':
     if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-        threading.Timer(1, open_browser).start()  # Open browser after 1 second delay
+        threading.Timer(1, open_browser).start()
     
     app.run(debug=True)
