@@ -94,3 +94,5 @@
 2024-06-08 15:58:00,394 - app - ERROR - Error type: NotFound
 2024-06-08 17:38:09,237 - app - ERROR - An error occurred: jwt_required.<locals>.wrapper() missing 1 required positional argument: 'fn'
 2024-06-08 17:38:09,238 - app - ERROR - Error type: TypeError
+2024-06-08 18:38:35,395 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 18:38:35,396 - app - ERROR - Error type: NotFound

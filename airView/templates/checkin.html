@@ -66,6 +66,23 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
+        
+        .flight p {
+            margin: 0;
+        }
+
+        .checkin-button {
+            background-color: #5ebec4;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkin-button:hover {
+            background-color: #4caaa9;
+        }
     </style>
     <script>
         async function fetchBookedFlights(token) {
@@ -80,8 +97,6 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
-                    console.log(data.flights);
                     displayBookedFlights(data.flights);
                 } else {
                     console.error("Failed to fetch booked flights:", response.statusText);
@@ -92,21 +107,28 @@
         }
 
         function displayBookedFlights(flights) {
-                const flightsContainer = document.querySelector('.flights');
-                flightsContainer.innerHTML = '';
+            const flightsContainer = document.querySelector('.flights');
+            flightsContainer.innerHTML = '';
 
-                const flightElement = document.createElement('div');
-                flightElement.classList.add('flight');
-                flightElement.innerHTML = `
-                    <p><strong>Flight Number:</strong> ${flights.flightnumber}</p>
-                    <p><strong>Origin:</strong> ${flights.origin}</p>
-                    <p><strong>Destination:</strong> ${flights.destination}</p>
-                    <p><strong>Departure Time:</strong> ${flights.departuretime}</p>
-                    <p><strong>Arrival Time:</strong> ${flights.arrivaltime}</p>
-                    <p><strong>Status:</strong> ${flights.status}</p>
-                    <p><strong>Gate Number:</strong> ${flights.gate_number}</p>
-                `;
-                flightsContainer.appendChild(flightElement);
+            const flightElement = document.createElement('div');
+            flightElement.classList.add('flight');
+            flightElement.innerHTML = `
+                <p><strong>Flight Number:</strong> ${flights.flightnumber}</p>
+                <p><strong>Origin:</strong> ${flights.origin}</p>
+                <p><strong>Destination:</strong> ${flights.destination}</p>
+                <p><strong>Departure Time:</strong> ${flights.departuretime}</p>
+                <p><strong>Arrival Time:</strong> ${flights.arrivaltime}</p>
+                <p><strong>Status:</strong> ${flights.status}</p>
+                <p><strong>Gate Number:</strong> ${flights.gate_number}</p>
+            `;
+            const checkinButton = document.createElement('button');
+            checkinButton.classList.add('checkin-button');
+            checkinButton.textContent = 'Check-in';
+            checkinButton.onclick = function () {
+                //check_in(user_id)
+            };
+            flightElement.appendChild(checkinButton);
+            flightsContainer.appendChild(flightElement);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
