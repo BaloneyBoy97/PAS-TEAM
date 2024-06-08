@@ -56,29 +56,29 @@ def user_registration():
     create_user(email, username, hashed_password)
     logger.info('User registered successfully: %s', email)
 
-    # registration_notification(email, username)
+    registration_notification(email, username)
 
     return make_response(jsonify({'message': 'User registered successfully!'}), 201)
 
-# def registration_notification(email, username):
-#     """
-#     send out a registration notification email
-#     to new user.
-#     """
-#     try:
-#         msg = Message('Welcome to Our AirView!', recipients=[email])
-#         msg.body = f"""
-#         Hi {username},
+def registration_notification(email, username):
+    """
+    send out a registration notification email
+    to new user.
+    """
+    try:
+        msg = Message('Welcome to Our AirView!', recipients=[email])
+        msg.body = f"""
+        Hi {username},
 
-#         Thank you for registering with AirView!
+        Thank you for registering with AirView!
 
-#         Best regards,
-#         The PSD AirView Team
-#         """
-#         mail.send(msg)
-#         logger.info('Email sent to %s', email)
-#     except Exception as e:
-#         logger.error('Failed to send email to %s: %s', email, e)
+        Best regards,
+        The PSD AirView Team
+        """
+        mail.send(msg)
+        logger.info('Email sent to %s', email)
+    except Exception as e:
+        logger.error('Failed to send email to %s: %s', email, e)
 
 @auth_bp.route('/login', methods=['POST'])
 def user_login():
