@@ -132,3 +132,35 @@
 2024-06-08 11:51:15,714 - environment.app - ERROR - Error type: NotFound
 2024-06-08 13:20:29,586 - environment.app - ERROR - An error occurred: name 'registration_notification' is not defined
 2024-06-08 13:20:29,586 - environment.app - ERROR - Error type: NameError
+2024-06-08 15:03:36,781 - environment.app - ERROR - An error occurred: no such table: bookings
+2024-06-08 15:03:36,782 - environment.app - ERROR - Error type: OperationalError
+2024-06-08 15:05:05,418 - environment.app - ERROR - An error occurred: table bookings has no column named classid
+2024-06-08 15:05:05,419 - environment.app - ERROR - Error type: OperationalError
+2024-06-08 15:08:14,496 - environment.app - ERROR - An error occurred: table bookings has no column named classid
+2024-06-08 15:08:14,497 - environment.app - ERROR - Error type: OperationalError
+2024-06-08 15:12:04,163 - environment.app - ERROR - An error occurred: (535, b'5.7.3 Authentication unsuccessful [CH2PR04CA0020.namprd04.prod.outlook.com 2024-06-08T20:12:03.690Z 08DC878A431AF690]')
+2024-06-08 15:12:04,164 - environment.app - ERROR - Error type: SMTPAuthenticationError
+2024-06-08 15:16:04,911 - environment.app - ERROR - An error occurred: (535, b'5.7.3 Authentication unsuccessful [CH5P222CA0019.NAMP222.PROD.OUTLOOK.COM 2024-06-08T20:16:04.889Z 08DC879B4035BD31]')
+2024-06-08 15:16:04,913 - environment.app - ERROR - Error type: SMTPAuthenticationError
+2024-06-08 15:23:25,252 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:23:25,253 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:28:46,027 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:28:46,028 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:33:15,905 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:33:15,907 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:35:22,630 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:35:22,631 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:38:17,680 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:38:17,681 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:43:32,964 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:43:32,965 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:43:37,820 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:43:37,820 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:57:40,692 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:57:40,693 - environment.app - ERROR - Error type: gaierror
+2024-06-08 15:58:03,067 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 15:58:03,068 - environment.app - ERROR - Error type: gaierror
+2024-06-08 16:03:09,341 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 16:03:09,343 - environment.app - ERROR - Error type: gaierror
+2024-06-08 16:08:32,399 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
+2024-06-08 16:08:32,400 - environment.app - ERROR - Error type: gaierror
