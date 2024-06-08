@@ -96,6 +96,7 @@ class AuthenticationTest(TestCase):
     @patch('authentication.feature.validate_email', return_value=Mock(email='newuser@unittest.com'))
     def test_user_registration(self, mock_validate_email):
         """
+        replace authentication.feature.validate_email with mock function
         send POST request to endpoint /auth/register
         assert response status code is 201 (Created)
         assert response message
