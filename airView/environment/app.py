@@ -82,7 +82,6 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
-
 """
 Set the database path from 
 environment variables.
@@ -93,7 +92,6 @@ app.config['DATABASE'] = os.getenv('DATABASE_URL', os.path.join(os.path.dirname(
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
-
 
 """
 Logging and error handling

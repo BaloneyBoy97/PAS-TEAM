@@ -3,12 +3,12 @@ import unittest
 import os
 import json
 import sqlite3
-from unittest.mock import patch, Mock # mock the email notification function
+from unittest.mock import patch, Mock
 from flask_testing import TestCase
 from werkzeug.security import generate_password_hash
 from environment.app import app
-import authentication.operation as auth_ops # user authentication test
-import booking.operation as booking_ops # booking operation test
+import authentication.operation as auth_ops
+import booking.operation as booking_ops
 import time
 
 class BookingTest(TestCase):
@@ -36,7 +36,7 @@ class BookingTest(TestCase):
             os.remove(self.test_database)
         
         """
-        Mimicing appdata.db create identical db setup
+        Mimicking appdata.db create identical db setup
         insert mock data into db for unit test
         """
         conn = sqlite3.connect(self.test_database)
@@ -142,7 +142,7 @@ class BookingTest(TestCase):
         for _ in range(retries):
             try:
                 with patch('authentication.feature.validate_email', return_value=Mock(email='user1@unittest.com')):
-                    login_response = self.client.post('/login', data=json.dumps({
+                    login_response = self.client.post('/auth/login', data=json.dumps({
                         'email': 'user1@unittest.com',
                         'password': 'password1'
                     }), content_type='application/json')
@@ -154,7 +154,7 @@ class BookingTest(TestCase):
                 time.sleep(1)
         else:
             self.fail("Database locking issue detected")
-
+    
     def tearDown(self):
         """
         remove test database after unit test
@@ -165,10 +165,7 @@ class BookingTest(TestCase):
     @patch('booking.operation.mail.send', Mock())
     def test_get_available_seats(self):
         """
-        set up json web token
-        send GET request to endpoint with fligh_id
-        assert response is OK and number of available
-        seat is correct
+        Test case to get available seats for a flight
         """
         headers = {'Authorization': f'Bearer {self.token}'}
         response = self.client.get('/booking/available_seats?flight_id=1', headers=headers)
@@ -184,12 +181,7 @@ class BookingTest(TestCase):
     @patch('booking.operation.mail.send', Mock())
     def test_not_available_seat(self):
         """
-        set up json web token
-        POST sample booking data
-        check response status code: 200 (OK)
-        POST again with same data
-        check response status code: 400 (Error)
-            - seat not available
+        Test case to check booking for a seat that is not available
         """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
@@ -211,9 +203,7 @@ class BookingTest(TestCase):
     @patch('booking.operation.mail.send', Mock())
     def test_booking(self):
         """
-        set up json web token
-        POST sample booking data
-        check response status code: 200 (OK)
+        Test case for successful booking
         """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
@@ -232,10 +222,7 @@ class BookingTest(TestCase):
     @patch('booking.operation.mail.send', Mock())
     def test_luggage_capacity(self):
         """
-        set up json web token
-        POST sample booking data
-        check response status code: 400 (Error)
-            - input 5 max 4
+        Test case for luggage capacity limit
         """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
