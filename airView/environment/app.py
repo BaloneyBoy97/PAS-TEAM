@@ -12,8 +12,17 @@ import logging
 import threading
 import webbrowser
 
+"""
+Add parent directory to 
+system path for modularization.
+"""
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+"""
+import blueprints.
+load envitonment.
+initialize Flask.
+"""
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
 from booking.feature import booking_bp
 
@@ -21,6 +30,12 @@ load_dotenv()
 
 app = Flask(__name__)
 
+"""
+Routes to Server:
+    - Home Page
+    - Sign Up Page
+    - Forget Password Page
+"""
 @app.route('/')
 def serve_html():
     try:
@@ -52,7 +67,11 @@ def forgetPassword():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
-    
+
+"""
+Configuration settings loaded 
+from environment variables    
+"""
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'supersecretjwtkey')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
@@ -63,12 +82,22 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
+
+"""
+Set the database path from 
+environment variables.
+Initialize API, JKT, MAIL
+"""
 app.config['DATABASE'] = os.getenv('DATABASE_URL', os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db'))
 
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 
+
+"""
+Logging and error handling
+"""
 logging.basicConfig(level=logging.DEBUG)
 file_handler = logging.FileHandler('app.log')
 file_handler.setLevel(logging.WARNING)
@@ -90,6 +119,9 @@ def handle_exception(e):
     
     return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
+"""
+Register Resource and blueprints
+"""
 api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
@@ -102,6 +134,9 @@ def open_browser():
     url = f"http://{host}:{port}/"
     webbrowser.open_new(url)
 
+"""
+Main entry point for the application
+"""
 if __name__ == '__main__':
     if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
         threading.Timer(1, open_browser).start()
