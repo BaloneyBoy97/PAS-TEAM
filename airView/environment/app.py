@@ -20,11 +20,12 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 """
 import blueprints.
-load envitonment.
+load environment.
 initialize Flask.
 """
 from authentication.feature import auth_bp
 from booking.feature import booking_bp
+from authentication import operation as auth_ops
 
 load_dotenv()
 
@@ -75,9 +76,9 @@ from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'supersecretjwtkey')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'localhost')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 25))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'False').lower() in ['true', '1', 't']
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS').lower() in ['true', '1', 't']
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
@@ -85,9 +86,13 @@ app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 """
 Set the database path from 
 environment variables.
-Initialize API, JKT, MAIL
+Initialize API, JWT, MAIL
 """
-app.config['DATABASE'] = os.getenv('DATABASE_URL', os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db'))
+database_url = os.getenv('DATABASE_URL')
+if database_url is None:
+    database_url = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
+app.config['DATABASE'] = database_url
+auth_ops.set_database_path(app.config['DATABASE'])
 
 api = Api(app)
 jwt = JWTManager(app)

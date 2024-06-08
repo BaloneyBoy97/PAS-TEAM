@@ -130,3 +130,5 @@
 2024-06-08 11:51:15,474 - environment.app - ERROR - Error type: NotFound
 2024-06-08 11:51:15,714 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-08 11:51:15,714 - environment.app - ERROR - Error type: NotFound
+2024-06-08 13:20:29,586 - environment.app - ERROR - An error occurred: name 'registration_notification' is not defined
+2024-06-08 13:20:29,586 - environment.app - ERROR - Error type: NameError
