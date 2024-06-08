@@ -71,11 +71,11 @@
       .reviews {
         display: flex;
         overflow: hidden;
-        background-color: #ffffff;
+        background-color: #fdf5df;
         justify-content: center;
         align-items: center;
         position: relative;
-        height: 200px;
+        height: 400px;
         width: 100%;
         margin-top: auto;
       }
@@ -89,7 +89,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #eeeeee;
+        background-color: #f92c85;
         border-radius: 10px;
         padding: 20px;
         margin: 10px;
@@ -101,24 +101,26 @@
 
       .review-card img {
         border-radius: 50%;
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
         margin-bottom: 10px;
       }
 
       .review-card h4 {
-        color: #003538;
+        color: #ffffff;
         margin: 5px 0;
       }
 
       .review-card p {
-        color: #555;
+        color: #000000;
+        font-size: 1.2em;
+        font-weight: bold;
       }
 
       .stars {
-        color: #f92c85;
-        font-size: 1.2em;
+        color: #ffcc00;
+        font-size: 1.8em;
         margin-bottom: 10px;
       }
 
@@ -126,14 +128,15 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         justify-items: center;
-        background-color: #ddd;
+        background-color: #f92c85;
         padding: 10px;
+        margin-top: 10px;
       }
 
       footer h3 {
         grid-column: 1 / -1;
         text-align: center;
-        margin: 0.5em 0;
+        margin: 1em 0;
       }
 
       footer .contact,
@@ -149,6 +152,11 @@
         list-style-type: none;
         padding: 0;
         margin: 0;
+      }
+
+      footer .contact ul li,
+      footer .socials ul li {
+        text-decoration: none;
       }
 
       footer .contact ul a,
@@ -247,7 +255,10 @@
       <div class="reviews">
         <div class="review-container">
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 1" />
+            <img
+              src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg"
+              alt="Customer 1"
+            />
             <h4>John Doe</h4>
             <div class="stars">★★★★☆</div>
             <p>
@@ -256,7 +267,10 @@
             </p>
           </div>
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 2" />
+            <img
+              src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png"
+              alt="Customer 2"
+            />
             <h4>Jane Smith</h4>
             <div class="stars">★★★★★</div>
             <p>
@@ -265,25 +279,37 @@
             </p>
           </div>
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 3" />
+            <img
+              src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg"
+              alt="Customer 3"
+            />
             <h4>Mark Wilson</h4>
             <div class="stars">★★★★☆</div>
             <p>"Good overall, but the check-in process could be faster."</p>
           </div>
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 4" />
+            <img
+              src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
+              alt="Customer 4"
+            />
             <h4>Linda Johnson</h4>
             <div class="stars">★★★★★</div>
             <p>"A fantastic airline! Punctual and professional."</p>
           </div>
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 5" />
+            <img
+              src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
+              alt="Customer 5"
+            />
             <h4>Mike Brown</h4>
             <div class="stars">★★★★☆</div>
             <p>"Great value for money and excellent customer service."</p>
           </div>
           <div class="review-card">
-            <img src="https://via.placeholder.com/80" alt="Customer 6" />
+            <img
+              src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png"
+              alt="Customer 6"
+            />
             <h4>Emily Davis</h4>
             <div class="stars">★★★★★</div>
             <p>"Best flight experience I've ever had! Highly recommended."</p>
