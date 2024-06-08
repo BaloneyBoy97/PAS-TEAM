@@ -1,6 +1,5 @@
 import sqlite3
 import logging
-import os
 from werkzeug.security import check_password_hash
 
 """
