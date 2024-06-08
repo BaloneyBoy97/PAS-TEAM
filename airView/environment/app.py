@@ -46,6 +46,8 @@ def login():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+
 
 @app.route('/signup.html')
 def signup():
@@ -70,6 +72,7 @@ def checkin():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+        
 
     
 # Configure app from environment variables

@@ -61,3 +61,17 @@ def check_user_credentials(password, email):
     except Exception as e:
         logger.error("Error checking user credentials: %s", e)
         return False
+
+
+# Function to fetch booked flights for a user
+def get_booked_flights(username):
+    user = get_user_by_username(username)
+    user_id = user[0]
+    try:
+        with get_db_connection() as conn:
+            booked_filghts = conn.execute("SELECT * FROM bookings INNER JOIN flights ON bookings.flightid = flights.flightid WHERE userid=?", (user_id,)).fetchone()
+            logger.debug("User retrieved by flights: %s", booked_filghts)
+        return booked_filghts
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user by username: %s", e)
+        return None

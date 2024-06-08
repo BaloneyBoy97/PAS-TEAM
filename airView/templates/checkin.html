@@ -15,9 +15,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            /* Full viewport height */
             width: 100vw;
-            /* Full viewport width */
         }
 
         h1 {
@@ -70,16 +68,63 @@
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                window.location.href = "/"; // Redirect to login page if not logged in
-                return;
-            }
+        async function fetchBookedFlights(token) {
+            try {
+                const response = await fetch("/api/booked-flights", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
+                if (response.ok) {
+                    const data = await response.json();
+                    displayBookedFlights(data.flights);
+                } else {
+                    console.error("Failed to fetch booked flights:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching booked flights:", error);
+            }
+        }
+
+        function displayBookedFlights(flights) {
+            const flightsContainer = document.querySelector('.flights');
+            flightsContainer.innerHTML = '';
+
+            if (flights.length === 0) {
+                flightsContainer.innerHTML = '<p>No booked flights found.</p>';
+            } else {
+                flights.forEach(flight => {
+                    const flightElement = document.createElement('div');
+                    flightElement.classList.add('flight');
+                    flightElement.innerHTML = `
+                        <p><strong>Flight Number:</strong> ${flight[8]}</p>
+                        <p><strong>Origin:</strong> ${flight[9]}</p>
+                        <p><strong>Destination:</strong> ${flight[10]}</p>
+                        <p><strong>Departure Time:</strong> ${flight[11]}</p>
+                        <p><strong>Arrival Time:</strong> ${flight[12]}</p>
+                        <p><strong>Status:</strong> ${flight[13]}</p>
+                        <p><strong>Gate Number:</strong> ${flight[14]}</p>
+                    `;
+                    flightsContainer.appendChild(flightElement);
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
             const logoutButton = document.querySelector("#logout-button");
+            const token = localStorage.getItem("token");
+
             logoutButton.addEventListener("click", async () => {
                 try {
+                    if (!token) {
+                        console.error("No token found. You are not logged in.");
+                        window.location.href = "/"; // Redirect to login page
+                        return;
+                    }
+
                     const response = await fetch("/logout", {
                         method: "POST",
                         headers: {
@@ -101,55 +146,13 @@
                 }
             });
 
-            fetchBookedFlights(token);
+            if (token) {
+                fetchBookedFlights(token);
+            } else {
+                console.error("No token found. You are not logged in.");
+                window.location.href = "/"; // Redirect to login page
+            }
         });
-
-        async function fetchBookedFlights(token) {
-            try {
-                const response = await fetch("/api/booked-flights", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    displayFlights(data.flights);
-                } else {
-                    console.error("Failed to fetch booked flights:", data);
-                }
-            } catch (error) {
-                console.error("Error fetching booked flights:", error);
-            }
-        }
-
-        function displayFlights(flights) {
-            const flightsContainer = document.querySelector(".flights");
-            flightsContainer.innerHTML = "";
-
-            if (flights.length === 0) {
-                flightsContainer.innerHTML = "<p>No flights booked.</p>";
-                return;
-            }
-
-            flights.forEach(flight => {
-                const flightDiv = document.createElement("div");
-                flightDiv.className = "flight";
-                flightDiv.innerHTML = `
-                    <p>Flight Number: ${flight.flightnumber}</p>
-                    <p>Origin: ${flight.origin}</p>
-                    <p>Destination: ${flight.destination}</p>
-                    <p>Departure: ${flight.departuretime}</p>
-                    <p>Arrival: ${flight.arrivaltime}</p>
-                    <p>Status: ${flight.status}</p>
-                    <p>Gate: ${flight.gate_number}</p>
-                `;
-                flightsContainer.appendChild(flightDiv);
-            });
-        }
     </script>
 </head>
 
@@ -158,7 +161,7 @@
         <h1>Check-in</h1>
 
         <nav class="navbar">
-            <a href="#">Home</a>
+            <a href="home.html">Home</a>
             <a href="#">Flights</a>
             <a href="#">Check-in</a>
             <a href="#">Baggage</a>
