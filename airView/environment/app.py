@@ -23,7 +23,7 @@ import blueprints.
 load envitonment.
 initialize Flask.
 """
-from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
+from authentication.feature import auth_bp
 from booking.feature import booking_bp
 
 load_dotenv()
@@ -122,10 +122,7 @@ def handle_exception(e):
 """
 Register Resource and blueprints
 """
-api.add_resource(UserRegistration, '/register')
-api.add_resource(UserLogin, '/login')
-api.add_resource(UserLogout, '/logout')
-api.add_resource(AdminRegistration, '/admin/register')
+app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(booking_bp, url_prefix='/booking')
 
 def open_browser():
