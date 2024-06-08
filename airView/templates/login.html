@@ -99,14 +99,14 @@
         const email = event.target.email.value;
         const password = event.target.password.value;
 
-        try {
-          const response = await fetch("/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
+          try {
+            const response = await fetch("/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
 
           if (response.headers.get("content-type").includes("application/json")) {
             const data = await response.json();

@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask_testing import TestCase
 from werkzeug.security import generate_password_hash
 from environment.app import app  # Import the app and db objects
-from authentication.operation import create_user, get_user_by_email, get_user_by_username
+from authentication.operation import create_user, get_user_by_email
 
 class TestUserRegistration(TestCase):
     def create_app(self):
