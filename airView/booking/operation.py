@@ -5,31 +5,56 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-DATABASE = None  # Initialize DATABASE as None
-mail = None  # Initialize mail as None
+DATABASE = None
+mail = None
 
 def set_database_path(db_path):
+    """
+    Ensure all database operation within 
+    booking use this database path
+    """
     global DATABASE
     DATABASE = db_path
 
 def set_mail_instance(mail_instance):
+    """
+    Setting mail instance to allow booking
+    to set email notification without 
+    reinitialize or pass main instance
+    """
     global mail
     mail = mail_instance
 
 def get_db_connection():
+    """
+    establish database connection
+    """
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
-# check and display available seats in the selected flight separated by class
 def get_available_seats(flight_id):
+    """
+    Check and display available seats 
+    Using flight_id as parameter to identify flight
+    return a list of dictionary with seat information
+    """
     conn = get_db_connection()
     seats = conn.execute('SELECT seatid, seatnumber, classid, is_available FROM seats WHERE flightid = ?', (flight_id,)).fetchall()
     conn.close()
     return [dict(seat) for seat in seats]
 
-# create a booking ticket for the selected flight
 def booking_flight(data, user_id):
+    """
+    create a booking ticket for the selected flight
+
+    parameters:
+    username, user_id, seat number, 
+    number of luggage, and flight ID
+
+    Return: User request response (message, status code)
+
+    """
     logger.debug(f"Booking flight for user_id: {user_id} with data: {data}")
     username = data['username']
     seat_number = data['seatNumber']

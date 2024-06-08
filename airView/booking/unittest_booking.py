@@ -1,17 +1,21 @@
+# python -m unittest discover -s booking -p "unittest_booking.py"
 import unittest
 import os
 import json
 import sqlite3
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock # mock the email notification function
 from flask_testing import TestCase
 from werkzeug.security import generate_password_hash
 from environment.app import app
-import authentication.operation as auth_ops
-import booking.operation as booking_ops
+import authentication.operation as auth_ops # user authentication test
+import booking.operation as booking_ops # booking operation test
 import time
 
 class BookingTest(TestCase):
     def create_app(self):
+        """
+        Setting up testing environment with Flask
+        """
         app.config['TESTING'] = True
         app.config['MAIL_SUPPRESS_SEND'] = True
         app.config['DATABASE'] = 'test_appdata.db'
@@ -19,6 +23,11 @@ class BookingTest(TestCase):
         return app
     
     def setUp(self):
+        """
+        Setting test database and database path configuration
+        removing existing database from testing environment
+        ensure test isolation and prevent database locking
+        """
         self.test_database = app.config['DATABASE']
         auth_ops.set_database_path(self.test_database)
         booking_ops.set_database_path(self.test_database)
@@ -26,6 +35,10 @@ class BookingTest(TestCase):
         if os.path.exists(self.test_database):
             os.remove(self.test_database)
         
+        """
+        Mimicing appdata.db create identical db setup
+        insert mock data into db for unit test
+        """
         conn = sqlite3.connect(self.test_database)
         curr = conn.cursor()
 
@@ -121,6 +134,10 @@ class BookingTest(TestCase):
         conn.commit()
         conn.close()
 
+        """
+        Give 5 retries attempts to log in test user
+        use to detect database locking issue
+        """
         retries = 5
         for _ in range(retries):
             try:
@@ -136,14 +153,23 @@ class BookingTest(TestCase):
             except sqlite3.OperationalError:
                 time.sleep(1)
         else:
-            self.fail("Database setup failed after multiple attempts")
+            self.fail("Database locking issue detected")
 
     def tearDown(self):
+        """
+        remove test database after unit test
+        """
         if os.path.exists(self.test_database):
             os.remove(self.test_database)
 
     @patch('booking.operation.mail.send', Mock())
     def test_get_available_seats(self):
+        """
+        set up json web token
+        send GET request to endpoint with fligh_id
+        assert response is OK and number of available
+        seat is correct
+        """
         headers = {'Authorization': f'Bearer {self.token}'}
         response = self.client.get('/booking/available_seats?flight_id=1', headers=headers)
         data = json.loads(response.data)
@@ -157,6 +183,14 @@ class BookingTest(TestCase):
 
     @patch('booking.operation.mail.send', Mock())
     def test_not_available_seat(self):
+        """
+        set up json web token
+        POST sample booking data
+        check response status code: 200 (OK)
+        POST again with same data
+        check response status code: 400 (Error)
+            - seat not available
+        """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
             'username': 'user1',
@@ -176,6 +210,11 @@ class BookingTest(TestCase):
 
     @patch('booking.operation.mail.send', Mock())
     def test_booking(self):
+        """
+        set up json web token
+        POST sample booking data
+        check response status code: 200 (OK)
+        """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
             'username': 'user1',
@@ -192,6 +231,12 @@ class BookingTest(TestCase):
 
     @patch('booking.operation.mail.send', Mock())
     def test_luggage_capacity(self):
+        """
+        set up json web token
+        POST sample booking data
+        check response status code: 400 (Error)
+            - input 5 max 4
+        """
         headers = {'Authorization': f'Bearer {self.token}'}
         sample_booking_data = {
             'username': 'user1',
