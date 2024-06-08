@@ -12,20 +12,25 @@ from datetime import timedelta
 import logging
 import threading
 import webbrowser
+import sqlite3
 
 # Add the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from authentication.feature import UserRegistration, UserLogin, AdminRegistration, UserLogout
-
+from booking.feature import booking_bp
 # Load environment variables from .env file
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Uncomment if CORS is needed
-# CORS(app)
+# connect to DB
+def get_db_connection():
+    DATABASE = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # connect to HTML homepage
 
@@ -107,6 +112,7 @@ api.add_resource(UserRegistration, '/register')
 api.add_resource(UserLogin, '/login')
 api.add_resource(UserLogout, '/logout')
 api.add_resource(AdminRegistration, '/admin/register')
+app.register_blueprint(booking_bp, url_prefix='/booking')
 
 def open_browser():
     host = '127.0.0.1'
