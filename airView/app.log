@@ -98,3 +98,11 @@
 2024-06-07 20:17:44,142 - environment.app - ERROR - Error type: gaierror
 2024-06-07 20:17:45,216 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
 2024-06-07 20:17:45,216 - environment.app - ERROR - Error type: gaierror
+2024-06-08 01:30:09,546 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 01:30:09,546 - environment.app - ERROR - Error type: NotFound
+2024-06-08 01:30:09,779 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 01:30:09,779 - environment.app - ERROR - Error type: NotFound
+2024-06-08 01:30:10,016 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 01:30:10,016 - environment.app - ERROR - Error type: NotFound
+2024-06-08 01:37:37,537 - environment.app - ERROR - An error occurred: 'UserRegistration' object has no attribute 'registration_notification'
+2024-06-08 01:37:37,537 - environment.app - ERROR - Error type: AttributeError

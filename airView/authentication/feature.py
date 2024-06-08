@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, make_response
 from flask_restful import Resource, Api
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from email_validator import validate_email, EmailNotValidError
 from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
 import logging
@@ -20,6 +20,7 @@ handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
 """
 User Authentication Blueprint
 """
@@ -56,7 +57,23 @@ class UserRegistration(Resource):
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
         create_user(email, username, hashed_password)
         logger.info('User registered successfully: %s', email)
+
+        self.registration_notification(email, username)
+
         return make_response(jsonify({'message': 'User registered successfully!'}), 201)
+    
+    def registration_notification(self, email, username):  # Corrected method name
+        msg = Message('Welcome to Our AirView!', recipients=[email])
+        msg.body = f"""
+        Hi {username},
+
+        Thank you for registering with AirView!
+
+        Best regards,
+        The PSD AirView Team
+        """
+        mail.send(msg)
+
 
 class UserLogin(Resource):
     """
