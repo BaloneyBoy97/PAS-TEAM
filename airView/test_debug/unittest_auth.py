@@ -1,4 +1,4 @@
-# python -m unittest discover -s authentication -p "unittest_auth.py"
+# python -m unittest discover -s test_debug -p "unittest_auth.py"
 import unittest
 import os
 import json

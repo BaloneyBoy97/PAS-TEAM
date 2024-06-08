@@ -1,4 +1,4 @@
-# python -m unittest discover -s booking -p "unittest_booking.py"
+# python -m unittest discover -s test_debug -p "unittest_booking.py"
 import unittest
 import os
 import json
