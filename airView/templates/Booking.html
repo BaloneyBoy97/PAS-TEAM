@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Booking</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .airplane {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+      .seat {
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #28a745;
+        color: white;
+      }
+      .aisle {
+        width: 20px;
+        height: 40px;
+        margin: 5px;
+        background-color: transparent;
+        cursor: default;
+      }
+      .occupied {
+        background-color: #6c757d;
+        color: white;
+      }
+      .selected {
+        background-color: #ffc107;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="text-center mb-5">Flight Booking</h2>
+      <div class="airplane">
+        <div class="row">
+          <div class="aisle"></div>
+          <div class="seat" id="1A">1A</div>
+          <div class="seat" id="1B">1B</div>
+          <div class="aisle"></div>
+          <div class="seat" id="1C">1C</div>
+          <div class="seat" id="1D">1D</div>
+          <div class="aisle"></div>
+        </div>
+        <div class="row">
+          <div class="aisle"></div>
+          <div class="seat" id="2A">2A</div>
+          <div class="seat" id="2B">2B</div>
+          <div class="aisle"></div>
+          <div class="seat" id="2C">2C</div>
+          <div class="seat" id="2D">2D</div>
+          <div class="aisle"></div>
+        </div>
+        <div class="row">
+          <div class="aisle"></div>
+          <div class="seat" id="3A">3A</div>
+          <div class="seat" id="3B">3B</div>
+          <div class="aisle"></div>
+          <div class="seat" id="3C">3C</div>
+          <div class="seat" id="3D">3D</div>
+          <div class="aisle"></div>
+        </div>
+        <div class="row">
+          <div class="aisle"></div>
+          <div class="seat" id="4A">4A</div>
+          <div class="seat" id="4B">4B</div>
+          <div class="aisle"></div>
+          <div class="seat" id="4C">4C</div>
+          <div class="seat" id="4D">4D</div>
+          <div class="aisle"></div>
+        </div>
+        <div class="row">
+          <div class="aisle"></div>
+          <div class="seat" id="5A">5A</div>
+          <div class="seat" id="5B">5B</div>
+          <div class="aisle"></div>
+          <div class="seat" id="5C">5C</div>
+          <div class="seat" id="5D">5D</div>
+          <div class="aisle"></div>
+        </div>
+      </div>
+      <form id="bookingForm">
+        <div class="form-group mt-4">
+          <label for="passengerName">Passenger Name</label>
+          <input type="text" class="form-control" id="passengerName" required />
+        </div>
+        <div class="form-group">
+          <label for="classSelection">Class Selection</label>
+          <select class="form-control" id="classSelection" required>
+            <option value="" disabled selected>Select your class</option>
+            <option value="economy">Economy</option>
+            <option value="business">Business</option>
+            <option value="firstclass">First Class</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="seatSelection">Selected Seat</label>
+          <input type="text" class="form-control" id="selectedSeat" readonly />
+        </div>
+        <div class="form-group">
+          <label for="baggage">Baggage Add-On</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="20kg"
+              id="baggage20"
+            />
+            <label class="form-check-label" for="baggage20"> 20kg - $30 </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="30kg"
+              id="baggage30"
+            />
+            <label class="form-check-label" for="baggage30"> 30kg - $50 </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="40kg"
+              id="baggage40"
+            />
+            <label class="form-check-label" for="baggage40"> 40kg - $70 </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="termsConditions">Terms & Conditions</label>
+          <textarea class="form-control" id="termsConditions" rows="5" readonly>
+1. Passengers are required to carry valid identification at all times.
+2. Baggage allowance is subject to additional charges as selected.
+3. Changes to the booking may incur additional fees.
+4. Refunds are subject to the airline's policy.
+5. By booking, you agree to the airline's terms and conditions.
+                </textarea
+          >
+          <div class="form-check mt-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="agreeTerms"
+              required
+            />
+            <label class="form-check-label" for="agreeTerms">
+              I agree to the Terms & Conditions
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Book Now
+        </button>
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const seats = document.querySelectorAll(".seat");
+        const selectedSeatInput = document.getElementById("selectedSeat");
+
+        seats.forEach((seat) => {
+          seat.addEventListener("click", function () {
+            if (seat.classList.contains("occupied")) return;
+
+            seats.forEach((s) => s.classList.remove("selected"));
+            seat.classList.toggle("selected");
+            selectedSeatInput.value = seat.id;
+          });
+        });
+      });
+
+      document
+        .getElementById("bookingForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const selectedSeat = document.querySelector(".seat.selected");
+          if (!selectedSeat) {
+            alert("Please select a seat.");
+            return;
+          }
+          alert("Booking Submitted Successfully!");
+        });
+    </script>
+  </body>
+</html>
