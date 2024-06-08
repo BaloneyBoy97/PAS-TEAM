@@ -3,19 +3,21 @@ import sqlite3
 import random
 import os
 
-
-# Define the directory path where you want to create the database
+"""
+Define the directory path where you want to create the database.
+Create the database file in database directory.
+"""
 database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
 os.makedirs(database_dir, exist_ok=True)
 
-# Create the database file in the specified directory
 db_path = os.path.join(database_dir, 'appdata.db')
 
-#create a new db named appdata
 conn = sqlite3.connect(db_path)
 curr = conn.cursor()
 
-# Create user data table to store user information
+"""
+User data table
+"""
 curr.execute("""
 CREATE TABLE IF NOT EXISTS userdata(
     userid INTEGER PRIMARY KEY,
@@ -25,7 +27,10 @@ CREATE TABLE IF NOT EXISTS userdata(
     isAdmin BOOLEAN NOT NULL DEFAULT 0
 )
 """)
-# Create flights table to store flight information
+
+"""
+flights table
+"""
 curr.execute("""
 CREATE TABLE IF NOT EXISTS flights(
     flightid INTEGER PRIMARY KEY,
@@ -38,7 +43,10 @@ CREATE TABLE IF NOT EXISTS flights(
     gate_number TEXT NOT NULL
 )
 """)
-# Create bookings table to store user booking data
+
+"""
+bookings table
+"""
 curr.execute("""
     CREATE TABLE IF NOT EXISTS bookings(
         bookingid INTEGER PRIMARY KEY,
@@ -56,7 +64,9 @@ curr.execute("""
     )
     """)
 
-# Create seat class table (first class/economy plus/etc.) to store different seat classes
+"""
+seat class table (First Class, Business, Economy Plus, Economy)
+"""
 curr.execute("""
     CREATE TABLE IF NOT EXISTS seat_classes(
         classid INTEGER PRIMARY KEY,
@@ -64,7 +74,9 @@ curr.execute("""
     )
     """)
 
-# Create seats table to store seating information in a flight
+"""
+seats information table for flights
+"""
 curr.execute("""
     CREATE TABLE IF NOT EXISTS seats(
         seatid INTEGER PRIMARY KEY,
@@ -78,7 +90,9 @@ curr.execute("""
     )
     """)
 
-# Create luggage table to store luggage information
+"""
+luggage information table
+"""
 curr.execute("""
     CREATE TABLE IF NOT EXISTS luggage(
         luggageid INTEGER PRIMARY KEY,
@@ -90,11 +104,15 @@ curr.execute("""
     )
     """)
 
-# create unique rng gate number
+"""
+generate list of unique gate number in a list
+shuffle the list and inserted the shuffled
+gate number along with alraedy created
+flight information into flights table
+"""
 gates = [f"Gate {letter}{number}" for letter in 'ABCDE' for number in range(1, 31)]
 random.shuffle(gates)
 
-# Sample data for flights table
 flights = [
     ('AA100', 'St. Louis', 'Los Angeles', '2024-06-01 08:00:00', '2024-06-01 11:00:00', 'Scheduled', gates.pop()),
     ('BA200', 'St. Louis', 'New York', '2024-06-02 09:00:00', '2024-06-02 12:00:00', 'Scheduled', gates.pop()),
@@ -113,10 +131,11 @@ flights = [
     ('OA1500', 'St. Louis', 'Sydney', '2024-06-15 22:00:00', '2024-06-16 01:00:00', 'Scheduled', gates.pop())
 ]
 
-# Insert sample data into flights table
 curr.executemany("INSERT INTO flights (flightnumber, origin, destination, departuretime, arrivaltime, status, gate_number) VALUES (?, ?, ?, ?, ?, ?, ?)", flights)
 
-# Create sample seat classes and insert it into seat class table
+"""
+create seat class for flights
+"""
 seat_class = [
     ('Economy',),
     ('Economy Plus',),
@@ -125,18 +144,19 @@ seat_class = [
 ]
 curr.executemany("INSERT INTO seat_classes (classname) VALUES (?)", seat_class)
 
-# create mock data for seat prices for each flights
-# assign seat numbers (seperate from seat id exmp: 1A, 1B, 1C) similar to a boeing 737
+
+"""
+generate seating information and insert it into seats table
+"""
 seats = []
-columns = 'ABCDEF' # 6 seats per row
+columns = 'ABCDEF'
 rows_per_class = {
     'First Class': 6,
     'Business': 6,
     'Economy Plus': 10,
     'Economy': 24
-} # 6 rows of first class, 6 rows of business class, 10 rows of economy plus and 24 rows of economy
+}
 
-# generate a price range for each class
 price_ranges = {
     'First Class': (300.00, 400.00),
     'Business': (200.00, 300.00),
@@ -145,23 +165,22 @@ price_ranges = {
 }
 
 classNames = ['First Class', 'Business', 'Economy Plus', 'Economy']
-class_id_map = {name: idx + 1 for idx, name in enumerate(classNames)} # mapping seat class names to seat id
+class_id_map = {name: idx + 1 for idx, name in enumerate(classNames)}
 
-for flight_id in range(1, 16):  # flights data (created 15 mock data)
+for flight_id in range(1, 16):
     current_row = 1
-    for name in classNames: # assign seat class id
+    for name in classNames:
         class_id = class_id_map[name]
-        num_rows = rows_per_class[name] # pull number of rows for the loop to generate seat number and price
+        num_rows = rows_per_class[name]
         min_price, max_price = price_ranges[name]
-        for row in range(current_row, current_row + num_rows): # 1-6, 7-12, 13-23, 24-48
-            for column in columns: # A-F
-                seat_id = len(seats) + 1 # auto increment generated id
-                seat_num = f'{row}{column}' #1A,1B,1C, etc
+        for row in range(current_row, current_row + num_rows):
+            for column in columns:
+                seat_id = len(seats) + 1
+                seat_num = f'{row}{column}'
                 price = round(random.uniform(min_price, max_price), 2)
                 seats.append((seat_id, flight_id, seat_num, class_id, price, 1))
         current_row += num_rows
 curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, price, is_available) VALUES (?, ?, ?, ?, ?, ?)", seats)
 
-# Commit changes and close connection
 conn.commit()
 conn.close()
