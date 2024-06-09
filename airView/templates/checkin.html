@@ -87,7 +87,7 @@
     <script>
         async function fetchBookedFlights(token) {
             try {
-                const response = await fetch("/get-booked-flights", {
+                const response = await fetch("/checkin/get-booked-flights", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

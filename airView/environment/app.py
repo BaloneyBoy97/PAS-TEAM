@@ -13,8 +13,6 @@ import logging
 import threading
 import webbrowser
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from authentication.operation import get_booked_flights, get_flight_details
-from checkin.checkin import check_in
 
 """
 Add parent directory to 
@@ -29,6 +27,7 @@ initialize Flask.
 """
 from authentication.feature import auth_bp
 from booking.feature import booking_bp
+from checkin.feature import checkin_bp
 from authentication import operation as auth_ops
 
 load_dotenv()
@@ -56,11 +55,6 @@ def login():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
-    
-@app.route('/check-in', methods=['POST'])
-def handle_check_in():
-    user_id = request.json.get('user_id')
-    return check_in(user_id)
 
 @app.route('/signup.html')
 def signup():
@@ -85,31 +79,6 @@ def checkin():
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
-        
-@app.route('/get-booked-flights', methods=['GET'])
-#@jwt_required()
-def get_booked_flights_endpoint():
-    try:
-        #username = get_jwt_identity()
-        username = "testuser"  # ---------------------------------hardcoded-------------
-        if username:
-            user_id, booked_flights = get_booked_flights(username)
-            if booked_flights:
-                flight_id = booked_flights['flightid']  # Assuming 'flightid' is the column name
-                # Get flight details using the flight_id
-                flight_details = get_flight_details(flight_id)
-                # Extract data from the sqlite3.Row object
-                # for column_name in flight_details.keys():
-                #     print(f"{column_name}: {flight_details[column_name]}")
-                flights_data = dict(flight_details)
-                flights_data['user_id'] = user_id
-                return jsonify({'flights': flights_data}), 200
-            else:
-                return jsonify({'message': 'No booked flights found for the user.'}), 404
-        else:
-            return jsonify({'message': 'Unauthorized access. Token invalid or expired.'}), 401
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
     
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
@@ -166,6 +135,7 @@ Register Resource and blueprints
 """
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(booking_bp, url_prefix='/booking')
+app.register_blueprint(checkin_bp, url_prefix='/checkin')
 
 def open_browser():
     host = '127.0.0.1'

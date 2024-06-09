@@ -104,3 +104,55 @@
 2024-06-08 19:17:29,089 - app - ERROR - Error type: NotFound
 2024-06-08 19:27:22,565 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-08 19:27:22,565 - app - ERROR - Error type: NotFound
+2024-06-09 14:53:02,540 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 14:53:02,540 - app - ERROR - Error type: NotFound
+2024-06-09 15:00:14,125 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:00:14,128 - app - ERROR - Error type: NotFound
+2024-06-09 15:02:19,164 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:02:19,164 - app - ERROR - Error type: NotFound
+2024-06-09 15:02:48,223 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:02:48,223 - app - ERROR - Error type: NotFound
+2024-06-09 15:08:14,930 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:08:14,932 - app - ERROR - Error type: NotFound
+2024-06-09 15:11:11,965 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:11:11,965 - app - ERROR - Error type: NotFound
+2024-06-09 15:16:14,794 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:16:14,795 - app - ERROR - Error type: NotFound
+2024-06-09 15:17:01,339 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:17:01,340 - app - ERROR - Error type: NotFound
+2024-06-09 15:19:26,249 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:19:26,249 - app - ERROR - Error type: NotFound
+2024-06-09 15:28:00,845 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:28:00,847 - app - ERROR - Error type: NotFound
+2024-06-09 15:29:57,444 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:29:57,445 - app - ERROR - Error type: NotFound
+2024-06-09 15:30:34,828 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:30:34,830 - app - ERROR - Error type: NotFound
+2024-06-09 15:30:47,340 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:30:47,341 - app - ERROR - Error type: NotFound
+2024-06-09 15:30:58,395 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:30:58,396 - app - ERROR - Error type: NotFound
+2024-06-09 15:31:06,932 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:31:06,932 - app - ERROR - Error type: NotFound
+2024-06-09 15:31:13,924 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:31:13,926 - app - ERROR - Error type: NotFound
+2024-06-09 15:31:39,205 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:31:39,206 - app - ERROR - Error type: NotFound
+2024-06-09 15:43:31,945 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:43:31,945 - app - ERROR - Error type: NotFound
+2024-06-09 15:46:22,002 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 15:46:22,003 - app - ERROR - Error type: NotFound
+2024-06-09 16:32:00,529 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 16:32:00,529 - app - ERROR - Error type: NotFound
+2024-06-09 16:33:03,885 - app - ERROR - An error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2024-06-09 16:33:03,885 - app - ERROR - Error type: MethodNotAllowed
+2024-06-09 16:33:57,017 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 16:33:57,025 - app - ERROR - Error type: NotFound
+2024-06-09 16:43:31,943 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 16:43:31,943 - app - ERROR - Error type: NotFound
+2024-06-09 18:10:53,646 - app - ERROR - An error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2024-06-09 18:10:53,646 - app - ERROR - Error type: MethodNotAllowed
+2024-06-09 18:11:41,950 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 18:11:41,952 - app - ERROR - Error type: NotFound
+2024-06-09 18:14:54,191 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 18:14:54,191 - app - ERROR - Error type: NotFound

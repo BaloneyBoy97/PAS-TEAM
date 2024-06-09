@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from flask_mail import Mail, Message
 from email_validator import validate_email, EmailNotValidError
-from authentication.operation import create_user, get_user_by_email, get_user_by_username, check_user_credentials
+from authentication.operation import create_user, get_user_by_email, check_user_credentials
 import logging
 
 """
