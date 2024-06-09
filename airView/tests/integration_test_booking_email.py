@@ -3,7 +3,6 @@ import unittest
 import os
 import json
 import sqlite3
-from unittest.mock import patch
 from flask_testing import TestCase
 from environment.app import app
 import authentication.operation as auth_ops
@@ -140,13 +139,6 @@ class BookingEmailIntegrationTest(TestCase):
                 time.sleep(1)
         else:
             self.fail("Database locking issue detected")
-
-        # DNS Resolution Check
-        try:
-            socket.gethostbyname(app.config['MAIL_SERVER'])
-            print("DNS resolution successful")
-        except socket.error as e:
-            print(f"DNS resolution failed: {e}")
 
     def tearDown(self):
         """
