@@ -1,4 +1,4 @@
-# integration_test_booking_email.py
+# -m unittest discover -s tests -p "integration_test_booking_email.py"
 import unittest
 import os
 import json
