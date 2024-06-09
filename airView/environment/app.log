@@ -96,3 +96,11 @@
 2024-06-08 17:38:09,238 - app - ERROR - Error type: TypeError
 2024-06-08 18:38:35,395 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-08 18:38:35,396 - app - ERROR - Error type: NotFound
+2024-06-08 19:14:49,953 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 19:14:49,953 - app - ERROR - Error type: NotFound
+2024-06-08 19:17:08,440 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 19:17:08,441 - app - ERROR - Error type: NotFound
+2024-06-08 19:17:29,089 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 19:17:29,089 - app - ERROR - Error type: NotFound
+2024-06-08 19:27:22,565 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-08 19:27:22,565 - app - ERROR - Error type: NotFound

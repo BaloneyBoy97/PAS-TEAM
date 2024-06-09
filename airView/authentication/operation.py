@@ -123,13 +123,13 @@ def get_booked_flights(username):
                         logger.debug("No booked flights found for user with ID: %s", user_id)
             else:
                 logger.error("No user found for username: %s", username)
-            return booked_flights
+            return user_id, booked_flights
         else:
             logger.error("No username found in session.")
-            return None
+            return None, None
     except sqlite3.Error as e:
         logger.error("Error : %s", e)
-        return None
+        return None,None
     
 def get_flight_details(flight_id):
     """

@@ -125,7 +125,31 @@
             checkinButton.classList.add('checkin-button');
             checkinButton.textContent = 'Check-in';
             checkinButton.onclick = function () {
-                //check_in(user_id)
+                const token = localStorage.getItem("token");
+                const userId = flights.user_id;
+                fetch("/check-in", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ user_id: userId }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Handle success
+                            console.log("Check-in successful");
+                            const successMessage = document.createElement('p');
+                            successMessage.textContent = 'Check-in successful';
+                            flightElement.appendChild(successMessage);
+                        } else {
+                            // Handle error
+                            console.error("Check-in failed");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error during check-in:", error);
+                    });
             };
             flightElement.appendChild(checkinButton);
             flightsContainer.appendChild(flightElement);

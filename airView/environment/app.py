@@ -14,6 +14,7 @@ import threading
 import webbrowser
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from authentication.operation import get_booked_flights, get_flight_details
+from checkin.checkin import check_in
 
 """
 Add parent directory to 
@@ -56,7 +57,10 @@ def login():
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
     
-
+@app.route('/check-in', methods=['POST'])
+def handle_check_in():
+    user_id = request.json.get('user_id')
+    return check_in(user_id)
 
 @app.route('/signup.html')
 def signup():
@@ -89,7 +93,7 @@ def get_booked_flights_endpoint():
         #username = get_jwt_identity()
         username = "testuser"  # ---------------------------------hardcoded-------------
         if username:
-            booked_flights = get_booked_flights(username)
+            user_id, booked_flights = get_booked_flights(username)
             if booked_flights:
                 flight_id = booked_flights['flightid']  # Assuming 'flightid' is the column name
                 # Get flight details using the flight_id
@@ -98,6 +102,7 @@ def get_booked_flights_endpoint():
                 # for column_name in flight_details.keys():
                 #     print(f"{column_name}: {flight_details[column_name]}")
                 flights_data = dict(flight_details)
+                flights_data['user_id'] = user_id
                 return jsonify({'flights': flights_data}), 200
             else:
                 return jsonify({'message': 'No booked flights found for the user.'}), 404
