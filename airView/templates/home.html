@@ -1,152 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>AirView Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-    <style>
-      body {
-        background-color: #fdf5df;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        height: 100vh; /* Full viewport height */
-        width: 100vw; /* Full viewport width */
-      }
-      h1 {
-        text-align: center;
-        color: #5ebec4;
-        font-style: italic;
-        font-size: 300%;
-      }
-      main h3 {
-        text-align: center;
-        color: #003538;
-        font-style: italic;
-        font-size: 150%;
-      }
-      .letter {
-        color: #f92c85;
-        font-style: normal;
-      }
-      .navbar {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        justify-items: center;
-        background-color: #eee;
-        padding: 10px 0;
-      }
-      .navbar a {
-        text-decoration: none;
-        color: #000;
-        padding: 10px;
-      }
-      footer {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        justify-items: center;
-        background-color: #ddd;
-        padding: 10px 10px;
-      }
-      footer h3 {
-        grid-column: 1 / -1;
-        text-align: center;
-      }
-      footer .contact,
-      footer .socials,
-      footer .copyright {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      footer .contact ul,
-      footer .socials ul {
-        list-style-type: none;
-        padding: 0;
-      }
-      footer .contact ul a,
-      footer .socials ul a {
-        text-decoration: none;
-        color: #000;
-      }
-    </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const logoutButton = document.querySelector("#logout-button");
 
-        logoutButton.addEventListener("click", async () => {
-          try {
-            const token = localStorage.getItem("token");
+<head>
+  <meta charset="UTF-8" />
+  <title>AirView Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="" />
+  <style>
+    body {
+      background-color: #fdf5df;
+    }
 
-            if (!token) {
-              console.error("No token found. You are not logged in.");
-              return;
-            }
+    .main {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      /* Full viewport height */
+      width: 100vw;
+      /* Full viewport width */
+    }
 
-            const response = await fetch("/logout", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            });
+    h1 {
+      text-align: center;
+      color: #5ebec4;
+      font-style: italic;
+      font-size: 300%;
+    }
 
-            const data = await response.json();
+    main h3 {
+      text-align: center;
+      color: #003538;
+      font-style: italic;
+      font-size: 150%;
+    }
 
-            if (response.ok) {
-              localStorage.removeItem("token");
-              window.location.href = "/";
-            } else {
-              console.error("Logout failed:", data);
-            }
-          } catch (error) {
-            console.error("Logout error:", error);
+    .letter {
+      color: #f92c85;
+      font-style: normal;
+    }
+
+    .navbar {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      justify-items: center;
+      background-color: #eee;
+      padding: 10px 0;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #000;
+      padding: 10px;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      justify-items: center;
+      background-color: #ddd;
+      padding: 10px 10px;
+    }
+
+    footer h3 {
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    footer .contact,
+    footer .socials,
+    footer .copyright {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    footer .contact ul,
+    footer .socials ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    footer .contact ul a,
+    footer .socials ul a {
+      text-decoration: none;
+      color: #000;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutButton = document.querySelector("#logout-button");
+
+      logoutButton.addEventListener("click", async () => {
+        try {
+          const token = localStorage.getItem("token");
+
+          if (!token) {
+            console.error("No token found. You are not logged in.");
+            window.location.href = "/"; // Redirect to login page
+            return;
           }
-        });
+
+          const response = await fetch("auth/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            localStorage.removeItem("token");
+            window.location.href = "/"; // Redirect to login page
+          } else {
+            console.error("Logout failed:", data);
+          }
+        } catch (error) {
+          console.error("Logout error:", error);
+        }
       });
-    </script>
-  </head>
-  <body>
-    <div class="main">
-      <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
+    });
+  </script>
+</head>
 
-      <nav class="navbar">
-        <a href="#">Home</a>
-        <a href="#">Flights</a>
-        <a href="#">Check-in</a>
-        <a href="#">Baggage</a>
-        <a href="#">Help</a>
-        <button id="logout-button">Logout</button>
-      </nav>
+<body>
+  <div class="main">
+    <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
 
-      <main>
-        <center>
-          <h3>Welcome to Air View.</h3>
-          <p>This is another paragraph.</p>
-        </center>
-      </main>
+    <nav class="navbar">
+      <a href="#">Home</a>
+      <a href="#">Flights</a>
+      <a href="#">Check-in</a>
+      <a href="#">Baggage</a>
+      <a href="#">Help</a>
+      <button id="logout-button">Logout</button>
+    </nav>
 
-      <footer>
-        <h3>Contact Us</h3>
-        <div class="contact">
-          <ul>
-            <li><a href="tel:314673829">314673829</a></li>
-            <li><a href="mailto:AirView@gmail.com">AirView@gmail.com</a></li>
-          </ul>
-        </div>
-        <div class="socials">
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Twitter</a></li>
-          </ul>
-        </div>
-        <div class="copyright">
-          <p>&copy; 2024</p>
-        </div>
-      </footer>
-    </div>
-  </body>
+    <main>
+      <center>
+        <h3>Welcome to Air View.</h3>
+        <p>This is another paragraph.</p>
+      </center>
+    </main>
+
+    <footer>
+      <h3>Contact Us</h3>
+      <div class="contact">
+        <ul>
+          <li><a href="tel:314673829">314673829</a></li>
+          <li><a href="mailto:AirView@gmail.com">AirView@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="socials">
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+        </ul>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2024</p>
+      </div>
+    </footer>
+  </div>
+</body>
+
 </html>

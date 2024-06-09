@@ -3,22 +3,35 @@ import logging
 import os
 from werkzeug.security import check_password_hash
 
-# Get the current directory of the script
-current_dir = os.path.dirname(__file__)
-
-# Construct the full path to the database file
-DATABASE = os.path.join(current_dir, '..', 'database', 'appdata.db')
-
-# Configure logging
+# Initialize DATABASE.
+DATABASE = None 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+def set_database_path(db_path):
+    global DATABASE
+    DATABASE = db_path
+    logger.debug(f"Database path set to: {DATABASE}")
+
 def get_db_connection():
+    """
+    Establish database connection
+    """
+    if DATABASE is None:
+        raise ValueError("Database path is not set. Call set_database_path() first.")
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
 def create_user(email, username, password, is_admin=False):
+    """
+    Takes argument:
+        - email
+        - username
+        - password
+        - is_admin (bool)
+    Create new user and store user data in appdata.db
+    """
     try:
         with get_db_connection() as conn:
             conn.execute(
@@ -30,6 +43,10 @@ def create_user(email, username, password, is_admin=False):
         logger.error("Error creating user: %s", e)
 
 def get_user_by_email(email):
+    """
+    Takes email as argument
+    Retrieve a user from the database by email.
+    """
     try:
         with get_db_connection() as conn:
             user = conn.execute('SELECT * FROM userdata WHERE email = ?', (email,)).fetchone()
@@ -40,6 +57,10 @@ def get_user_by_email(email):
         return None
 
 def get_user_by_username(username):
+    """
+    Takes username as argument.
+    Retrieve a user from the database by username.
+    """
     try:
         with get_db_connection() as conn:
             user = conn.execute('SELECT * FROM userdata WHERE username = ?', (username,)).fetchone()
@@ -50,6 +71,12 @@ def get_user_by_username(username):
         return None
 
 def check_user_credentials(password, email):
+    """
+    Take password and email as argument.
+    Authenticate user and return True
+    if user credentials are valid, else
+    return false.
+    """
     try:
         user = get_user_by_email(email)
         if user and check_password_hash(user['password'], password):
