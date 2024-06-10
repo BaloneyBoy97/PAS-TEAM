@@ -114,21 +114,21 @@
             const flightElement = document.createElement('div');
             flightElement.classList.add('flight');
             flightElement.innerHTML = `
-                <p><strong>Flight Number:</strong> ${flights.flightnumber}</p>
-                <p><strong>Origin:</strong> ${flights.origin}</p>
-                <p><strong>Destination:</strong> ${flights.destination}</p>
-                <p><strong>Departure Time:</strong> ${flights.departuretime}</p>
-                <p><strong>Arrival Time:</strong> ${flights.arrivaltime}</p>
-                <p><strong>Status:</strong> ${flights.status}</p>
-                <p><strong>Gate Number:</strong> ${flights.gate_number}</p>
+                <p><strong>Flight Number:</strong> ${flights[1]}</p>
+                <p><strong>Origin:</strong> ${flights[2]}</p>
+                <p><strong>Destination:</strong> ${flights[3]}</p>
+                <p><strong>Departure Time:</strong> ${flights[4]}</p>
+                <p><strong>Arrival Time:</strong> ${flights[5]}</p>
+                <p><strong>Status:</strong> ${flights[6]}</p>
+                <p><strong>Gate Number:</strong> ${flights[7]}</p>
             `;
             const checkinButton = document.createElement('button');
             checkinButton.classList.add('checkin-button');
             checkinButton.textContent = 'Check-in';
             checkinButton.onclick = function () {
                 const token = localStorage.getItem("token");
-                const userId = flights.user_id;
-                fetch("/check-in", {
+                const userId = flights[8];
+                fetch("/checkin/check-in", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

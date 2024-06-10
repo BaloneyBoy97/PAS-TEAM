@@ -34,14 +34,21 @@ def get_db_connection():
 # Function to fetch booked flights for a user
 def get_booked_flights(user_id):
     try:
+        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
+        os.makedirs(database_dir, exist_ok=True)
+
+        db_path = os.path.join(database_dir, 'appdata.db')
+
+        conn = sqlite3.connect(db_path)
+        curr = conn.cursor()
+
         if user_id is not None:
-            with get_db_connection() as conn:
-                print("I am Inside")
-                booked_flights = conn.execute("SELECT * FROM bookings WHERE userid=?", (user_id,)).fetchone()
-                if booked_flights:
-                    logger.debug("User retrieved by flights: %s", booked_flights)
-                else:
-                    logger.debug("No booked flights found for user with ID: %s", user_id)
+            booked_flights = curr.execute("SELECT * FROM bookings WHERE userid=?", (user_id,)).fetchone()
+            if booked_flights:
+                logger.debug("User retrieved by flights: %s", booked_flights)
+            else:
+                logger.debug("No booked flights found for user with ID: %s", user_id)
+
             return booked_flights
         else:
             logger.error("No user found for userid: %s", user_id)
@@ -55,8 +62,15 @@ def get_flight_details(flight_id):
     Fetch flight details based on flight ID.
     """
     try:
-        with get_db_connection() as conn:
-            flight_details = conn.execute("SELECT * FROM flights WHERE flightid=?", (flight_id,)).fetchone()
+        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
+        os.makedirs(database_dir, exist_ok=True)
+
+        db_path = os.path.join(database_dir, 'appdata.db')
+
+        conn = sqlite3.connect(db_path)
+        curr = conn.cursor()
+
+        flight_details = curr.execute("SELECT * FROM flights WHERE flightid=?", (flight_id,)).fetchone()
         logger.debug("Flight details retrieved by flight ID: %s", flight_id)
         return flight_details
     except sqlite3.Error as e:
