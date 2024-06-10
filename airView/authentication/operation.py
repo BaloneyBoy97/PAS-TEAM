@@ -1,36 +1,41 @@
 import sqlite3
 import logging
-import os
+from flask import session
 from werkzeug.security import check_password_hash
 
-# Initialize DATABASE.
+"""
+Initialize DATABASE.
+Configure logging
+"""
 DATABASE = None 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 def set_database_path(db_path):
+    """
+    Ensure all database operation within 
+    booking use this database path
+    """
     global DATABASE
     DATABASE = db_path
-    logger.debug(f"Database path set to: {DATABASE}")
 
 def get_db_connection():
     """
-    Establish database connection
+    establish database connection
     """
-    if DATABASE is None:
-        raise ValueError("Database path is not set. Call set_database_path() first.")
+    
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
 def create_user(email, username, password, is_admin=False):
     """
-    Takes argument:
+    takes argument:
         - email
         - username
         - password
         - is_admin (bool)
-    Create new user and store user data in appdata.db
+    create new user and store user data in appdata.db
     """
     try:
         with get_db_connection() as conn:
@@ -44,7 +49,7 @@ def create_user(email, username, password, is_admin=False):
 
 def get_user_by_email(email):
     """
-    Takes email as argument
+    takes  email as argument
     Retrieve a user from the database by email.
     """
     try:
@@ -54,11 +59,11 @@ def get_user_by_email(email):
         return user
     except sqlite3.Error as e:
         logger.error("Error retrieving user by email: %s", e)
-        return None
+        return None    
 
 def get_user_by_username(username):
     """
-    Takes username as argument.
+    takes username as argument.
     Retrieve a user from the database by username.
     """
     try:

@@ -15,9 +15,7 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      /* Full viewport height */
       width: 100vw;
-      /* Full viewport width */
     }
 
     h1 {
@@ -93,6 +91,7 @@
       logoutButton.addEventListener("click", async () => {
         try {
           const token = localStorage.getItem("token");
+          console.log("Token on page load:", token); // Debugging token retrieval
 
           if (!token) {
             console.error("No token found. You are not logged in.");
@@ -100,15 +99,25 @@
             return;
           }
 
-          const response = await fetch("auth/logout", {
+          // Validate token format
+          const tokenParts = token.split('.');
+          if (tokenParts.length !== 3) {
+            console.error("Invalid token format:", token);
+            window.location.href = "/"; // Redirect to login page
+            return;
+          }
+
+          console.log("Attempting logout with token:", token); // Debugging token before logout
+          const response = await fetch("/logout", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              "Authorization": `Bearer ${token}`,
             },
           });
 
           const data = await response.json();
+          console.log("Logout response:", data); // Debugging logout response
 
           if (response.ok) {
             localStorage.removeItem("token");
@@ -131,7 +140,7 @@
     <nav class="navbar">
       <a href="#">Home</a>
       <a href="#">Flights</a>
-      <a href="#">Check-in</a>
+      <a href="checkin.html">Check-in</a>
       <a href="#">Baggage</a>
       <a href="#">Help</a>
       <button id="logout-button">Logout</button>

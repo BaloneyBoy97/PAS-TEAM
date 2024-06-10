@@ -1,3 +1,5 @@
+# feature.py
+
 #!/usr/bin/env python3
 from flask import Blueprint, request, jsonify, make_response
 from werkzeug.security import generate_password_hash
@@ -26,6 +28,7 @@ User Authentication Blueprint
 auth_bp = Blueprint('auth_bp', __name__)
 
 @auth_bp.route('/register', methods=['POST'])
+
 def user_registration():
     """
     Checking for empty field when registering.

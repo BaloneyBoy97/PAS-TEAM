@@ -10,6 +10,10 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         header {
@@ -17,18 +21,16 @@
             color: white;
             text-align: center;
             padding: 1em 0;
+            width: 100%;
         }
 
         main {
             padding: 20px;
-        }
-
-        .search-section {
-            background: white;
-            padding: 20px;
+            background-color: white;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .form-group {
@@ -54,11 +56,16 @@
             margin-right: 0;
         }
 
-        .form-group input,
-        .form-group select {
+        .form-group input {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+        }
+
+        .form-group .fixed-input {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            cursor: not-allowed;
         }
 
         button {
@@ -68,6 +75,7 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            width: 100%;
         }
 
         button:hover {
@@ -79,57 +87,34 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         #results {
             margin-top: 20px;
         }
-
-        .trip-type {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .trip-type input {
-            margin-right: 10px;
-        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Flight Search</h1>
-    </header>
     <main>
+        <header>
+            <h1>Flight Search</h1>
+        </header>
         <section class="search-section">
             <form id="flight-search-form">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="departure">🛫 Departure:</label>
-                        <input type="text" id="departure" name="departure" placeholder="City or Airport">
+                        <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input" readonly>
                     </div>
                     <div class="form-group">
                         <label for="destination">🛬 Destination:</label>
                         <input type="text" id="destination" name="destination" placeholder="City or Airport">
                     </div>
                 </div>
-                <div class="trip-type">
-                    <label><input type="radio" name="trip-type" value="round-trip" checked> Round-Trip</label>
-                    <label><input type="radio" name="trip-type" value="one-way"> One-Way</label>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="departure-date">📅 Departure Date:</label>
-                        <input type="date" id="departure-date" name="departure-date">
-                    </div>
-                    <div class="form-group">
-                        <label for="return-date">📅 Return Date:</label>
-                        <input type="date" id="return-date" name="return-date">
-                    </div>
-                </div>
                 <div class="form-group">
-                    <label for="passengers">👥 Passengers:</label>
-                    <input type="number" id="passengers" name="passengers" min="1" max="10">
+                    <label for="departure-date">📅 Departure Date:</label>
+                    <input type="date" id="departure-date" name="departure-date">
                 </div>
                 <button type="submit">Search Flights</button>
             </form>
@@ -144,23 +129,18 @@
             event.preventDefault();
             const departure = document.getElementById('departure').value;
             const destination = document.getElementById('destination').value;
-            const tripType = document.querySelector('input[name="trip-type"]:checked').value;
             const departureDate = document.getElementById('departure-date').value;
-            const returnDate = document.getElementById('return-date').value;
-            const passengers = document.getElementById('passengers').value;
 
             // For demonstration purposes, we'll just log the values
             console.log('Departure:', departure);
             console.log('Destination:', destination);
-            console.log('Trip Type:', tripType);
             console.log('Departure Date:', departureDate);
-            console.log('Return Date:', returnDate);
-            console.log('Passengers:', passengers);
 
             // Here you would typically make an API call to a flight search service
             // and update the #results div with the search results.
-            document.getElementById('results').innerHTML = `<p>Searching flights from ${departure} to ${destination} on ${departureDate} returning on ${returnDate} for ${passengers} passengers (${tripType})...</p>`;
+            document.getElementById('results').innerHTML = `<p>Searching flights from ${departure} to ${destination} on ${departureDate}...</p>`;
         });
     </script>
 </body>
 </html>
+
