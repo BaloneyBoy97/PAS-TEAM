@@ -1,6 +1,6 @@
 import sqlite3
 import logging
-import os
+from flask import session
 from werkzeug.security import check_password_hash
 
 """
@@ -59,7 +59,7 @@ def get_user_by_email(email):
         return user
     except sqlite3.Error as e:
         logger.error("Error retrieving user by email: %s", e)
-        return None
+        return None    
 
 def get_user_by_username(username):
     """
