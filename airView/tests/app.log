@@ -74,3 +74,5 @@
 2024-06-09 22:31:16,446 - environment.app - ERROR - Error type: UnsupportedMediaType
 2024-06-09 22:31:28,185 - environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
 2024-06-09 22:31:28,185 - environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-09 22:42:56,954 - environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-09 22:42:56,954 - environment.app - ERROR - Error type: UnsupportedMediaType

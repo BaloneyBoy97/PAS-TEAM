@@ -13,7 +13,7 @@ def get_booked_flights_endpoint():
         if user_id:
             booked_flights = get_booked_flights(user_id)
             if booked_flights:
-                flight_id = booked_flights[3]  # Assuming 'flightid' is the column name
+                flight_id = booked_flights[2]  # Assuming 'flightid' is the column name
                 # Get flight details using the flight_id
                 flight_details = get_flight_details(flight_id)
                 # Extract data from the sqlite3.Row object
