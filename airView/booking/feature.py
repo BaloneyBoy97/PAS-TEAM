@@ -3,14 +3,13 @@ from flask_mail import Mail
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from booking.operation import booking_flight, get_available_seats, set_mail_instance
 
-"""
-create booking blueprint to define routes of booking page.
-Initialize Mail object for Email Notification.
-send mail instance to booking/operation.py for Email operation
-"""
+# create booking blueprint to define routes of booking page
 booking_bp = Blueprint('booking_bp', __name__)
 
+# Initialize Mail object for Email Notification
 mail = Mail()
+
+# send mail instance to booking/operation.py for Email operation
 set_mail_instance(mail)
 
 @booking_bp.route('/available_seats', methods=['GET'])
@@ -42,7 +41,7 @@ def book():
         - FLIGHT ID
     calls to booking function to process booking
     """
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity()  # Get the user ID from the JWT token
     data = request.json
     result, status_code = booking_flight(data, user_id)
     return jsonify(result), status_code
