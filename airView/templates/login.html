@@ -1,98 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Login to AirView for easy flight booking and check-in."
-    />
-    <title>Login - Air View</title>
-    <style>
-      body {
-        background-color: #fdf5df;
-        display: flex;
-        font-family: "Times New Roman", Times, serif;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      form {
-        padding: 20px 20px 0px 0px;
-      }
-      .login-container {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        width: 400px;
-        height: 400px;
-        text-align: center;
-      }
-      .login-container h1 {
-        color: #5ebec4;
-        margin-bottom: 10px;
-        font-style: italic;
-        font-size: 2em;
-      }
-      .letter {
-        color: #f92c85;
-        font-style: normal;
-        font-size: 1.4em;
-      }
-      .login-container input[type="email"],
-      .login-container input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
-      .login-container input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        background-color: #5ebec4;
-        border: none;
-        border-radius: 4px;
-        color: #fff;
-        font-size: 1em;
-        cursor: pointer;
-        margin-top: 20px;
-      }
-      .login-container input[type="submit"]:hover {
-        background-color: #1ab7b1;
-      }
-      .login-container a {
-        display: block;
-        margin-top: 20px;
-        color: #5ebec4;
-        text-decoration: none;
-        font-size: 1em;
-      }
-      .login-container a:hover {
-        text-decoration: underline;
-      }
-      .error-message {
-        color: red;
-        font-size: 0.9em;
-        margin-top: 10px;
-        display: none;
-      }
-    </style>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const loginForm = document.querySelector("form");
-        const errorMessage = document.querySelector(".error-message");
 
-        loginForm.addEventListener("submit", async (event) => {
-          event.preventDefault();
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Login to AirView for easy flight booking and check-in." />
+  <title>Login - Air View</title>
+  <style>
+    body {
+      background-color: #fdf5df;
+      display: flex;
+      font-family: "Times New Roman", Times, serif;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-          const email = event.target.email.value;
-          const password = event.target.password.value;
+    form {
+      padding: 20px 20px 0px 0px;
+    }
+
+    .login-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      width: 400px;
+      height: 400px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      color: #5ebec4;
+      margin-bottom: 10px;
+      font-style: italic;
+      font-size: 2em;
+    }
+
+    .letter {
+      color: #f92c85;
+      font-style: normal;
+      font-size: 1.4em;
+    }
+
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .login-container input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #5ebec4;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .login-container input[type="submit"]:hover {
+      background-color: #1ab7b1;
+    }
+
+    .login-container a {
+      display: block;
+      margin-top: 20px;
+      color: #5ebec4;
+      text-decoration: none;
+      font-size: 1em;
+    }
+
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.querySelector("form");
+      const errorMessage = document.querySelector(".error-message");
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
 
           try {
-            const response = await fetch("/login", {
+            const response = await fetch("/auth/login", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -100,56 +108,50 @@
               body: JSON.stringify({ email, password }),
             });
 
-            if (
-              response.headers.get("content-type").includes("application/json")
-            ) {
-              const data = await response.json();
+          if (response.headers.get("content-type").includes("application/json")) {
+            const data = await response.json();
 
-              if (!response.ok) {
-                throw new Error(data.message || "Login failed");
-              }
-
-              if (data.message === "Logged in!") {
-                window.location.href = "home.html";
-              } else {
-                errorMessage.textContent = data.message;
-                errorMessage.style.display = "block";
-
-                // Reset error message after 5 seconds
-                setTimeout(() => {
-                  errorMessage.textContent = "";
-                  errorMessage.style.display = "none";
-                }, 5000);
-              }
-            } else {
-              // If response is not JSON, handle it as HTML
-              const htmlResponse = await response.text();
-              document.body.innerHTML = htmlResponse;
+            if (!response.ok) {
+              throw new Error(data.message || "Login failed");
             }
-          } catch (error) {
-            errorMessage.textContent = error.message;
-            errorMessage.style.display = "block";
+
+            // Store token in localStorage
+            localStorage.setItem("token", data.access_token);
+
+            // Redirect to home page
+            window.location.href = "home.html";
+          } else {
+            // If response is not JSON, handle it as HTML
+            const htmlResponse = await response.text();
+            document.body.innerHTML = htmlResponse;
           }
-        });
+        } catch (error) {
+          errorMessage.textContent = error.message;
+          errorMessage.style.display = "block";
+
+          // Reset error message after 5 seconds
+          setTimeout(() => {
+            errorMessage.textContent = "";
+            errorMessage.style.display = "none";
+          }, 5000);
+        }
       });
-    </script>
-  </head>
-  <body>
-    <div class="login-container">
-      <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
-      <form>
-        <input type="email" name="email" placeholder="Email" required />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-        <input type="submit" value="Login" />
-      </form>
-      <a href="signup.html">Don't have an account? Sign up</a>
-      <a href="forgot-password.html">Forgot your password?</a>
-      <p class="error-message"></p>
-    </div>
-  </body>
+    });
+  </script>
+</head>
+
+<body>
+  <div class="login-container">
+    <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
+    <form>
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="submit" value="Login" />
+    </form>
+    <a href="signup.html">Don't have an account? Sign up</a>
+    <a href="forgot-password.html">Forgot your password?</a>
+    <p class="error-message"></p>
+  </div>
+</body>
+
 </html>
