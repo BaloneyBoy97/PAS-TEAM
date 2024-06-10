@@ -168,3 +168,27 @@
 2024-06-09 20:31:04,686 - app - ERROR - Error type: NotFound
 2024-06-09 20:36:25,329 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-09 20:36:25,329 - app - ERROR - Error type: NotFound
+2024-06-09 23:16:54,061 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-09 23:16:54,064 - app - ERROR - Error type: NotFound
+2024-06-09 23:24:00,463 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:24:00,476 - app - ERROR - Error type: AttributeError
+2024-06-09 23:25:23,957 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:25:23,967 - app - ERROR - Error type: AttributeError
+2024-06-09 23:35:04,592 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:35:04,592 - app - ERROR - Error type: AttributeError
+2024-06-09 23:36:04,036 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:36:04,036 - app - ERROR - Error type: AttributeError
+2024-06-09 23:36:43,597 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:36:43,598 - app - ERROR - Error type: AttributeError
+2024-06-09 23:37:24,660 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:37:24,660 - app - ERROR - Error type: AttributeError
+2024-06-09 23:38:19,964 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-09 23:38:19,964 - app - ERROR - Error type: AttributeError
+2024-06-10 00:11:21,007 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-10 00:11:21,011 - app - ERROR - Error type: AttributeError
+2024-06-10 00:11:50,606 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-10 00:11:50,616 - app - ERROR - Error type: AttributeError
+2024-06-10 00:13:32,176 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-10 00:13:32,184 - app - ERROR - Error type: NotFound
+2024-06-10 00:14:11,239 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-10 00:14:11,239 - app - ERROR - Error type: AttributeError
