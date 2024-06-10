@@ -28,6 +28,7 @@ User Authentication Blueprint
 auth_bp = Blueprint('auth_bp', __name__)
 
 @auth_bp.route('/register', methods=['POST'])
+
 def user_registration():
     """
     Checking for empty field when registering.

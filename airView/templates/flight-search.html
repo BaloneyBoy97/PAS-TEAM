@@ -1,199 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Search</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-      header {
-        background-color: #4caf50;
-        color: white;
-        text-align: center;
-        padding: 1em 0;
-      }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+        }
 
-      main {
-        padding: 20px;
-      }
+        main {
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
 
-      .search-section {
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-      }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-      .form-group {
-        margin-bottom: 15px;
-      }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-      .form-group label {
-        display: block;
-        margin-bottom: 5px;
-      }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
 
-      .form-row {
-        display: flex;
-        justify-content: space-between;
-      }
+        .form-row .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
 
-      .form-row .form-group {
-        flex: 1;
-        margin-right: 10px;
-      }
+        .form-row .form-group:last-child {
+            margin-right: 0;
+        }
 
-      .form-row .form-group:last-child {
-        margin-right: 0;
-      }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
 
-      .form-group input,
-      .form-group select {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-      }
+        .form-group .fixed-input {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            cursor: not-allowed;
+        }
 
-      button {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-      }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
 
-      button:hover {
-        background-color: #45a049;
-      }
+        button:hover {
+            background-color: #45a049;
+        }
 
-      .results-section {
-        background: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+        .results-section {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
 
-      #results {
-        margin-top: 20px;
-      }
-
-      .trip-type {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .trip-type input {
-        margin-right: 10px;
-      }
+        #results {
+            margin-top: 20px;
+        }
     </style>
-  </head>
-  <body>
-    <header>
-      <h1>Flight Search</h1>
-    </header>
+</head>
+<body>
     <main>
-      <section class="search-section">
-        <form id="flight-search-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="departure">🛫 Departure:</label>
-              <input
-                type="text"
-                id="departure"
-                name="departure"
-                placeholder="City or Airport"
-              />
-            </div>
-            <div class="form-group">
-              <label for="destination">🛬 Destination:</label>
-              <input
-                type="text"
-                id="destination"
-                name="destination"
-                placeholder="City or Airport"
-              />
-            </div>
-          </div>
-          <div class="trip-type">
-            <label
-              ><input
-                type="radio"
-                name="trip-type"
-                value="round-trip"
-                checked
-              />
-              Round-Trip</label
-            >
-            <label
-              ><input type="radio" name="trip-type" value="one-way" />
-              One-Way</label
-            >
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="departure-date">📅 Departure Date:</label>
-              <input type="date" id="departure-date" name="departure-date" />
-            </div>
-            <div class="form-group">
-              <label for="return-date">📅 Return Date:</label>
-              <input type="date" id="return-date" name="return-date" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="passengers">👥 Passengers:</label>
-            <input
-              type="number"
-              id="passengers"
-              name="passengers"
-              min="1"
-              max="10"
-            />
-          </div>
-          <button type="submit">Search Flights</button>
-        </form>
-      </section>
-      <section class="results-section">
-        <h2>Search Results</h2>
-        <div id="results"></div>
-      </section>
+        <header>
+            <h1>Flight Search</h1>
+        </header>
+        <section class="search-section">
+            <form id="flight-search-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="departure">🛫 Departure:</label>
+                        <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">🛬 Destination:</label>
+                        <input type="text" id="destination" name="destination" placeholder="City or Airport">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="departure-date">📅 Departure Date:</label>
+                    <input type="date" id="departure-date" name="departure-date">
+                </div>
+                <button type="submit">Search Flights</button>
+            </form>
+        </section>
+        <section class="results-section">
+            <h2>Search Results</h2>
+            <div id="results"></div>
+        </section>
     </main>
     <script>
-      document
-        .getElementById("flight-search-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-          const departure = document.getElementById("departure").value;
-          const destination = document.getElementById("destination").value;
-          const tripType = document.querySelector(
-            'input[name="trip-type"]:checked'
-          ).value;
-          const departureDate = document.getElementById("departure-date").value;
-          const returnDate = document.getElementById("return-date").value;
-          const passengers = document.getElementById("passengers").value;
+        document.getElementById('flight-search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const departure = document.getElementById('departure').value;
+            const destination = document.getElementById('destination').value;
+            const departureDate = document.getElementById('departure-date').value;
 
-          // For demonstration purposes, we'll just log the values
-          console.log("Departure:", departure);
-          console.log("Destination:", destination);
-          console.log("Trip Type:", tripType);
-          console.log("Departure Date:", departureDate);
-          console.log("Return Date:", returnDate);
-          console.log("Passengers:", passengers);
+            // For demonstration purposes, we'll just log the values
+            console.log('Departure:', departure);
+            console.log('Destination:', destination);
+            console.log('Departure Date:', departureDate);
 
-          // Here you would typically make an API call to a flight search service
-          // and update the #results div with the search results.
-          document.getElementById(
-            "results"
-          ).innerHTML = `<p>Searching flights from ${departure} to ${destination} on ${departureDate} returning on ${returnDate} for ${passengers} passengers (${tripType})...</p>`;
+            // Here you would typically make an API call to a flight search service
+            // and update the #results div with the search results.
+            document.getElementById('results').innerHTML = `<p>Searching flights from ${departure} to ${destination} on ${departureDate}...</p>`;
         });
     </script>
-  </body>
+</body>
 </html>
+

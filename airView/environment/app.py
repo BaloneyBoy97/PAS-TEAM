@@ -92,15 +92,15 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
 """
-Set the database path from 
-environment variables.
+Set the database path
 Initialize API, JWT, MAIL
+os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
 """
-database_url = os.getenv('DATABASE_URL')
-if database_url is None:
-    database_url = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
+database_url = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
 app.config['DATABASE'] = database_url
 auth_ops.set_database_path(app.config['DATABASE'])
+
+
 
 api = Api(app)
 jwt = JWTManager(app)
