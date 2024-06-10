@@ -87,6 +87,7 @@
     <script>
         async function fetchBookedFlights(token) {
             try {
+                const token = localStorage.getItem("token");
                 const response = await fetch("/checkin/get-booked-flights", {
                     method: "GET",
                     headers: {
