@@ -3,22 +3,15 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
     steps:
       - checkout
       - run:
           name: Install dependencies
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+          command: pip install -r requirements.txt
       - run:
           name: Run tests
-          command: |
-            . venv/bin/activate
-            pytest tests/ --junitxml=results.xml
-      - store_test_results:
-          path: results.xml
+          command: pytest tests/  # This runs all test files in the tests directory
 
   build_and_push:
     docker:
@@ -29,17 +22,20 @@ jobs:
           version: 19.03.13
       - run:
           name: Build Docker Image
-          command: docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
+          command: |
+            docker build -t $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1} .
       - run:
           name: Authenticate with Docker Hub
-          command: echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: Push Docker Image to Docker Hub
-          command: docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
+          command: |
+            docker push $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1}
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - test
       - build_and_push:
