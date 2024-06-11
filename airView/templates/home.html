@@ -4,32 +4,42 @@
 <head>
   <meta charset="UTF-8" />
   <title>AirView Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      background-color: #fdf5df;
+      background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     .main {
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      width: 100vw;
+      flex-grow: 1;
     }
 
     h1 {
       text-align: center;
+      background-color: #07103a8f;
       color: #5ebec4;
       font-style: italic;
-      font-size: 300%;
+      font-size: 3em;
+      padding: 1rem 0;
+      margin: 0;
     }
 
     main h3 {
       text-align: center;
       color: #003538;
       font-style: italic;
-      font-size: 150%;
+      font-size: 1.5em;
+      margin: 1em 0;
     }
 
     .letter {
@@ -51,17 +61,93 @@
       padding: 10px;
     }
 
+    #logout-button {
+      padding: 10px;
+      background-color: #5ebec4;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1em;
+    }
+
+    .content {
+      flex-grow: 1;
+    }
+
+    .reviews {
+      display: flex;
+      overflow: hidden;
+      background-color: #005a730d;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 400px;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .review-container {
+      display: flex;
+      animation: slide 30s linear infinite;
+    }
+
+    .review-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #001986ce;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.89);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      margin-left: 50px;
+      width: 300px;
+      text-align: center;
+      flex-shrink: 0;
+      transition: transform 0.5s;
+    }
+
+    .review-card img {
+      border-radius: 50%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .review-card h4 {
+      color: #ffffff;
+      margin: 5px 0;
+    }
+
+    .review-card p {
+      color: #ffffff;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .stars {
+      color: #ffcc00;
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+
     footer {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       justify-items: center;
-      background-color: #ddd;
-      padding: 10px 10px;
+      background-color: #0036877d;
+      padding: 10px;
+      margin-top: 10px;
     }
 
     footer h3 {
+      font-size: 1.5em;
+      font-weight: 900;
       grid-column: 1 / -1;
       text-align: center;
+      margin: 1em 0;
     }
 
     footer .contact,
@@ -76,12 +162,29 @@
     footer .socials ul {
       list-style-type: none;
       padding: 0;
+      margin: 0;
+    }
+
+    footer .contact ul li,
+    footer .socials ul li {
+      padding-bottom: 5px;
+      font-weight: 600;
     }
 
     footer .contact ul a,
     footer .socials ul a {
       text-decoration: none;
       color: #000;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
   </style>
   <script>
@@ -91,7 +194,6 @@
       logoutButton.addEventListener("click", async () => {
         try {
           const token = localStorage.getItem("token");
-          console.log("Token on page load:", token); // Debugging token retrieval
 
           if (!token) {
             console.error("No token found. You are not logged in.");
@@ -99,36 +201,46 @@
             return;
           }
 
-          // Validate token format
-          const tokenParts = token.split('.');
-          if (tokenParts.length !== 3) {
-            console.error("Invalid token format:", token);
-            window.location.href = "/"; // Redirect to login page
-            return;
-          }
-
-          console.log("Attempting logout with token:", token); // Debugging token before logout
           const response = await fetch("/logout", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
-
-          const data = await response.json();
-          console.log("Logout response:", data); // Debugging logout response
 
           if (response.ok) {
             localStorage.removeItem("token");
             window.location.href = "/"; // Redirect to login page
           } else {
+            const data = await response.json();
             console.error("Logout failed:", data);
           }
         } catch (error) {
           console.error("Logout error:", error);
         }
       });
+
+      // Function to clone reviews and re-append to the container
+      const reviewContainer = document.querySelector(".review-container");
+      const reviews = Array.from(document.querySelectorAll(".review-card"));
+
+      function cloneReviews() {
+        reviews.forEach((review) => {
+          const clone = review.cloneNode(true);
+          reviewContainer.appendChild(clone);
+        });
+      }
+
+      // Clone reviews initially
+      cloneReviews();
+
+      // Continuously clone reviews
+      setInterval(() => {
+        const firstReview = reviewContainer.firstElementChild;
+        firstReview.remove();
+        reviewContainer.appendChild(firstReview.cloneNode(true));
+      }, 5000); // Adjust the interval to match the animation duration
     });
   </script>
 </head>
@@ -139,19 +251,69 @@
 
     <nav class="navbar">
       <a href="#">Home</a>
-      <a href="#">Flights</a>
+      <a href="flight-search.html">Flights</a>
       <a href="checkin.html">Check-in</a>
       <a href="#">Baggage</a>
       <a href="#">Help</a>
       <button id="logout-button">Logout</button>
     </nav>
 
-    <main>
+    <div class="content">
       <center>
         <h3>Welcome to Air View.</h3>
         <p>This is another paragraph.</p>
       </center>
-    </main>
+    </div>
+
+    <div class="reviews">
+      <div class="review-container">
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg" alt="Customer 1" />
+          <h4>John Doe</h4>
+          <div class="stars">★★★★☆</div>
+          <p>
+            "Great experience! Highly recommend AirView for smooth and
+            hassle-free travel."
+          </p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png" alt="Customer 2" />
+          <h4>Jane Smith</h4>
+          <div class="stars">★★★★★</div>
+          <p>
+            "Excellent service and friendly staff. Will definitely book
+            again!"
+          </p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg" alt="Customer 3" />
+          <h4>Mark Wilson</h4>
+          <div class="stars">★★★★☆</div>
+          <p>"Good overall, but the check-in process could be faster."</p>
+        </div>
+        <div class="review-card">
+          <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
+            alt="Customer 4" />
+          <h4>Linda Johnson</h4>
+          <div class="stars">★★★★★</div>
+          <p>"A fantastic airline! Punctual and professional."</p>
+        </div>
+        <div class="review-card">
+          <img
+            src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
+            alt="Customer 5" />
+          <h4>Mike Brown</h4>
+          <div class="stars">★★★★☆</div>
+          <p>"Great value for money and excellent customer service."</p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png" alt="Customer 6" />
+          <h4>Emily Davis</h4>
+          <div class="stars">★★★★★</div>
+          <p>"Best flight experience I've ever had! Highly recommended."</p>
+        </div>
+      </div>
+    </div>
 
     <footer>
       <h3>Contact Us</h3>
