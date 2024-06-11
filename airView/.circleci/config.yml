@@ -3,9 +3,9 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.8  # Use CircleCI's Python image
     steps:
-      - checkout
+      - checkout  # Checkout the code
       - run:
           name: Install dependencies
           command: |
@@ -16,11 +16,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            pytest --junitxml=test-results/results.xml
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
+            pytest tests/  # Discover and run tests in the `tests` directory
 
   build_and_push:
     docker:
@@ -32,7 +28,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1} .
+            docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
       - run:
           name: Authenticate with Docker Hub
           command: |
@@ -40,11 +36,11 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            docker push $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1}
+            docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
 
 workflows:
   version: 2
-  build_and_test:
+  test_and_deploy:
     jobs:
       - test
       - build_and_push:
