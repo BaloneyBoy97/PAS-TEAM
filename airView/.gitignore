@@ -1,1 +1,17 @@
-.pyc
+# ignore .log files
+.log
+
+# Environments
+.env
+.venv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Unit test / coverage reports
+.cache
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so

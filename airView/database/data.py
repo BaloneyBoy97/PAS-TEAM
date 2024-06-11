@@ -56,7 +56,7 @@ curr.execute("""
         seatid INTEGER,
         num_luggage INTEGER,
         booking_time TEXT NOT NULL,
-        is_checkedin BOOLEAN NOT NULL DEFAULT 0,
+        is_checked_in BOOLEAN NOT NULL DEFAULT 0,
         FOREIGN KEY (userid) REFERENCES userdata(userid),
         FOREIGN KEY (flightid) REFERENCES flights(flightid),
         FOREIGN KEY (classid) REFERENCES seat_classes(classid),
@@ -181,6 +181,11 @@ for flight_id in range(1, 16):
                 seats.append((seat_id, flight_id, seat_num, class_id, price, 1))
         current_row += num_rows
 curr.executemany("INSERT INTO seats (seatid, flightid, seatnumber, classid, price, is_available) VALUES (?, ?, ?, ?, ?, ?)", seats)
+
+curr.execute("""
+    INSERT INTO bookings (userid, flightid, classid, seatid, num_luggage, booking_time, is_checked_in) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+""", (1, 1, 2, 1, 3, "12:30", 0))
 
 conn.commit()
 conn.close()
