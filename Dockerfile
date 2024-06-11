@@ -8,12 +8,10 @@ WORKDIR /app
 COPY . /app
 
 # Install necessary system dependencies and upgrade pip
-RUN apt-get update || apt-get update || apt-get update \
+RUN apt-get update \
     && apt-get install -y build-essential \
-    && pip install --upgrade pip
-
-# Install Python dependencies
-RUN pip install -r requirements.txt
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
