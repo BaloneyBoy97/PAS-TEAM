@@ -8,11 +8,28 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <style>
     body {
-      background-color: #f8f9fa;
+      background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+      background-size: contain;
+      background-repeat: repeat-y;
+    }
+
+    h2 {
+      color: #f8f9fa;
+      font-size: 3rem;
+      font-weight: 700;
+      padding-top: 40px;
+      padding-bottom: 0;
     }
 
     .container {
       margin-top: 50px;
+      padding: 50px;
+      margin-bottom: 50px;
+      border-radius: 10px;
+      color: aliceblue;
+      font-weight: 500;
+      background-color: rgba(0, 29, 96, 0.63);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.415);
     }
 
     .airplane {
@@ -20,10 +37,7 @@
       max-width: 800px;
       /* Adjusted width for larger seating arrangement */
       margin: 0 auto;
-      background-color: #f0f0f0;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .row {
@@ -75,9 +89,12 @@
 
     .class-container {
       margin-bottom: 20px;
-      padding: 10px;
-      background-color: #e9ecef;
-      border-radius: 5px;
+      margin-top: 0px;
+      padding: 20px 30px;
+      color: #f8f9fa;
+      background-color: #00163c60;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 1);
+      border-radius: 20px;
     }
 
     .class-title {
@@ -88,8 +105,9 @@
 </head>
 
 <body>
+
+  <h2 class="text-center mb-5">Flight Booking</h2>
   <div class="container">
-    <h2 class="text-center mb-5">Flight Booking</h2>
 
     <div class="airplane" id="airplane">
       <!-- Seat layout will be dynamically generated here -->
