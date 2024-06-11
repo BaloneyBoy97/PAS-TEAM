@@ -7,11 +7,8 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install necessary system dependencies and upgrade pip
-RUN apt-get update \
-    && apt-get install -y build-essential \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
