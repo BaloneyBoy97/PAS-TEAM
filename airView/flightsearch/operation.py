@@ -17,7 +17,7 @@ def get_flights(departure, destination, departure_date):
     cursor = conn.cursor()
 
     query = """
-    SELECT flightnumber, origin, destination, departuretime, arrivaltime, status, gate_number
+    SELECT flightid, flightnumber, origin, destination, departuretime, arrivaltime, status, gate_number
     FROM flights
     WHERE origin = ? AND destination = ? AND date(departuretime) = ?
     """

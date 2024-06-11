@@ -9,8 +9,9 @@
   <style>
     body {
       background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
-      background-size: contain;
-      background-repeat: repeat-y;
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
     }
 
     h2 {
@@ -101,6 +102,17 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
+
+    .flight-details {
+      background-color: rgba(0, 29, 96, 0.63);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .flight-details p {
+      margin: 5px 0;
+    }
   </style>
 </head>
 
@@ -108,6 +120,9 @@
 
   <h2 class="text-center mb-5">Flight Booking</h2>
   <div class="container">
+    <div class="flight-details" id="flight-info">
+      <!-- Flight details will be dynamically generated here -->
+    </div>
 
     <div class="airplane" id="airplane">
       <!-- Seat layout will be dynamically generated here -->
@@ -125,6 +140,10 @@
       <div class="form-group">
         <label for="selectedSeat">Selected Seat</label>
         <input type="text" class="form-control" id="selectedSeat" readonly />
+      </div>
+      <div class="form-group">
+        <label for="Flight Id">Flight Id</label>
+        <input type="text" class="form-control" id="FlightId" readonly />
       </div>
       <div class="form-group">
         <label for="baggage">Baggage Add-On</label>
@@ -169,7 +188,50 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
+    function getQueryParams() {
+      const params = {};
+      window.location.search.substring(1).split('&').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[decodeURIComponent(key)] = decodeURIComponent(value);
+      });
+      return params;
+    }
+
+    function formatTimeTo12Hour(time24) {
+      const [hour, minute, second] = time24.split(':');
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const hour12 = hour % 12 || 12;
+      return `${hour12}:${minute} ${ampm}`;
+    }
+
+    function calculateDuration(start, end) {
+      const startTime = new Date(`1970-01-01T${start}Z`);
+      const endTime = new Date(`1970-01-01T${end}Z`);
+      const duration = (endTime - startTime) / (1000 * 60 * 60);
+      return `${Math.floor(duration)}h ${Math.round((duration % 1) * 60)}m`;
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
+      const flight = getQueryParams();
+      const flightInfoDiv = document.getElementById('flight-info');
+      const departureTime12hr = formatTimeTo12Hour(flight.departuretime);
+      const arrivalTime12hr = formatTimeTo12Hour(flight.arrivaltime);
+      const duration = calculateDuration(flight.departuretime, flight.arrivaltime);
+
+      const flightInfoHtml = `
+        <p><strong>Flight Id:</strong> ${flight.flightid}</p>
+        <p><strong>Flight Number:</strong> ${flight.flightnumber}</p>
+        <p><strong>Departure:</strong> ${flight.origin} at ${departureTime12hr}</p>
+        <p><strong>Arrival:</strong> ${flight.destination} at ${arrivalTime12hr}</p>
+        <p><strong>Duration:</strong> ${duration}</p>
+        <p><strong>Stops:</strong> ${flight.stops || 'Non-stop'}</p>
+        <p><strong>Date:</strong> ${flight['departure-date']}</p>
+      `;
+      flightInfoDiv.innerHTML = flightInfoHtml;
+
+      // Set the Flight Id input field value
+      const flightIdinput = document.getElementById('FlightId');
+      flightIdinput.value = flight.flightid; // Assuming flightid is the correct property from your flight object
       const airplane = document.getElementById("airplane");
       const columns = "ABCDEF"; // Assuming 6 seats per row
       const rows_per_class = {
@@ -221,7 +283,7 @@
 
           // Add right aisle
           const aisleRightDiv = document.createElement("div");
-          aisleRightDiv.className = "aisle aisle-right";
+          aisleRightDiv.className = "aisle aisle-right"
           rowDiv.appendChild(aisleRightDiv);
 
           classContainer.appendChild(rowDiv);
@@ -232,6 +294,7 @@
 
       const seats = document.querySelectorAll(".seat");
       const selectedSeatInput = document.getElementById("selectedSeat");
+      const flightIdInput = document.getElementById("FlightId");
 
       seats.forEach((seat) => {
         seat.addEventListener("click", function () {
@@ -241,23 +304,57 @@
           seat.classList.add("selected");
           const classAndSeat = seat.id;
           selectedSeatInput.value = classAndSeat;
+
+          // Extract seat number from classAndSeat (e.g., "First-Class 2C")
+          const seatNumber = classAndSeat.split(" ")[1]; // Extract seat number using split
+          console.log("Selected Seat Number:", seatNumber);
+          selectedSeatInput.dataset.seatNumber = seatNumber; // Store seat number in dataset
         });
       });
 
-      document
-        .getElementById("bookingForm")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-          const selectedSeat = document.querySelector(".seat.selected");
-          if (!selectedSeat) {
-            alert("Please select a seat.");
-            return;
-          }
-          const classAndSeat = selectedSeat.id;
-          alert(
-            `Booking Submitted Successfully!\nSelected Seat: ${classAndSeat}`
-          );
-        });
+      document.getElementById("bookingForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Calculate number of luggage based on checked checkboxes
+        const luggage20kg = document.getElementById("baggage20").checked ? 1 : 0;
+        const luggage30kg = document.getElementById("baggage30").checked ? 1 : 0;
+        const luggage40kg = document.getElementById("baggage40").checked ? 1 : 0;
+        const numberOfLuggage = luggage20kg + luggage30kg + luggage40kg;
+
+        // Prepare payload
+        const payload = {
+          passengerName: document.getElementById("passengerName").value,
+          selectedSeat: selectedSeatInput.value,
+          seatNumber: selectedSeatInput.dataset.seatNumber, // Add seat number from dataset
+          flightId: flightIdInput.value,
+          numLuggage: numberOfLuggage,
+          agreeTerms: document.getElementById("agreeTerms").checked,
+        };
+        const token = localStorage.getItem("token");
+        // Send data to backend
+        fetch("/booking/book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            alert(`Booking Successful!\nBooking Reference: ${data.bookingReference}`);
+            // Optionally, you can redirect to a confirmation page or perform other actions here
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Booking failed. Please try again later.");
+          });
+      });
     });
   </script>
 </body>

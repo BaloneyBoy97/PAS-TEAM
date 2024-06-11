@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="" />
     <style>
         body {
-            background-color: #fdf5df;
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            padding: 0;
+            margin: 0;
         }
 
         .main {
@@ -20,15 +25,14 @@
 
         h1 {
             text-align: center;
-            color: #5ebec4;
-            font-style: italic;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #ffffff;
             font-size: 300%;
         }
 
         h3 {
             text-align: center;
-            color: #003538;
-            font-style: italic;
+            color: #ffffff;
             font-size: 150%;
         }
 
@@ -57,8 +61,10 @@
         .flights {
             margin: 20px;
             padding: 20px;
-            border: 1px solid #ddd;
-            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            color: #fff;
+            background-color: #00337b8c;
         }
 
         .flight {
@@ -66,14 +72,16 @@
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
-        
+
         .flight p {
-            margin: 0;
+            margin: 2px;
+            padding-bottom: 5px;
         }
 
         .checkin-button {
             background-color: #5ebec4;
             color: #fff;
+            font-weight: 500;
             border: none;
             padding: 8px 16px;
             cursor: pointer;
@@ -205,7 +213,7 @@
 
         <nav class="navbar">
             <a href="home.html">Home</a>
-            <a href="#">Flights</a>
+            <a href="flight-search.html">Flights</a>
             <a href="#">Check-in</a>
             <a href="#">Baggage</a>
             <a href="#">Help</a>

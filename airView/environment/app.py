@@ -12,6 +12,7 @@ from datetime import timedelta
 import logging
 import threading
 import webbrowser
+from flask_cors import CORS
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 """
@@ -34,6 +35,7 @@ from flightsearch.feature import flights_bp
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)  # Apply CORS to your entire Flask app
 
 """
 Routes to Server:
@@ -41,6 +43,7 @@ Routes to Server:
     - Sign Up Page
     - Forget Password Page
     - flight search page
+    - booking page
 """
 @app.route('/')
 def serve_html():
@@ -86,6 +89,14 @@ def checkin():
 def flight_search():
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'flight-search.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/Booking.html')
+def flight_booking():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'Booking.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
