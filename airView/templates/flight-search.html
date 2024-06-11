@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg'); /* Replace with your image URL */
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+            /* Replace with your image URL */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -42,12 +44,11 @@
             border-radius: 20px;
             background-color: #f1f1f1;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            
-        }
-        main  .search-section #flight-search-form {
-            justify-content: center;
         }
 
+        main .search-section #flight-search-form {
+            justify-content: center;
+        }
 
         .form-group {
             margin-bottom: 15px;
@@ -66,7 +67,6 @@
         .form-row .form-group {
             flex: 1;
             margin-right: 10px;
-
         }
 
         .form-row .form-group:last-child {
@@ -78,9 +78,7 @@
             padding: 8px;
             border-radius: 20px;
             box-sizing: border-box;
-        }   
-
-        
+        }
 
         h2 {
             text-align: center;
@@ -93,7 +91,7 @@
         }
 
         button {
-            background-color:#0048a6;
+            background-color: #0048a6;
             color: white;
             padding: 15px 15px;
             border: none;
@@ -113,7 +111,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             margin-top: 20px;
             width: 98%;
-            
         }
 
         #results {
@@ -175,6 +172,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Flight Search</h1>
@@ -186,11 +184,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="departure">🛫 Departure:</label>
-                            <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input" readonly>
+                            <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input"
+                                readonly>
                         </div>
                         <div class="form-group">
                             <label for="destination">🛬 Destination:</label>
-                            <input type="text" id="destination" name="destination" placeholder="City or Airport" required>
+                            <input type="text" id="destination" name="destination" placeholder="City or Airport"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -223,7 +223,7 @@
             return `${Math.floor(duration)}h ${Math.round((duration % 1) * 60)}m`;
         }
 
-        document.getElementById('flight-search-form').addEventListener('submit', function(event) {
+        document.getElementById('flight-search-form').addEventListener('submit', function (event) {
             event.preventDefault();
             const departure = document.getElementById('departure').value;
             const destination = document.getElementById('destination').value;
@@ -238,23 +238,23 @@
             fetch(`/flights/search?${queryParams.toString()}`, {
                 method: 'GET'
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const resultsDiv = document.getElementById('results');
-                resultsDiv.innerHTML = '';
-                if (data.length > 0) {
-                    data.forEach(flight => {
-                        const airline = airlines[Math.floor(Math.random() * airlines.length)];
-                        const departureTime12hr = formatTimeTo12Hour(flight.departuretime);
-                        const arrivalTime12hr = formatTimeTo12Hour(flight.arrivaltime);
-                        const duration = calculateDuration(flight.departuretime, flight.arrivaltime);
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '';
+                    if (data.length > 0) {
+                        data.forEach(flight => {
+                            const airline = airlines[Math.floor(Math.random() * airlines.length)];
+                            const departureTime12hr = formatTimeTo12Hour(flight.departuretime);
+                            const arrivalTime12hr = formatTimeTo12Hour(flight.arrivaltime);
+                            const duration = calculateDuration(flight.departuretime, flight.arrivaltime);
 
-                        const flightInfo = `
+                            const flightInfo = `
                             <div class="flight-details">
                                 <div class="flight-info">
                                     <img src="https://www.logodesignlove.com/images/airlines/condor-logo.jpg" alt="Airline Logo"> <!-- Random logo image -->
@@ -278,21 +278,30 @@
                                     </div>
                                 </div>
                                 <div class="flight-action">
-                                    <button type="button">Book Now</button>
+                                    <button type="button" class="book-now" data-flight='${JSON.stringify(flight)}'>Book Now</button>
                                 </div>
                             </div>
                         `;
-                        resultsDiv.insertAdjacentHTML('beforeend', flightInfo);
-                    });
-                } else {
-                    resultsDiv.innerHTML = '<p>No flights found for the selected date and destination.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('results').innerHTML = '<p>There was an error processing your request.</p>';
-            });
+                            resultsDiv.insertAdjacentHTML('beforeend', flightInfo);
+                        });
+
+                        document.querySelectorAll('.book-now').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const flight = JSON.parse(this.getAttribute('data-flight'));
+                                const queryString = new URLSearchParams(flight).toString();
+                                window.location.href = `Booking.html?${queryString}`;
+                            });
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>No flights found for the selected date and destination.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('results').innerHTML = '<p>There was an error processing your request.</p>';
+                });
         });
     </script>
 </body>
+
 </html>

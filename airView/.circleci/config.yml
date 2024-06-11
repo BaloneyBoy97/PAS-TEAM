@@ -1,0 +1,57 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: Run tests and generate reports
+          command: |
+            . venv/bin/activate
+            mkdir -p test-reports
+            python -m unittest discover -s tests -p "*_test.py" > test-reports/results.xml
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+
+  build_and_push:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1} .
+      - run:
+          name: Authenticate with Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: |
+            docker push $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1}
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - build_and_push:
+          requires:
+            - test
+          filters:
+            branches:
+              ignore:
+                - gh-pages  # If you have specific branches to ignore

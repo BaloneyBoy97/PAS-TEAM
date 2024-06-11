@@ -2,7 +2,9 @@ import sqlite3
 import logging
 from flask import session
 from werkzeug.security import check_password_hash
-
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 """
 Initialize DATABASE.
 Configure logging
@@ -73,6 +75,22 @@ def get_user_by_username(username):
         return user
     except sqlite3.Error as e:
         logger.error("Error retrieving user by username: %s", e)
+        return None
+    
+
+
+def get_user_by_userId(userid):
+    """
+    takes userid as argument.
+    Retrieve a user from the database by useridS.
+    """
+    try:
+        with get_db_connection() as conn:
+            user = conn.execute('SELECT * FROM userdata WHERE userid = ?', (userid,)).fetchone()
+        logger.debug("User retrieved by userId: %s", userid)
+        return user
+    except sqlite3.Error as e:
+        logger.error("Error retrieving user by userId: %s", e)
         return None
 
 def check_user_credentials(password, email):
