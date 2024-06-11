@@ -3,9 +3,9 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/python:3.8  # Use CircleCI's Python image
+      - image: cimg/python:3.8
     steps:
-      - checkout  # Checkout the code
+      - checkout
       - run:
           name: Install dependencies
           command: |
@@ -13,10 +13,15 @@ jobs:
             . venv/bin/activate
             pip install -r requirements.txt
       - run:
-          name: Run tests
+          name: Run tests and generate reports
           command: |
             . venv/bin/activate
-            pytest tests/  # Discover and run tests in the `tests` directory
+            mkdir -p test-reports
+            python -m unittest discover -s tests -p "*_test.py" > test-reports/results.xml
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
 
   build_and_push:
     docker:
@@ -28,7 +33,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
+            docker build -t $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1} .
       - run:
           name: Authenticate with Docker Hub
           command: |
@@ -36,7 +41,7 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
+            docker push $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1}
 
 workflows:
   version: 2
@@ -48,4 +53,5 @@ workflows:
             - test
           filters:
             branches:
-              only: main
+              ignore:
+                - gh-pages  # If you have specific branches to ignore
