@@ -8,10 +8,11 @@ WORKDIR /app
 COPY . /app
 
 # Upgrade pip to the latest version
-RUN pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Retry mechanism added for pip install to handle transient issues
+RUN for i in $(seq 1 5); do pip install --no-cache-dir -r /app/requirements.txt && break || sleep 2; done
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
