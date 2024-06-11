@@ -29,6 +29,7 @@ from authentication.feature import auth_bp
 from booking.feature import booking_bp
 from checkin.feature import checkin_bp
 from authentication import operation as auth_ops
+from flightsearch.feature import flights_bp
 
 load_dotenv()
 
@@ -39,6 +40,7 @@ Routes to Server:
     - Home Page
     - Sign Up Page
     - Forget Password Page
+    - flight search page
 """
 @app.route('/')
 def serve_html():
@@ -76,6 +78,14 @@ def forgetPassword():
 def checkin():
     try:
         return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'checkin.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/flight-search.html')
+def flight_search():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'flight-search.html')
     except Exception as e:
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
@@ -136,6 +146,7 @@ Register Resource and blueprints
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(booking_bp, url_prefix='/booking')
 app.register_blueprint(checkin_bp, url_prefix='/checkin')
+app.register_blueprint(flights_bp, url_prefix='/flights')
 
 def open_browser():
     host = '127.0.0.1'
