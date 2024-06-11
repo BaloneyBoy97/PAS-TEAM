@@ -9,15 +9,18 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         header {
-            background-color: #4CAF50;
+            background-color: #002f53c8;
             color: white;
             text-align: center;
             padding: 1em 0;
@@ -26,12 +29,25 @@
 
         main {
             padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
+            background-color: #001c62bc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            width: 120vh;
+            max-width: 1200px;
+            margin: 20px;
         }
+
+        main .search-section #flight-search-form .innerform {
+            padding: 20px;
+            border-radius: 20px;
+            background-color: #f1f1f1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            
+        }
+        main  .search-section #flight-search-form {
+            justify-content: center;
+        }
+
 
         .form-group {
             margin-bottom: 15px;
@@ -44,12 +60,13 @@
 
         .form-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         .form-row .form-group {
             flex: 1;
             margin-right: 10px;
+
         }
 
         .form-row .form-group:last-child {
@@ -59,88 +76,223 @@
         .form-group input {
             width: 100%;
             padding: 8px;
+            border-radius: 20px;
             box-sizing: border-box;
+        }   
+
+        
+
+        h2 {
+            text-align: center;
         }
 
         .form-group .fixed-input {
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
+            background-color: #d5d5d5;
+            border: 1px solid #000000;
             cursor: not-allowed;
         }
 
         button {
-            background-color: #4CAF50;
+            background-color:#0048a6;
             color: white;
-            padding: 10px 15px;
+            padding: 15px 15px;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 25px;
             width: 100%;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #0051bbcb;
         }
 
         .results-section {
             background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             margin-top: 20px;
+            width: 98%;
+            
         }
 
         #results {
             margin-top: 20px;
         }
+
+        .flight-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .flight-info {
+            display: flex;
+            align-items: center;
+            flex-grow: 0;
+        }
+
+        .flight-info img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .flight-info div {
+            margin-right: 20px;
+        }
+
+        .flight-info div p {
+            margin: 2px 0;
+        }
+
+        .flight-action {
+            text-align: right;
+        }
+
+        .flight-action button {
+            background-color: #0050a5;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            align-self: center;
+        }
+
+        .flight-action button:hover {
+            background-color: #0056b3;
+        }
+
+        .flight-details hr {
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Flight Search</h1>
+    </header>
     <main>
-        <header>
-            <h1>Flight Search</h1>
-        </header>
         <section class="search-section">
             <form id="flight-search-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="departure">🛫 Departure:</label>
-                        <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input" readonly>
+                <div class="innerform">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure">🛫 Departure:</label>
+                            <input type="text" id="departure" name="departure" value="St. Louis" class="fixed-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">🛬 Destination:</label>
+                            <input type="text" id="destination" name="destination" placeholder="City or Airport" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="destination">🛬 Destination:</label>
-                        <input type="text" id="destination" name="destination" placeholder="City or Airport">
+                        <label for="departure-date">📅 Departure Date:</label>
+                        <input type="date" id="departure-date" name="departure-date" required>
                     </div>
+                    <button type="submit">Search Flights</button>
                 </div>
-                <div class="form-group">
-                    <label for="departure-date">📅 Departure Date:</label>
-                    <input type="date" id="departure-date" name="departure-date">
-                </div>
-                <button type="submit">Search Flights</button>
             </form>
         </section>
         <section class="results-section">
-            <h2>Search Results</h2>
+            <h2>Available flights</h2>
             <div id="results"></div>
         </section>
     </main>
     <script>
+        const airlines = ["American Airlines", "Delta", "United Airlines", "Southwest Airlines", "JetBlue"];
+
+        function formatTimeTo12Hour(time24) {
+            const [hour, minute, second] = time24.split(':');
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minute} ${ampm}`;
+        }
+
+        function calculateDuration(start, end) {
+            const startTime = new Date(`1970-01-01T${start}Z`);
+            const endTime = new Date(`1970-01-01T${end}Z`);
+            const duration = (endTime - startTime) / (1000 * 60 * 60);
+            return `${Math.floor(duration)}h ${Math.round((duration % 1) * 60)}m`;
+        }
+
         document.getElementById('flight-search-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const departure = document.getElementById('departure').value;
             const destination = document.getElementById('destination').value;
             const departureDate = document.getElementById('departure-date').value;
 
-            // For demonstration purposes, we'll just log the values
-            console.log('Departure:', departure);
-            console.log('Destination:', destination);
-            console.log('Departure Date:', departureDate);
+            const queryParams = new URLSearchParams({
+                'departure': departure,
+                'destination': destination,
+                'departure-date': departureDate
+            });
 
-            // Here you would typically make an API call to a flight search service
-            // and update the #results div with the search results.
-            document.getElementById('results').innerHTML = `<p>Searching flights from ${departure} to ${destination} on ${departureDate}...</p>`;
+            fetch(`/flights/search?${queryParams.toString()}`, {
+                method: 'GET'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '';
+                if (data.length > 0) {
+                    data.forEach(flight => {
+                        const airline = airlines[Math.floor(Math.random() * airlines.length)];
+                        const departureTime12hr = formatTimeTo12Hour(flight.departuretime);
+                        const arrivalTime12hr = formatTimeTo12Hour(flight.arrivaltime);
+                        const duration = calculateDuration(flight.departuretime, flight.arrivaltime);
+
+                        const flightInfo = `
+                            <div class="flight-details">
+                                <div class="flight-info">
+                                    <img src="https://www.logodesignlove.com/images/airlines/condor-logo.jpg" alt="Airline Logo"> <!-- Random logo image -->
+                                    <div>
+                                        <p><strong>${airline}</strong></p>
+                                        <p>${flight.flightnumber}</p>
+                                    </div>
+                                    <div>
+                                        <p><strong>${departureTime12hr}</strong></p>
+                                        <p>${flight.origin}</p>
+                                        <p>${departureDate}</p>
+                                    </div>
+                                    <div>
+                                        <p>${duration}</p>
+                                        <p>${flight.stops ? flight.stops : 'Non-stop'}</p>
+                                    </div>
+                                    <div>
+                                        <p><strong>${arrivalTime12hr}</strong></p>
+                                        <p>${flight.destination}</p>
+                                        <p>${departureDate}</p>
+                                    </div>
+                                </div>
+                                <div class="flight-action">
+                                    <button type="button">Book Now</button>
+                                </div>
+                            </div>
+                        `;
+                        resultsDiv.insertAdjacentHTML('beforeend', flightInfo);
+                    });
+                } else {
+                    resultsDiv.innerHTML = '<p>No flights found for the selected date and destination.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('results').innerHTML = '<p>There was an error processing your request.</p>';
+            });
         });
     </script>
 </body>
 </html>
-
