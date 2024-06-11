@@ -33,6 +33,18 @@ jobs:
       - setup_remote_docker:
           version: 20.10.7
       - run:
+          name: Debug Variables
+          command: |
+            echo "DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME"
+            echo "CIRCLE_SHA1: $CIRCLE_SHA1"
+      - run:
+          name: Ensure Environment Variables are Set
+          command: |
+            if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$CIRCLE_SHA1" ]; then
+              echo "Environment variables DOCKERHUB_USERNAME and/or CIRCLE_SHA1 are not set"
+              exit 1
+            fi
+      - run:
           name: Build Docker Image
           command: |
             docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
