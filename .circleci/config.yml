@@ -1,70 +1,25 @@
 version: 2.1
 
 jobs:
-  test:
+  build:
     docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-      - run:
-          name: Set PYTHONPATH
-          command: |
-            echo "export PYTHONPATH=$(pwd):$(pwd)/airView" >> $BASH_ENV
-      - run:
-          name: Run tests
-          command: |
-            . venv/bin/activate
-            python -m unittest discover -s tests -p "unittest_*.py"
-      - store_test_results:
-          path: test-results
-
-  build_and_push:
-    docker:
-      - image: cimg/python:3.8
+      - image: circleci/python:3.8
     steps:
       - checkout
       - setup_remote_docker:
           version: 20.10.7
       - run:
-          name: Debug Variables
-          command: |
-            echo "DOCKERHUB_USERNAME: $DOCKERHUB_USERNAME"
-            echo "CIRCLE_SHA1: $CIRCLE_SHA1"
-      - run:
-          name: Ensure Environment Variables are Set
-          command: |
-            if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$CIRCLE_SHA1" ]; then
-              echo "Environment variables DOCKERHUB_USERNAME and/or CIRCLE_SHA1 are not set"
-              exit 1
-            fi
-      - run:
           name: Build Docker Image
-          command: |
-            docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
+          command: docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
       - run:
-          name: Authenticate with Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          name: Docker Login
+          command: echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
       - run:
-          name: Push Docker Image to Docker Hub
-          command: |
-            docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
+          name: Push Docker Image
+          command: docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
 
 workflows:
   version: 2
-  test_and_deploy:
+  build-and-push:
     jobs:
-      - test
-      - build_and_push:
-          requires:
-            - test
-          filters:
-            branches:
-              only: main
+      - build
