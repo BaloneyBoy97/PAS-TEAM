@@ -1,9 +1,9 @@
 version: 2.1
 
 jobs:
-  build:
+  test:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/python:3.8
     steps:
       - checkout
       - run:
@@ -11,27 +11,48 @@ jobs:
           command: |
             python -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
             pip install -r requirements.txt
+      - run:
+          name: Set PYTHONPATH
+          command: |
+            echo "export PYTHONPATH=$(pwd):$(pwd)/airView" >> $BASH_ENV
       - run:
           name: Run tests
           command: |
             . venv/bin/activate
             python -m unittest discover -s tests -p "unittest_*.py"
+      - store_test_results:
+          path: test-results
+
+  build_and_push:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.7
       - run:
-          name: Build and Push Docker Image
+          name: Build Docker Image
           command: |
-            if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$CIRCLE_SHA1" ]; then
-              echo "Environment variables DOCKERHUB_USERNAME and/or CIRCLE_SHA1 are not set"
-              exit 1
-            fi
-            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
-            docker build -t "$DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}" .
-            docker push "$DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}"
+            docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
+      - run:
+          name: Authenticate with Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: |
+            docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
 
 workflows:
   version: 2
-  build_and_test:
+  test_and_deploy:
     jobs:
-      - build
+      - test
+      - build_and_push:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
