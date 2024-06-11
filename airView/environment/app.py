@@ -3,7 +3,6 @@ import sys
 import os
 from flask import Flask, send_from_directory, jsonify, make_response, request, session
 from flask_restful import Api
-#from werkzeug.security import generate_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from werkzeug.exceptions import HTTPException
 from flask_mail import Mail
@@ -14,17 +13,7 @@ import threading
 import webbrowser
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-"""
-Add parent directory to 
-system path for modularization.
-"""
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-"""
-import blueprints.
-load environment.
-initialize Flask.
-"""
+# import blueprints
 from authentication.feature import auth_bp
 from booking.feature import booking_bp
 from checkin.feature import checkin_bp
@@ -35,13 +24,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-"""
-Routes to Server:
-    - Home Page
-    - Sign Up Page
-    - Forget Password Page
-    - flight search page
-"""
+# Routes to Server:
 @app.route('/')
 def serve_html():
     try:
@@ -101,24 +84,16 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
 
-"""
-Set the database path
-Initialize API, JWT, MAIL
-os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
-"""
+# Set the database path
 database_url = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
 app.config['DATABASE'] = database_url
 auth_ops.set_database_path(app.config['DATABASE'])
-
-
 
 api = Api(app)
 jwt = JWTManager(app)
 mail = Mail(app)
 
-"""
-Logging and error handling
-"""
+# Logging and error handling
 logging.basicConfig(level=logging.DEBUG)
 file_handler = logging.FileHandler('app.log')
 file_handler.setLevel(logging.WARNING)
@@ -140,9 +115,7 @@ def handle_exception(e):
     
     return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
 
-"""
-Register Resource and blueprints
-"""
+# Register Resource and blueprints
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(booking_bp, url_prefix='/booking')
 app.register_blueprint(checkin_bp, url_prefix='/checkin')
@@ -154,11 +127,9 @@ def open_browser():
     url = f"http://{host}:{port}/"
     webbrowser.open_new(url)
 
-"""
-Main entry point for the application
-"""
+# Main entry point for the application
 if __name__ == '__main__':
     if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
         threading.Timer(1, open_browser).start()
     
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
