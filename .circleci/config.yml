@@ -21,19 +21,6 @@ jobs:
       - store_test_results:
           path: test-results
 
-workflows:
-  version: 2
-  test_and_deploy:
-    jobs:
-      - test
-      - build_and_push:
-          requires:
-            - test
-          filters:
-            branches:
-              only: main
-
-jobs:
   build_and_push:
     docker:
       - image: cimg/python:3.8
@@ -53,3 +40,15 @@ jobs:
           name: Push Docker Image to Docker Hub
           command: |
             docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - build_and_push:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
