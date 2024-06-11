@@ -1,13 +1,11 @@
 version: 2.1
 
 jobs:
-  build_and_test:
+  test:
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
       - run:
           name: Install dependencies
           command: |
@@ -19,35 +17,39 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            pytest --junitxml=test-results/results.xml
+            python -m unittest discover -s tests -p "unittest_*.py"
       - store_test_results:
           path: test-results
 
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - build_and_push:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+
+jobs:
   build_and_push:
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.13
+          version: 20.10.7
       - run:
           name: Build Docker Image
-          command: docker build -t $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1} .
+          command: |
+            docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
       - run:
           name: Authenticate with Docker Hub
-          command: echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: Push Docker Image to Docker Hub
-          command: docker push $DOCKERHUB_USERNAME/myapp:${CIRCLE_SHA1}
-
-workflows:
-  version: 2
-  test_and_deploy:
-    jobs:
-      - build_and_test
-      - build_and_push:
-          requires:
-            - build_and_test
-          filters:
-            branches:
-              only: main
+          command: |
+            docker push $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1}
