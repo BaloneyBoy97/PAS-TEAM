@@ -194,3 +194,5 @@
 2024-06-10 00:14:11,239 - app - ERROR - Error type: AttributeError
 2024-06-10 15:26:01,317 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-10 15:26:01,317 - app - ERROR - Error type: NotFound
+2024-06-12 14:22:28,808 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-12 14:22:28,809 - app - ERROR - Error type: NotFound
