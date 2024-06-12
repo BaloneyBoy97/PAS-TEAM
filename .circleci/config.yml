@@ -6,6 +6,11 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # Fallback key
+            - v1-dependencies-
       - run:
           name: Install dependencies
           command: |
@@ -13,6 +18,10 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Set PYTHONPATH
           command: |
@@ -31,6 +40,11 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # Fallback key
+            - v1-dependencies-
       - run:
           name: Build Docker Image
           command: |
