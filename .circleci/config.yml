@@ -12,7 +12,7 @@ jobs:
             python -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
-            pip install -r requirements.txt --verbose
+            pip install -r requirements.txt
       - run:
           name: Set PYTHONPATH
           command: |
@@ -30,15 +30,15 @@ jobs:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          auth:
-            username: $DOCKERHUB_USERNAME
-            password: $DOCKERHUB_PASS
+      - setup_remote_docker
       - run:
           name: Build Docker Image
           command: |
             docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
+      - run:
+          name: Authenticate with Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: Push Docker Image to Docker Hub
           command: |
