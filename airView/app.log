@@ -164,3 +164,15 @@
 2024-06-08 16:03:09,343 - environment.app - ERROR - Error type: gaierror
 2024-06-08 16:08:32,399 - environment.app - ERROR - An error occurred: [Errno 8] nodename nor servname provided, or not known
 2024-06-08 16:08:32,400 - environment.app - ERROR - Error type: gaierror
+2024-06-11 20:16:44,280 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,282 - environment.app - ERROR - Error type: NotFound
+2024-06-11 20:16:44,287 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,287 - environment.app - ERROR - Error type: NotFound
+2024-06-11 20:16:44,290 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,290 - environment.app - ERROR - Error type: NotFound
+2024-06-11 20:16:44,292 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,293 - environment.app - ERROR - Error type: NotFound
+2024-06-11 20:16:44,807 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,807 - environment.app - ERROR - Error type: NotFound
+2024-06-11 20:16:44,810 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 20:16:44,811 - environment.app - ERROR - Error type: NotFound

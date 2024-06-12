@@ -1,7 +1,7 @@
 import sqlite3
 import logging
 from flask import session
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash,generate_password_hash
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
