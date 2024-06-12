@@ -2,10 +2,13 @@ import sqlite3
 import datetime
 from flask_mail import Message
 import logging
-
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from authentication.operation import get_db_connection, get_user_by_userId
 logger = logging.getLogger(__name__)
 
-DATABASE = None
+DATABASE = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db')
 mail = None
 
 def set_database_path(db_path):
@@ -55,12 +58,12 @@ def booking_flight(data, user_id):
     Return: User request response (message, status code)
 
     """
-    logger.debug(f"Booking flight for user_id: {user_id} with data: {data}")
-    username = data['username']
+    logger.debug(f"Booking flight from operations for user_id: {user_id} with data: {data}")
+    user = get_user_by_userId(user_id)
+    username = user[2]
     seat_number = data['seatNumber']
     num_luggage = data['numLuggage']
     flight_id = data['flightId']
-
     # fetching user email for notification
     conn = get_db_connection()
     user = conn.execute('SELECT email FROM userdata WHERE userid = ?', (user_id,)).fetchone()
