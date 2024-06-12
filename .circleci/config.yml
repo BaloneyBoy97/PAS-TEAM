@@ -27,14 +27,11 @@ jobs:
 
   build_and_push:
     docker:
-      - image: docker:20.10.7
+      - image: cimg/python:3.8
     steps:
       - checkout
       - setup_remote_docker:
           version: 20.10.7
-      - run:
-          name: Install Docker Compose
-          command: apk add --no-cache python3 py3-pip && pip3 install docker-compose
       - run:
           name: Build Docker Image
           command: |
