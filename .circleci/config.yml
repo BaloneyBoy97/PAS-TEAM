@@ -31,15 +31,15 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.17  # Updated to a newer version
+          version: 23.0.0  # Update to a newer supported version
+          docker_layer_caching: true
+          auth:
+            username: $DOCKERHUB_USERNAME
+            password: $DOCKERHUB_PASS
       - run:
           name: Build Docker Image
           command: |
             docker build -t $DOCKERHUB_USERNAME/my-python-app:${CIRCLE_SHA1} .
-      - run:
-          name: Authenticate with Docker Hub
-          command: |
-            echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USERNAME --password-stdin
       - run:
           name: Push Docker Image to Docker Hub
           command: |
