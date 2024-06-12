@@ -76,3 +76,37 @@
 2024-06-09 22:31:28,185 - environment.app - ERROR - Error type: UnsupportedMediaType
 2024-06-09 22:42:56,954 - environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
 2024-06-09 22:42:56,954 - environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-11 13:57:06,047 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,049 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,277 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,277 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,413 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,413 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,445 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,445 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,445 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,445 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,445 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,445 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,595 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,595 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,730 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,730 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,746 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,746 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,746 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,746 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,761 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,761 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,761 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,761 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,778 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,779 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,783 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,783 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,794 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,794 - environment.app - ERROR - Error type: NotFound
+2024-06-11 13:57:06,802 - environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-11 13:57:06,802 - environment.app - ERROR - Error type: NotFound
+2024-06-11 14:03:31,321 - environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-11 14:03:31,321 - environment.app - ERROR - Error type: UnsupportedMediaType
