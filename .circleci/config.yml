@@ -31,7 +31,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 23.0.0  # Update to a newer supported version
           docker_layer_caching: true
           auth:
             username: $DOCKERHUB_USERNAME
