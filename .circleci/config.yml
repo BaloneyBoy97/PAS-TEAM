@@ -31,7 +31,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 23.0.0  # Update to a newer supported version
+          version: 20.10.17  # Updated to a newer version
       - run:
           name: Build Docker Image
           command: |
