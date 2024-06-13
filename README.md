@@ -57,19 +57,19 @@ Admin panel will also interact with Check In Management system to manipulate/upd
 - Load the Docker image from the .tar file using the following command in your
 terminal:
 
-docker load -i path_to_your_tar/my-python-app-v1.tar
+- docker load -i path_to_your_tar/my-python-app-v1.tar
 
 - To ensure the image is now available on your system, list the Docker images:
 
-docker images
+- docker images
 
 - Run a container from the image to see if it works:
 
-docker run <yourname>/my-python-app:v1
+- docker run <yourname>/my-python-app:v1
 
 - Finally, enter the following link in your browser:
 
-http://127.0.0.1:5001
+- http://127.0.0.1:5001
 
 
 
