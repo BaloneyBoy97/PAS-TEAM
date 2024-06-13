@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import sys
 import os
-from flask import Flask, send_from_directory, jsonify, make_response, request, session
+from flask import Flask, send_from_directory, jsonify, make_response
 from flask_restful import Api
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
+from flask_jwt_extended import JWTManager
 from werkzeug.exceptions import HTTPException
 from flask_mail import Mail
 from dotenv import load_dotenv
