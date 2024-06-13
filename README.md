@@ -61,3 +61,9 @@ terminal:
 <img width="564" alt="Screenshot 2024-06-12 at 9 39 42 PM" src="https://github.com/BaloneyBoy97/PSD-TEAM/assets/142546682/a81f8767-ecaf-4e58-9599-a4265840da34">
 
 <img width="1512" alt="Screenshot 2024-06-12 at 9 40 06 PM" src="https://github.com/BaloneyBoy97/PSD-TEAM/assets/142546682/e32cd17c-d50c-4533-81da-686ee80fb15d">
+
+## **How to run Test Cases:**
+- move to <PSD-TEAM> directory
+- RUN export PYTHONPATH=$(pwd)/airView
+- RUN python -m unittest discover -s tests -p "unit test file name you want to test" -v
+- review logging information
