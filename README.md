@@ -1,14 +1,14 @@
 # PAS-TEAM
-**Software Engineering Project**
+## **Software Engineering Project**
 
-**Description**
+# **Description**
 
 Air View is a Web Application that connects the flights to its customers (ie) it is a platform for users to book flights, check-in their baggage and download their boarding passes in their local airport. This is a system to use for airport operations instead of a third party booking service or airline check in system.
 
-**Objective :**
+# **Objective :**
 The objective of this project is to create a centralized system for airport management; normally, customers use third party booking services to book flights and check in at the airport using airline services. The goal of this project is to create a system which allows customers to book flights, check in luggages, and receive e-tickets within the application operated by airports.
 
-**Major Component**
+# **Major Component**
 - User Authentication:
 	- Sign In/ Sign Up
 	- Logout
@@ -31,7 +31,7 @@ The objective of this project is to create a centralized system for airport mana
 	- Sending notification for update
 
 
-**Steps to build and run application:**
+# **Steps to build and run application:**
 
 - Download Docker Desktop Application
 - Login to Docker account
@@ -55,7 +55,7 @@ terminal:
 
 
 
-**Example:**
+# **Example:**
 
 <img width="564" alt="Screenshot 2024-06-12 at 9 39 04 PM" src="https://github.com/BaloneyBoy97/PSD-TEAM/assets/142546682/625ac47d-dfb9-4bfd-99af-dfd61fea7066">
 
