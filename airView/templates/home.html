@@ -18,28 +18,21 @@
       min-height: 100vh;
     }
 
-    .main {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
+    header,
+    footer {
+      background-color: #07103a8f;
+      color: #5ebec4;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem 0;
     }
 
     h1 {
-      text-align: center;
-      background-color: #07103a8f;
-      color: #5ebec4;
+      margin: 0;
       font-style: italic;
       font-size: 3em;
-      padding: 1rem 0;
-      margin: 0;
-    }
-
-    main h3 {
-      text-align: center;
-      color: #003538;
-      font-style: italic;
-      font-size: 1.5em;
-      margin: 1em 0;
     }
 
     .letter {
@@ -47,7 +40,7 @@
       font-style: normal;
     }
 
-    .navbar {
+    nav {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       justify-items: center;
@@ -55,7 +48,7 @@
       padding: 10px 0;
     }
 
-    .navbar a {
+    nav a {
       text-decoration: none;
       color: #000;
       padding: 10px;
@@ -70,8 +63,16 @@
       font-size: 1em;
     }
 
-    .content {
+    main {
       flex-grow: 1;
+      text-align: center;
+    }
+
+    main h3 {
+      color: #003538;
+      font-style: italic;
+      font-size: 1.5em;
+      margin: 1em 0;
     }
 
     .reviews {
@@ -116,13 +117,13 @@
       margin-bottom: 10px;
     }
 
-    .review-card h4 {
+    .review-card h4,
+    .review-card p {
       color: #ffffff;
       margin: 5px 0;
     }
 
     .review-card p {
-      color: #ffffff;
       font-size: 1.2em;
       font-weight: bold;
     }
@@ -135,11 +136,10 @@
 
     footer {
       display: grid;
+      color: #ffffff;
       grid-template-columns: repeat(3, 1fr);
       justify-items: center;
-      background-color: #0036877d;
       padding: 10px;
-      margin-top: 10px;
     }
 
     footer h3 {
@@ -174,7 +174,7 @@
     footer .contact ul a,
     footer .socials ul a {
       text-decoration: none;
-      color: #000;
+      color: #ffffff;
     }
 
     @keyframes slide {
@@ -187,10 +187,35 @@
       }
     }
   </style>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const logoutButton = document.querySelector("#logout-button");
+      const helpLink = document.querySelector("nav a[href='#help']");
+      const chatWindow = document.querySelector(".chat-window");
+      const chatHeader = document.querySelector(".chat-header");
 
+
+      // Load Dialogflow Messenger script
+      (function () {
+        const s = document.createElement("script");
+        s.src = "https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1";
+        s.onload = function () {
+          // Chat window visible on help link click
+          helpLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
+          });
+
+          // Close chat window on chat header click
+          chatHeader.addEventListener("click", () => {
+            chatWindow.style.display = "none";
+          });
+        };
+        document.head.appendChild(s);
+      })();
+
+      // Logout functionality
       logoutButton.addEventListener("click", async () => {
         try {
           const token = localStorage.getItem("token");
@@ -246,95 +271,99 @@
 </head>
 
 <body>
-  <div class="main">
+  <header>
     <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
+  </header>
 
-    <nav class="navbar">
-      <a href="#">Home</a>
-      <a href="flight-search.html">Flights</a>
-      <a href="checkin.html">Check-in</a>
-      <a href="#">Baggage</a>
-      <a href="#">Help</a>
-      <button id="logout-button">Logout</button>
-    </nav>
+  <nav>
+    <a href="#">Home</a>
+    <a href="flight-search.html">Flights</a>
+    <a href="checkin.html">Check-in</a>
+    <a href="#">Baggage</a>
+    <a href="#help">Help</a>
+    <button id="logout-button">Logout</button>
+  </nav>
 
-    <div class="content">
-      <center>
-        <h3>Welcome to Air View.</h3>
-        <p>This is another paragraph.</p>
-      </center>
-    </div>
+  <main>
+    <h3>Welcome to Air View.</h3>
+    <p>This is another paragraph.</p>
+  </main>
 
-    <div class="reviews">
-      <div class="review-container">
-        <div class="review-card">
-          <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg" alt="Customer 1" />
-          <h4>John Doe</h4>
-          <div class="stars">★★★★☆</div>
-          <p>
-            "Great experience! Highly recommend AirView for smooth and
-            hassle-free travel."
-          </p>
-        </div>
-        <div class="review-card">
-          <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png" alt="Customer 2" />
-          <h4>Jane Smith</h4>
-          <div class="stars">★★★★★</div>
-          <p>
-            "Excellent service and friendly staff. Will definitely book
-            again!"
-          </p>
-        </div>
-        <div class="review-card">
-          <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg" alt="Customer 3" />
-          <h4>Mark Wilson</h4>
-          <div class="stars">★★★★☆</div>
-          <p>"Good overall, but the check-in process could be faster."</p>
-        </div>
-        <div class="review-card">
-          <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
-            alt="Customer 4" />
-          <h4>Linda Johnson</h4>
-          <div class="stars">★★★★★</div>
-          <p>"A fantastic airline! Punctual and professional."</p>
-        </div>
-        <div class="review-card">
-          <img
-            src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
-            alt="Customer 5" />
-          <h4>Mike Brown</h4>
-          <div class="stars">★★★★☆</div>
-          <p>"Great value for money and excellent customer service."</p>
-        </div>
-        <div class="review-card">
-          <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png" alt="Customer 6" />
-          <h4>Emily Davis</h4>
-          <div class="stars">★★★★★</div>
-          <p>"Best flight experience I've ever had! Highly recommended."</p>
-        </div>
+  <div class="reviews">
+    <div class="review-container">
+      <div class="review-card">
+        <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg" alt="Customer 1" />
+        <h4>John Doe</h4>
+        <div class="stars">★★★★☆</div>
+        <p>
+          "Great experience! Highly recommend AirView for smooth and
+          hassle-free travel."
+        </p>
+      </div>
+      <div class="review-card">
+        <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png" alt="Customer 2" />
+        <h4>Jane Smith</h4>
+        <div class="stars">★★★★★</div>
+        <p>
+          "Excellent service and friendly staff. Will definitely book
+          again!"
+        </p>
+      </div>
+      <div class="review-card">
+        <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg" alt="Customer 3" />
+        <h4>Mark Wilson</h4>
+        <div class="stars">★★★★☆</div>
+        <p>"Good overall, but the check-in process could be faster."</p>
+      </div>
+      <div class="review-card">
+        <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
+          alt="Customer 4" />
+        <h4>Linda Johnson</h4>
+        <div class="stars">★★★★★</div>
+        <p>"A fantastic airline! Punctual and professional."</p>
+      </div>
+      <div class="review-card">
+        <img
+          src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
+          alt="Customer 5" />
+        <h4>Mike Brown</h4>
+        <div class="stars">★★★★☆</div>
+        <p>"Great value for money and excellent customer service."</p>
+      </div>
+      <div class="review-card">
+        <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png" alt="Customer 6" />
+        <h4>Emily Davis</h4>
+        <div class="stars">★★★★★</div>
+        <p>"Best flight experience I've ever had! Highly recommended."</p>
       </div>
     </div>
-
-    <footer>
-      <h3>Contact Us</h3>
-      <div class="contact">
-        <ul>
-          <li><a href="tel:314673829">314673829</a></li>
-          <li><a href="mailto:AirView@gmail.com">AirView@gmail.com</a></li>
-        </ul>
-      </div>
-      <div class="socials">
-        <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Twitter</a></li>
-        </ul>
-      </div>
-      <div class="copyright">
-        <p>&copy; 2024</p>
-      </div>
-    </footer>
   </div>
+
+  <div class="chat-window">
+    <df-messenger intent="WELCOME" chat-title="AirBot" agent-id="5e4b2e55-e067-4d35-97b3-ab6e1fd77bcf"
+      language-code="en"></df-messenger>
+  </div>
+  </div>
+
+  <footer>
+    <h3>Contact Us</h3>
+    <div class="contact">
+      <ul>
+        <li><a href="tel:314673829">314673829</a></li>
+        <li><a href="mailto:AirView@gmail.com">AirView@gmail.com</a></li>
+      </ul>
+    </div>
+    <div class="socials">
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+      </ul>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2024</p>
+    </div>
+  </footer>
 </body>
 
 </html>
