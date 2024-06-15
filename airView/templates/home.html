@@ -27,17 +27,8 @@
     header {
       display: flex;
       align-items: center;
+      justify-content: center;
       padding: 1rem 0;
-    }
-
-    header .logo {
-      padding-left: 20px;
-      height: 60px;
-    }
-
-    header h1 {
-      padding-left: 50%;
-      transform: translateX(-25%);
     }
 
     h1 {
@@ -52,9 +43,8 @@
     }
 
     nav {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      justify-items: center;
+      display: flex;
+      justify-content: space-between;
       background-color: #eee;
       padding: 10px 0;
     }
@@ -249,39 +239,11 @@
       height: 350px;
       margin: 0 20px;
     }
-
-    .copyright .logo {
-      height: 30px;
-    }
   </style>
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const logoutButton = document.querySelector("#logout-button");
-      const helpLink = document.querySelector("nav a[href='#help']");
-      const chatWindow = document.querySelector(".chat-window");
-      const chatHeader = document.querySelector(".chat-header");
-
-
-      // Load Dialogflow Messenger script
-      (function () {
-        const s = document.createElement("script");
-        s.src = "https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1";
-        s.onload = function () {
-          // Chat window visible on help link click
-          helpLink.addEventListener("click", (event) => {
-            event.preventDefault();
-            chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
-          });
-
-          // Close chat window on chat header click
-          chatHeader.addEventListener("click", () => {
-            chatWindow.style.display = "none";
-          });
-        };
-        document.head.appendChild(s);
-      })();
-
       // Logout functionality
       logoutButton.addEventListener("click", async () => {
         try {
@@ -376,7 +338,6 @@
 
 <body>
   <header>
-    <img class="logo" src="../static/AirView logo.jpg" alt="AirView logo">
     <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
   </header>
 
@@ -384,8 +345,6 @@
     <a href="#">Home</a>
     <a href="flight-search.html">Flights</a>
     <a href="checkin.html">Check-in</a>
-    <a href="#">Baggage</a>
-    <a href="#help">Help</a>
     <button id="logout-button">Logout</button>
   </nav>
 
@@ -493,7 +452,6 @@
     </div>
     <div class="copyright">
       <p>&copy; 2024 AirView All Rights Reserved</p>
-      <img class="logo" src="../static/AirView logo.jpg" alt="AirView logo">
     </div>
   </footer>
 </body>

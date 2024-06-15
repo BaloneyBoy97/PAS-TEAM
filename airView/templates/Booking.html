@@ -347,8 +347,8 @@
             return response.json();
           })
           .then((data) => {
-            alert(`Booking Successful!\nBooking Reference: ${data.bookingReference}`);
-            // Optionally, you can redirect to a confirmation page or perform other actions here
+            alert(`Booking Successful!\nFlight Number: ${flight.flightnumber}\n HAVE A GREAT JOURNEY!!`);
+            window.location.href = "home.html";
           })
           .catch((error) => {
             console.error("Error:", error);
