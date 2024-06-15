@@ -13,14 +13,18 @@ def get_booked_flights_endpoint():
         if user_id:
             booked_flights = get_booked_flights(user_id)
             if booked_flights:
-                flight_id = booked_flights[2]  # Assuming 'flightid' is the column name
-                # Get flight details using the flight_id
-                flight_details = get_flight_details(flight_id)
+                flights_data = []
+                for flight in booked_flights:
+                    flight_id = flight[2]  # Assuming 'flightid' is the column name
+                    # Get flight details using the flight_id
+                    flight_details = get_flight_details(flight_id)
+                    if flight_details:
+                        flights_data.append(list(flight_details))
                 # Extract data from the sqlite3.Row object
                 # for column_name in flight_details.keys():
                 #     print(f"{column_name}: {flight_details[column_name]}")
-                flights_data = list(flight_details)
                 flights_data.append(user_id)
+                print(flights_data,"1111111111111111111111111111111111111")
                 return jsonify({'flights': flights_data}), 200
             else:
                 return jsonify({'message': 'No booked flights found for the user.'}), 404
@@ -33,7 +37,10 @@ def get_booked_flights_endpoint():
 def handle_check_in():
     data = request.get_json()
     user_id = data.get('user_id')
+    flight_id = data.get('flight_id')
+    print(user_id,"##########################")
+    print(flight_id,"##########################")
     if not user_id:
         return jsonify({'message': 'User ID not provided'}), 400
-    result = check_in(user_id)
+    result = check_in(user_id,flight_id)
     return jsonify(result), 200 if result.get('message') == 'Check-in successful' else 500

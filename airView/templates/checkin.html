@@ -94,117 +94,131 @@
     </style>
     <script>
         async function fetchBookedFlights(token) {
-            try {
-                const token = localStorage.getItem("token");
-                const response = await fetch("/checkin/get-booked-flights", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    displayBookedFlights(data.flights);
-                } else {
-                    console.error("Failed to fetch booked flights:", response.statusText);
-                }
-            } catch (error) {
-                console.error("Error fetching booked flights:", error);
-            }
-        }
-
-        function displayBookedFlights(flights) {
-            const flightsContainer = document.querySelector('.flights');
-            flightsContainer.innerHTML = '';
-
-            const flightElement = document.createElement('div');
-            flightElement.classList.add('flight');
-            flightElement.innerHTML = `
-                <p><strong>Flight Number:</strong> ${flights[1]}</p>
-                <p><strong>Origin:</strong> ${flights[2]}</p>
-                <p><strong>Destination:</strong> ${flights[3]}</p>
-                <p><strong>Departure Time:</strong> ${flights[4]}</p>
-                <p><strong>Arrival Time:</strong> ${flights[5]}</p>
-                <p><strong>Status:</strong> ${flights[6]}</p>
-                <p><strong>Gate Number:</strong> ${flights[7]}</p>
-            `;
-            const checkinButton = document.createElement('button');
-            checkinButton.classList.add('checkin-button');
-            checkinButton.textContent = 'Check-in';
-            checkinButton.onclick = function () {
-                const token = localStorage.getItem("token");
-                const userId = flights[8];
-                fetch("/checkin/check-in", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ user_id: userId }),
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // Handle success
-                            console.log("Check-in successful");
-                            const successMessage = document.createElement('p');
-                            successMessage.textContent = 'Check-in successful';
-                            flightElement.appendChild(successMessage);
-                        } else {
-                            // Handle error
-                            console.error("Check-in failed");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error during check-in:", error);
-                    });
-            };
-            flightElement.appendChild(checkinButton);
-            flightsContainer.appendChild(flightElement);
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const logoutButton = document.querySelector("#logout-button");
-            const token = localStorage.getItem("token");
-
-            logoutButton.addEventListener("click", async () => {
                 try {
-                    if (!token) {
-                        console.error("No token found. You are not logged in.");
-                        window.location.href = "/"; // Redirect to login page
-                        return;
-                    }
-
-                    const response = await fetch("/logout", {
-                        method: "POST",
+                    const response = await fetch("/checkin/get-booked-flights", {
+                        method: "GET",
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${token}`,
                         },
                     });
 
-                    const data = await response.json();
-
                     if (response.ok) {
-                        localStorage.removeItem("token");
-                        window.location.href = "/"; // Redirect to login page
+                        const data = await response.json();
+                        console.log(data.flights);
+                        displayBookedFlights(data.flights);
                     } else {
-                        console.error("Logout failed:", data);
+                        console.error("Failed to fetch booked flights:", response.statusText);
                     }
                 } catch (error) {
-                    console.error("Logout error:", error);
+                    console.error("Error fetching booked flights:", error);
+                }
+            }
+
+            function displayBookedFlights(flightsData) {
+                const flightsContainer = document.querySelector('.flights');
+                flightsContainer.innerHTML = '';
+
+                // Iterate through each booked flight array
+                for (let i = 0; i < flightsData.length - 1; i++) {
+                    const flight = flightsData[i];
+                    const flightId = flight[0]; // Assuming flightId is the first element
+                    const userId = flightsData[flightsData.length - 1]; // Assuming userId is the last element
+
+                    const flightElement = createFlightElement(flight, flightId, userId);
+                    flightsContainer.appendChild(flightElement);
+                }
+            }
+
+            function createFlightElement(flightDetails, flightId, userId) {
+                console.log("Flight ID:", flightId);
+                const flightElement = document.createElement('div');
+                flightElement.classList.add('flight');
+                flightElement.innerHTML = `
+        <p><strong>Flight Number:</strong> ${flightDetails[1]}</p>
+        <p><strong>Origin:</strong> ${flightDetails[2]}</p>
+        <p><strong>Destination:</strong> ${flightDetails[3]}</p>
+        <p><strong>Departure Time:</strong> ${flightDetails[4]}</p>
+        <p><strong>Arrival Time:</strong> ${flightDetails[5]}</p>
+        <p><strong>Status:</strong> ${flightDetails[6]}</p>
+        <p><strong>Gate Number:</strong> ${flightDetails[7]}</p>
+    `;
+
+                const checkinButton = document.createElement('button');
+                checkinButton.classList.add('checkin-button');
+                checkinButton.textContent = 'Check-in';
+                checkinButton.onclick = async () => {
+                    const token = localStorage.getItem("token");
+                    try {
+                        const response = await fetch("/checkin/check-in", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ flight_id: flightId, user_id: userId }), // Send flightId and userId here
+                        });
+
+                        if (response.ok) {
+                            console.log("Check-in successful");
+                            const successMessage = document.createElement('p');
+                            successMessage.textContent = 'Check-in successful';
+                            flightElement.appendChild(successMessage);
+                        } else {
+                            console.error("Check-in failed");
+                        }
+                    } catch (error) {
+                        console.error("Error during check-in:", error);
+                    }
+                };
+
+                flightElement.appendChild(checkinButton);
+                return flightElement;
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const logoutButton = document.querySelector("#logout-button");
+                const token = localStorage.getItem("token");
+
+                logoutButton.addEventListener("click", async () => {
+                    try {
+                        if (!token) {
+                            console.error("No token found. You are not logged in.");
+                            window.location.href = "/"; // Redirect to login page
+                            return;
+                        }
+
+                        const response = await fetch("/logout", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            localStorage.removeItem("token");
+                            window.location.href = "/"; // Redirect to login page
+                        } else {
+                            console.error("Logout failed:", data);
+                        }
+                    } catch (error) {
+                        console.error("Logout error:", error);
+                    }
+                });
+
+                if (token) {
+                    fetchBookedFlights(token);
+                } else {
+                    console.error("No token found. You are not logged in.");
+                    window.location.href = "/"; // Redirect to login page
                 }
             });
 
-            if (token) {
-                fetchBookedFlights(token);
-            } else {
-                console.error("No token found. You are not logged in.");
-                window.location.href = "/"; // Redirect to login page
-            }
-        });
     </script>
+
 </head>
 
 <body>

@@ -43,7 +43,7 @@ def get_booked_flights(user_id):
         curr = conn.cursor()
 
         if user_id is not None:
-            booked_flights = curr.execute("SELECT * FROM bookings WHERE userid=?", (user_id,)).fetchone()
+            booked_flights = curr.execute("SELECT * FROM bookings WHERE userid=?", (user_id,)).fetchall()
             if booked_flights:
                 logger.debug("User retrieved by flights: %s", booked_flights)
             else:
@@ -97,27 +97,29 @@ def get_user_details(user_id):
         logger.error("Error retrieving user details by user ID: %s", e)
         return None
     
-def check_in(user_id):
+def check_in(user_id, flight_id):
     try:
+        # Define your database path
         database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
         os.makedirs(database_dir, exist_ok=True)
-
         db_path = os.path.join(database_dir, 'appdata.db')
 
+        # Connect to the database
         conn = sqlite3.connect(db_path)
         curr = conn.cursor()
 
-        if user_id:
-            curr.execute("UPDATE bookings SET is_checked_in = ? WHERE userid = ?", (1, user_id))
+        # Update the is_checked_in column in bookings table
+        if user_id and flight_id:
+            curr.execute("UPDATE bookings SET is_checked_in = ? WHERE userid = ? AND flightid = ?", (1, user_id, flight_id))
+            
+            print(flight_id,"--------------------------------------------------")
             conn.commit()
-            conn.close()  # Close the connection
-            if user_id:
-            # Get the booked flights for the user
-                booked_flights = get_booked_flights(user_id)
-            if booked_flights:
-                # Assuming flight_id is the third column in the booked flights
-                flight_id = booked_flights[2]
-                # Get flight details using the flight_id
+
+            # Check if update was successful
+            if curr.rowcount > 0:
+                conn.close()  # Close the connection
+
+                # Get flight details for the email confirmation
                 flight_details = get_flight_details(flight_id)
                 if flight_details:
                     # Assuming you have a function to render the email template
@@ -148,16 +150,22 @@ def check_in(user_id):
 
                         # Send the email
                         send_checkin_confirmation_email(user_email, email_content)
+                        return {'message': 'Check-in successful'}
+                    else:
+                        conn.close()
+                        return {'message': 'User details not found'}, 404
                 else:
-                    return {'message': 'Flight details not found for the booked flight'}, 404
+                    conn.close()
+                    return {'message': 'Flight details not found'}, 404
             else:
-                return {'message': 'No booked flights found for the user.'}, 404
-            return {'message': 'Check-in successful'}
+                conn.close()
+                return {'message': 'No rows updated. User ID or Flight ID not found in bookings.'}, 404
         else:
-            conn.close()  # Close the connection
-            return {'message': 'User ID not provided'}, 400
+            conn.close()
+            return {'message': 'User ID or Flight ID not provided'}, 400
     except Exception as e:
         return {'message': str(e)}, 500
+
     
 def send_checkin_confirmation_email(email, content):
     try:

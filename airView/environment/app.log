@@ -196,3 +196,119 @@
 2024-06-10 15:26:01,317 - app - ERROR - Error type: NotFound
 2024-06-12 14:22:28,808 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 2024-06-12 14:22:28,809 - app - ERROR - Error type: NotFound
+2024-06-15 13:33:03,029 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 13:33:03,029 - app - ERROR - Error type: NotFound
+2024-06-15 13:55:53,320 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 13:55:53,327 - app - ERROR - Error type: AttributeError
+2024-06-15 13:55:56,222 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 13:55:56,222 - app - ERROR - Error type: AttributeError
+2024-06-15 13:58:59,332 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 13:58:59,333 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:05,355 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:05,355 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:06,769 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:06,769 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:07,546 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:07,546 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:36,569 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:36,569 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:37,317 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:37,317 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:38,084 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:38,084 - app - ERROR - Error type: NotFound
+2024-06-15 14:00:59,941 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:00:59,941 - app - ERROR - Error type: NotFound
+2024-06-15 14:01:09,536 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:01:09,538 - app - ERROR - Error type: NotFound
+2024-06-15 14:02:17,399 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:02:17,399 - app - ERROR - Error type: NotFound
+2024-06-15 14:02:35,730 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:02:35,730 - app - ERROR - Error type: NotFound
+2024-06-15 14:02:52,292 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:02:52,292 - app - ERROR - Error type: NotFound
+2024-06-15 14:02:53,136 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:02:53,138 - app - ERROR - Error type: NotFound
+2024-06-15 14:04:42,868 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:04:42,870 - app - ERROR - Error type: NotFound
+2024-06-15 14:04:52,410 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:04:52,410 - app - ERROR - Error type: NotFound
+2024-06-15 14:04:59,832 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:04:59,843 - app - ERROR - Error type: NotFound
+2024-06-15 14:05:07,482 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:05:07,491 - app - ERROR - Error type: NotFound
+2024-06-15 14:05:15,584 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:05:15,587 - app - ERROR - Error type: NotFound
+2024-06-15 14:05:16,395 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:05:16,397 - app - ERROR - Error type: NotFound
+2024-06-15 14:05:46,892 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:05:46,892 - app - ERROR - Error type: NotFound
+2024-06-15 14:05:49,826 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:05:49,826 - app - ERROR - Error type: NotFound
+2024-06-15 14:11:36,369 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:11:36,370 - app - ERROR - Error type: NotFound
+2024-06-15 14:11:49,908 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:11:49,908 - app - ERROR - Error type: AttributeError
+2024-06-15 14:13:51,818 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:13:51,818 - app - ERROR - Error type: AttributeError
+2024-06-15 14:18:05,746 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:18:05,746 - app - ERROR - Error type: AttributeError
+2024-06-15 14:19:00,756 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:19:00,756 - app - ERROR - Error type: AttributeError
+2024-06-15 14:19:34,655 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:19:34,655 - app - ERROR - Error type: AttributeError
+2024-06-15 14:19:41,542 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 14:19:41,542 - app - ERROR - Error type: AttributeError
+2024-06-15 14:23:14,441 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:23:14,452 - app - ERROR - Error type: NotFound
+2024-06-15 14:23:17,618 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:23:17,618 - app - ERROR - Error type: NotFound
+2024-06-15 14:23:55,020 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:23:55,020 - app - ERROR - Error type: NotFound
+2024-06-15 14:23:59,290 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:23:59,299 - app - ERROR - Error type: NotFound
+2024-06-15 14:27:17,668 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:27:17,668 - app - ERROR - Error type: NotFound
+2024-06-15 14:27:21,718 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:27:21,718 - app - ERROR - Error type: NotFound
+2024-06-15 14:46:09,207 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:46:09,208 - app - ERROR - Error type: NotFound
+2024-06-15 14:48:37,063 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:48:37,063 - app - ERROR - Error type: NotFound
+2024-06-15 14:49:03,984 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 14:49:03,984 - app - ERROR - Error type: NotFound
+2024-06-15 15:26:47,817 - app - ERROR - An error occurred: 405 Method Not Allowed: The method is not allowed for the requested URL.
+2024-06-15 15:26:47,819 - app - ERROR - Error type: MethodNotAllowed
+2024-06-15 16:09:27,968 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:09:27,968 - app - ERROR - Error type: AttributeError
+2024-06-15 16:15:15,496 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:15:15,496 - app - ERROR - Error type: AttributeError
+2024-06-15 16:17:40,978 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:17:40,979 - app - ERROR - Error type: AttributeError
+2024-06-15 16:22:44,000 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:22:44,003 - app - ERROR - Error type: AttributeError
+2024-06-15 16:23:33,230 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:23:33,230 - app - ERROR - Error type: AttributeError
+2024-06-15 16:25:29,706 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:25:29,706 - app - ERROR - Error type: AttributeError
+2024-06-15 16:27:44,525 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:27:44,541 - app - ERROR - Error type: AttributeError
+2024-06-15 16:28:06,658 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:28:06,658 - app - ERROR - Error type: AttributeError
+2024-06-15 16:34:51,371 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:34:51,371 - app - ERROR - Error type: AttributeError
+2024-06-15 16:37:48,283 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:37:48,283 - app - ERROR - Error type: AttributeError
+2024-06-15 16:38:26,233 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:38:26,233 - app - ERROR - Error type: AttributeError
+2024-06-15 16:41:48,636 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:41:48,636 - app - ERROR - Error type: AttributeError
+2024-06-15 16:43:16,701 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:43:16,701 - app - ERROR - Error type: AttributeError
+2024-06-15 16:45:09,986 - app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-15 16:45:09,997 - app - ERROR - Error type: NotFound
+2024-06-15 16:45:40,121 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:45:40,121 - app - ERROR - Error type: AttributeError
+2024-06-15 16:46:10,581 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:46:10,583 - app - ERROR - Error type: AttributeError
+2024-06-15 16:47:48,975 - app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-15 16:47:48,975 - app - ERROR - Error type: AttributeError
