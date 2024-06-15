@@ -25,8 +25,19 @@
     }
 
     header {
-      text-align: center;
+      display: flex;
+      align-items: center;
       padding: 1rem 0;
+    }
+
+    header .logo {
+      padding-left: 20px;
+      height: 60px;
+    }
+
+    header h1 {
+      padding-left: 50%;
+      transform: translateX(-25%);
     }
 
     h1 {
@@ -64,13 +75,15 @@
     }
 
     main {
-      flex-grow: 1;
+      padding-top: 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
       text-align: center;
     }
 
     main h3 {
-      color: #003538;
-      font-style: italic;
+      color: #ffffff;
       font-size: 1.5em;
       margin: 1em 0;
     }
@@ -82,7 +95,7 @@
       justify-content: center;
       align-items: center;
       position: relative;
-      height: 400px;
+      height: 350px;
       width: 100%;
       margin-top: auto;
     }
@@ -158,6 +171,7 @@
       align-items: center;
     }
 
+
     footer .contact ul,
     footer .socials ul {
       list-style-type: none;
@@ -191,7 +205,8 @@
     /* New styles for the review form */
     .review-form-container {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
+      align-items: center;
       margin: 20px 0;
     }
 
@@ -202,7 +217,7 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7), 0 6px 20px rgba(0, 0, 0, 0.89);
-      width: 300px;
+      width: 400px;
     }
 
     .review-form label {
@@ -227,6 +242,16 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 1em;
+    }
+
+    .side-image {
+      width: 30%;
+      height: 350px;
+      margin: 0 20px;
+    }
+
+    .copyright .logo {
+      height: 30px;
     }
   </style>
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -351,6 +376,7 @@
 
 <body>
   <header>
+    <img class="logo" src="../static/AirView logo.jpg" alt="AirView logo">
     <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
   </header>
 
@@ -365,60 +391,61 @@
 
   <main>
     <h3>Welcome to Air View.</h3>
-    <p>This is another paragraph.</p>
-  </main>
+    <h2>see what our customers say about us</h2>
 
-  <div class="reviews">
-    <div class="review-container">
-      <div class="review-card">
-        <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg" alt="Customer 1" />
-        <h4>John Doe</h4>
-        <div class="stars">★★★★☆</div>
-        <p>
-          "Great experience! Highly recommend AirView for smooth and
-          hassle-free travel."
-        </p>
-      </div>
-      <div class="review-card">
-        <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png" alt="Customer 2" />
-        <h4>Jane Smith</h4>
-        <div class="stars">★★★★★</div>
-        <p>
-          "Excellent service and friendly staff. Will definitely book
-          again!"
-        </p>
-      </div>
-      <div class="review-card">
-        <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg" alt="Customer 3" />
-        <h4>Mark Wilson</h4>
-        <div class="stars">★★★★☆</div>
-        <p>"Good overall, but the check-in process could be faster."</p>
-      </div>
-      <div class="review-card">
-        <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
-          alt="Customer 4" />
-        <h4>Linda Johnson</h4>
-        <div class="stars">★★★★★</div>
-        <p>"A fantastic airline! Punctual and professional."</p>
-      </div>
-      <div class="review-card">
-        <img
-          src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
-          alt="Customer 5" />
-        <h4>Mike Brown</h4>
-        <div class="stars">★★★★☆</div>
-        <p>"Great value for money and excellent customer service."</p>
-      </div>
-      <div class="review-card">
-        <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png" alt="Customer 6" />
-        <h4>Emily Davis</h4>
-        <div class="stars">★★★★★</div>
-        <p>"Best flight experience I've ever had! Highly recommended."</p>
+    <div class="reviews">
+      <div class="review-container">
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg" alt="Customer 1" />
+          <h4>John Doe</h4>
+          <div class="stars">★★★★☆</div>
+          <p>
+            "Great experience! Highly recommend AirView for smooth and
+            hassle-free travel."
+          </p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png" alt="Customer 2" />
+          <h4>Jane Smith</h4>
+          <div class="stars">★★★★★</div>
+          <p>
+            "Excellent service and friendly staff. Will definitely book
+            again!"
+          </p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg" alt="Customer 3" />
+          <h4>Mark Wilson</h4>
+          <div class="stars">★★★★☆</div>
+          <p>"Good overall, but the check-in process could be faster."</p>
+        </div>
+        <div class="review-card">
+          <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
+            alt="Customer 4" />
+          <h4>Linda Johnson</h4>
+          <div class="stars">★★★★★</div>
+          <p>"A fantastic airline! Punctual and professional."</p>
+        </div>
+        <div class="review-card">
+          <img
+            src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
+            alt="Customer 5" />
+          <h4>Mike Brown</h4>
+          <div class="stars">★★★★☆</div>
+          <p>"Great value for money and excellent customer service."</p>
+        </div>
+        <div class="review-card">
+          <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png" alt="Customer 6" />
+          <h4>Emily Davis</h4>
+          <div class="stars">★★★★★</div>
+          <p>"Best flight experience I've ever had! Highly recommended."</p>
+        </div>
       </div>
     </div>
-  </div>
+  </main>
   <!-- Review Form -->
   <div class="review-form-container">
+    <img src="https://www.flystl.com/uploads/shareimg.png" alt="Side Image" class="side-image" />
     <form class="review-form" id="reviewForm">
       <h3 style="color: white;">Leave a Review</h3>
       <label for="name">Name</label>
@@ -438,6 +465,9 @@
 
       <button type="submit">Submit Review</button>
     </form>
+    <img
+      src="https://www.cmtengr.com/wp-content/uploads/2017/02/Lambert-St-Louis-International-Airport-Terminal-Aerial.jpg"
+      alt="Side Image" class="side-image" />
   </div>
 
   <div class="chat-window">
@@ -463,6 +493,7 @@
     </div>
     <div class="copyright">
       <p>&copy; 2024 AirView All Rights Reserved</p>
+      <img class="logo" src="../static/AirView logo.jpg" alt="AirView logo">
     </div>
   </footer>
 </body>
