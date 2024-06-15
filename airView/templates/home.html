@@ -175,6 +175,7 @@
     footer .socials ul a {
       text-decoration: none;
       color: #ffffff;
+
     }
 
     @keyframes slide {
@@ -185,6 +186,47 @@
       100% {
         transform: translateX(-50%);
       }
+    }
+
+    /* New styles for the review form */
+    .review-form-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .review-form {
+      display: flex;
+      flex-direction: column;
+      background-color: rgba(0, 25, 134, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7), 0 6px 20px rgba(0, 0, 0, 0.89);
+      width: 300px;
+    }
+
+    .review-form label {
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+
+    .review-form input,
+    .review-form textarea,
+    .review-form select {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .review-form button {
+      background-color: #5ebec4;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
     }
   </style>
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -266,6 +308,43 @@
         firstReview.remove();
         reviewContainer.appendChild(firstReview.cloneNode(true));
       }, 5000); // Adjust the interval to match the animation duration
+
+    });
+
+    // Handle review form submission
+    document.getElementById("reviewForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const rating = document.getElementById("rating").value;
+      const reviewText = document.getElementById("reviewText").value;
+
+      const newReviewCard = document.createElement("div");
+      newReviewCard.className = "review-card";
+
+      const img = document.createElement("img");
+      img.src = "https://via.placeholder.com/100";
+      img.alt = `Customer ${name}`;
+
+      const h4 = document.createElement("h4");
+      h4.textContent = name;
+
+      const stars = document.createElement("div");
+      stars.className = "stars";
+      stars.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+      const p = document.createElement("p");
+      p.textContent = reviewText;
+
+      newReviewCard.appendChild(img);
+      newReviewCard.appendChild(h4);
+      newReviewCard.appendChild(stars);
+      newReviewCard.appendChild(p);
+
+      reviewContainer.appendChild(newReviewCard);
+
+      // Clear form
+      document.getElementById("reviewForm").reset();
     });
   </script>
 </head>
@@ -338,6 +417,28 @@
       </div>
     </div>
   </div>
+  <!-- Review Form -->
+  <div class="review-form-container">
+    <form class="review-form" id="reviewForm">
+      <h3 style="color: white;">Leave a Review</h3>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="rating">Rating</label>
+      <select id="rating" name="rating" required>
+        <option value="5">★★★★★</option>
+        <option value="4">★★★★☆</option>
+        <option value="3">★★★☆☆</option>
+        <option value="2">★★☆☆☆</option>
+        <option value="1">★☆☆☆☆</option>
+      </select>
+
+      <label for="reviewText">Review</label>
+      <textarea id="reviewText" name="reviewText" rows="4" required></textarea>
+
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
 
   <div class="chat-window">
     <df-messenger intent="WELCOME" chat-title="AirBot" agent-id="5e4b2e55-e067-4d35-97b3-ab6e1fd77bcf"
@@ -361,7 +462,7 @@
       </ul>
     </div>
     <div class="copyright">
-      <p>&copy; 2024</p>
+      <p>&copy; 2024 AirView All Rights Reserved</p>
     </div>
   </footer>
 </body>

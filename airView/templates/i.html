@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AirView Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header,
+        footer {
+            background-color: #07103a8f;
+            color: #5ebec4;
+        }
+
+        header {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        h1 {
+            margin: 0;
+            font-style: italic;
+            font-size: 3em;
+        }
+
+        .letter {
+            color: #f92c85;
+            font-style: normal;
+        }
+
+        nav {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            justify-items: center;
+            background-color: #eee;
+            padding: 10px 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            padding: 10px;
+        }
+
+        #logout-button {
+            padding: 10px;
+            background-color: #5ebec4;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1em;
+        }
+
+        main {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        main h3 {
+            color: #003538;
+            font-style: italic;
+            font-size: 1.5em;
+            margin: 1em 0;
+        }
+
+        .reviews {
+            display: flex;
+            overflow: hidden;
+            background-color: #005a730d;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .review-container {
+            display: flex;
+            animation: slide 30s linear infinite;
+        }
+
+        .review-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #001986ce;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7), 0 6px 20px 0 rgba(0, 0, 0, 0.89);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            margin-left: 50px;
+            width: 300px;
+            text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.5s;
+        }
+
+        .review-card img {
+            border-radius: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .review-card h4,
+        .review-card p {
+            color: #ffffff;
+            margin: 5px 0;
+        }
+
+        .review-card p {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .stars {
+            color: #ffcc00;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            display: grid;
+            color: #ffffff;
+            grid-template-columns: repeat(3, 1fr);
+            justify-items: center;
+            padding: 10px;
+        }
+
+        footer h3 {
+            font-size: 1.5em;
+            font-weight: 900;
+            grid-column: 1 / -1;
+            text-align: center;
+            margin: 1em 0;
+        }
+
+        footer .contact,
+        footer .socials,
+        footer .copyright {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        footer .contact ul,
+        footer .socials ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer .contact ul li,
+        footer .socials ul li {
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+
+        footer .contact ul a,
+        footer .socials ul a {
+            text-decoration: none;
+            color: #ffffff;
+
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* New styles for the review form */
+        .review-form-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 25, 134, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7), 0 6px 20px rgba(0, 0, 0, 0.89);
+            width: 300px;
+        }
+
+        .review-form label {
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .review-form input,
+        .review-form textarea,
+        .review-form select {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .review-form button {
+            background-color: #5ebec4;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+    </style>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const logoutButton = document.querySelector("#logout-button");
+            const helpLink = document.querySelector("nav a[href='#help']");
+            const chatWindow = document.querySelector(".chat-window");
+            const chatHeader = document.querySelector(".chat-header");
+
+
+            // Load Dialogflow Messenger script
+            (function () {
+                const s = document.createElement("script");
+                s.src = "https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1";
+                s.onload = function () {
+                    // Chat window visible on help link click
+                    helpLink.addEventListener("click", (event) => {
+                        event.preventDefault();
+                        chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
+                    });
+
+                    // Close chat window on chat header click
+                    chatHeader.addEventListener("click", () => {
+                        chatWindow.style.display = "none";
+                    });
+                };
+                document.head.appendChild(s);
+            })();
+
+            // Logout functionality
+            logoutButton.addEventListener("click", async () => {
+                try {
+                    const token = localStorage.getItem("token");
+
+                    if (!token) {
+                        console.error("No token found. You are not logged in.");
+                        window.location.href = "/"; // Redirect to login page
+                        return;
+                    }
+
+                    const response = await fetch("/logout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (response.ok) {
+                        localStorage.removeItem("token");
+                        window.location.href = "/"; // Redirect to login page
+                    } else {
+                        const data = await response.json();
+                        console.error("Logout failed:", data);
+                    }
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
+            });
+
+            // Function to clone reviews and re-append to the container
+            const reviewContainer = document.querySelector(".review-container");
+            const reviews = Array.from(document.querySelectorAll(".review-card"));
+
+            function cloneReviews() {
+                reviews.forEach((review) => {
+                    const clone = review.cloneNode(true);
+                    reviewContainer.appendChild(clone);
+                });
+            }
+
+            // Clone reviews initially
+            cloneReviews();
+
+            // Continuously clone reviews
+            setInterval(() => {
+                const firstReview = reviewContainer.firstElementChild;
+                firstReview.remove();
+                reviewContainer.appendChild(firstReview.cloneNode(true));
+            }, 5000); // Adjust the interval to match the animation duration
+
+        });
+
+        // Handle review form submission
+        document.getElementById("reviewForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const rating = document.getElementById("rating").value;
+            const reviewText = document.getElementById("reviewText").value;
+
+            const newReviewCard = document.createElement("div");
+            newReviewCard.className = "review-card";
+
+            const img = document.createElement("img");
+            img.src = "https://via.placeholder.com/100";
+            img.alt = `Customer ${name}`;
+
+            const h4 = document.createElement("h4");
+            h4.textContent = name;
+
+            const stars = document.createElement("div");
+            stars.className = "stars";
+            stars.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+            const p = document.createElement("p");
+            p.textContent = reviewText;
+
+            newReviewCard.appendChild(img);
+            newReviewCard.appendChild(h4);
+            newReviewCard.appendChild(stars);
+            newReviewCard.appendChild(p);
+
+            reviewContainer.appendChild(newReviewCard);
+
+            // Clear form
+            document.getElementById("reviewForm").reset();
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1><span class="letter">A</span>ir <span class="letter">V</span>iew</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="flight-search.html">Flights</a>
+        <a href="checkin.html">Check-in</a>
+        <a href="#">Baggage</a>
+        <a href="#help">Help</a>
+        <button id="logout-button">Logout</button>
+    </nav>
+
+    <main>
+        <h3>Welcome to Air View.</h3>
+        <p>This is another paragraph.</p>
+    </main>
+
+    <div class="reviews">
+        <div class="review-container">
+            <div class="review-card">
+                <img src="https://i.pinimg.com/originals/0b/e8/a1/0be8a11869fb5456ecc3e94ef338b1c5.jpg"
+                    alt="Customer 1" />
+                <h4>John Doe</h4>
+                <div class="stars">★★★★☆</div>
+                <p>
+                    "Great experience! Highly recommend AirView for smooth and
+                    hassle-free travel."
+                </p>
+            </div>
+            <div class="review-card">
+                <img src="https://i.pinimg.com/originals/00/39/e1/0039e15097bde34ea70f99fecda447e5.png"
+                    alt="Customer 2" />
+                <h4>Jane Smith</h4>
+                <div class="stars">★★★★★</div>
+                <p>
+                    "Excellent service and friendly staff. Will definitely book
+                    again!"
+                </p>
+            </div>
+            <div class="review-card">
+                <img src="https://i.pinimg.com/originals/d7/9b/b4/d79bb4d66005b1de1fa77b2e77aa1fb2.jpg"
+                    alt="Customer 3" />
+                <h4>Mark Wilson</h4>
+                <div class="stars">★★★★☆</div>
+                <p>"Good overall, but the check-in process could be faster."</p>
+            </div>
+            <div class="review-card">
+                <img src="http://pm1.narvii.com/6971/fef49e3f3c0de23e131a3478e87d3c88bbfad587r1-503-487v2_00.jpg"
+                    alt="Customer 4" />
+                <h4>Linda Johnson</h4>
+                <div class="stars">★★★★★</div>
+                <p>"A fantastic airline! Punctual and professional."</p>
+            </div>
+            <div class="review-card">
+                <img src="https://w0.peakpx.com/wallpaper/982/584/HD-wallpaper-eren-yeager-titan-shifter-attack-on-titan-eren-yeager-s4-eren-yeager-shingeki-no-kyojin.jpg"
+                    alt="Customer 5" />
+                <h4>Mike Brown</h4>
+                <div class="stars">★★★★☆</div>
+                <p>"Great value for money and excellent customer service."</p>
+            </div>
+            <div class="review-card">
+                <img src="https://i.pinimg.com/originals/ea/91/68/ea916866f4ca113fed05d639ddf68e48.png"
+                    alt="Customer 6" />
+                <h4>Emily Davis</h4>
+                <div class="stars">★★★★★</div>
+                <p>"Best flight experience I've ever had! Highly recommended."</p>
+            </div>
+        </div>
+    </div>
+    <!-- Review Form -->
+    <div class="review-form-container">
+        <form class="review-form" id="reviewForm">
+            <h3 style="color: white;">Leave a Review</h3>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="rating">Rating</label>
+            <select id="rating" name="rating" required>
+                <option value="5">★★★★★</option>
+                <option value="4">★★★★☆</option>
+                <option value="3">★★★☆☆</option>
+                <option value="2">★★☆☆☆</option>
+                <option value="1">★☆☆☆☆</option>
+            </select>
+
+            <label for="reviewText">Review</label>
+            <textarea id="reviewText" name="reviewText" rows="4" required></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <div class="chat-window">
+        <df-messenger intent="WELCOME" chat-title="AirBot" agent-id="5e4b2e55-e067-4d35-97b3-ab6e1fd77bcf"
+            language-code="en"></df-messenger>
+    </div>
+    </div>
+
+    <footer>
+        <h3>Contact Us</h3>
+        <div class="contact">
+            <ul>
+                <li><a href="tel:314673829">314673829</a></li>
+                <li><a href="mailto:AirView@gmail.com">AirView@gmail.com</a></li>
+            </ul>
+        </div>
+        <div class="socials">
+            <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+            </ul>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 AirView All Rights Reserved</p>
+        </div>
+    </footer>
+</body>
+
+</html>
