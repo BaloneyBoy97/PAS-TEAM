@@ -111,8 +111,6 @@ def check_in(user_id, flight_id):
         # Update the is_checked_in column in bookings table
         if user_id and flight_id:
             curr.execute("UPDATE bookings SET is_checked_in = ? WHERE userid = ? AND flightid = ?", (1, user_id, flight_id))
-            
-            print(flight_id,"--------------------------------------------------")
             conn.commit()
 
             # Check if update was successful
