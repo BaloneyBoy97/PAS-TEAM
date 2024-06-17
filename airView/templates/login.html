@@ -121,8 +121,12 @@
             // Store token in localStorage
             localStorage.setItem("token", data.access_token);
 
-            // Redirect to home page
-            window.location.href = "home.html";
+            // Redirect based on isAdmin flag
+            if (data.isAdmin) {
+              window.location.href = "admin-home.html";
+            } else {
+              window.location.href = "home.html";
+            }
           } else {
             // If response is not JSON, handle it as HTML
             const htmlResponse = await response.text();

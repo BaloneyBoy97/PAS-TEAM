@@ -104,8 +104,11 @@ def user_login():
         logger.debug('User found with email: %s', email)
         if check_user_credentials(password, email):
             logger.info('User logged in successfully: %s', email)
-            access_token = create_access_token(identity=user['userid'])
-            return make_response(jsonify({'message': 'Logged in!', 'access_token': access_token, 'username': user['username']}), 200)
+            access_token = create_access_token(identity=user['userid'], fresh=True)
+            if user['isAdmin']:
+                return make_response(jsonify({'message': 'Logged in as admin!', 'access_token': access_token, 'username': user['username'], 'isAdmin': True}), 200)
+            else:
+                return make_response(jsonify({'message': 'Logged in as user!', 'access_token': access_token, 'username': user['username'], 'isAdmin': False}), 200)
         else:
             logger.warning('Invalid password attempt for email: %s', email)
     else:
