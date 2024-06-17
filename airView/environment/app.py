@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import sys
 import os
-from flask import Flask, send_from_directory, jsonify, make_response
+from flask import Flask, send_from_directory, jsonify, make_response, request, session
 from flask_restful import Api
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies
 from werkzeug.exceptions import HTTPException
 from flask_mail import Mail
 from dotenv import load_dotenv
@@ -32,7 +32,6 @@ Routes to Server:
     - Sign Up Page
     - Forget Password Page
     - flight search page
-    - booking page
 """
 @app.route('/')
 def serve_html():
