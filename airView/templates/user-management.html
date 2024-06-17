@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #002f53c8;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+        }
+
+        main {
+            padding: 20px;
+            background-color: #001c62bc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            width: 120vh;
+            max-width: 1200px;
+            margin: 20px;
+        }
+
+        .card {
+            background: #f1f1f1;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            flex: 1;
+            margin: 10px;
+            min-width: 300px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .card form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card form input, .card form button {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .card form button {
+            background-color: #0048a6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card form button:hover {
+            background-color: #0051bbcb;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #002f53c8;
+            color: #fff;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Management</h1>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <div class="card">
+                <h2>Update User</h2>
+                <form id="update-user-form">
+                    <input type="hidden" name="userid" id="update-user-id">
+                    <input type="text" name="username" placeholder="Username" id="update-username" required>
+                    <input type="email" name="email" placeholder="Email" id="update-email" required>
+                    <input type="text" name="role" placeholder="Role" id="update-role" required>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+            <div class="card">
+                <h2>Delete User</h2>
+                <form id="delete-user-form">
+                    <input type="text" name="userid" placeholder="User ID" id="delete-user-id" required>
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <div class="card">
+                <h2>Create User</h2>
+                <form id="create-user-form">
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="text" name="role" placeholder="Role" required>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('create-user-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                fetch('/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+            });
+
+            document.getElementById('update-user-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                fetch(`/api/users/${document.getElementById('update-user-id').value}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+            });
+
+            document.getElementById('delete-user-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                fetch(`/api/users/${document.getElementById('delete-user-id').value}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+</body>
+</html>

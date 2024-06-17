@@ -9,54 +9,48 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-image: url('https://i.pinimg.com/originals/0a/f6/4c/0af64c2a9d3e293b9e334b7977fc3c73.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background-color: #333;
-            color: #fff;
-        }
-
-        header .logo img {
-            height: 40px;
-        }
-
-        header nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        header nav ul li {
-            margin-left: 1rem;
-        }
-
-        header nav ul li a {
-            color: #fff;
-            text-decoration: none;
+            background-color: #002f53c8;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
         }
 
         main {
-            padding: 2rem;
-            background-color: #f4f4f4;
+            padding: 20px;
+            background-color: #001c62bc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            width: 120vh;
+            max-width: 1200px;
+            margin: 20px;
         }
 
         .dashboard {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         .card {
-            background: #fff;
+            background: #f1f1f1;
             padding: 1.5rem;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 30%;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 200px;
+            width: 300px;
             text-align: center;
+            margin: 10px;
         }
 
         .card h2 {
@@ -64,67 +58,54 @@
         }
 
         .card p {
+            margin-top: 3.5rem;
             color: #666;
         }
 
         .btn {
             display: inline-block;
-            margin-top: 1rem;
+            margin-top: 2.5rem;
             padding: 0.5rem 1rem;
-            background: #007bff;
+            background: #0048a6;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
         }
 
+        .btn:hover {
+            background-color: #0051bbcb;
+        }
+
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: #333;
+            background-color: #002f53c8;
             color: #fff;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
     <header>
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="admin-home.html">Dashboard</a></li>
-                <li><a href="user-management.html">Users</a></li>
-                <li><a href="content-management.html">Content</a></li>
-                <li><a href="settings.html">Settings</a></li>
-                <li><a href="logout.html">Logout</a></li>
-            </ul>
-        </nav>
+        <h1>Admin Home</h1>
     </header>
 
-    <!-- Main Content -->
     <main>
         <h1>Welcome to the Admin Dashboard</h1>
         <div class="dashboard">
             <div class="card">
                 <h2>User Management</h2>
-                <p>Manage users, roles, and permissions.</p>
-                <a href="user-management.html" class="btn">Go to User Management</a>
+                <p>Manage users and permissions.</p>
+                <a href="user-management.html" class="btn">User Management</a>
             </div>
             <div class="card">
-                <h2>Content Management</h2>
-                <p>Manage website content and media.</p>
-                <a href="content-management.html" class="btn">Go to Content Management</a>
-            </div>
-            <div class="card">
-                <h2>Settings</h2>
-                <p>Configure system settings and preferences.</p>
-                <a href="settings.html" class="btn">Go to Settings</a>
+                <h2>Flight Management</h2>
+                <p>Manage flights.</p>
+                <a href="flight-management.html" class="btn">Go to Flights Management</a>
             </div>
         </div>
     </main>
 
-    <!-- Footer Section -->
     <footer>
         <p>&copy; 2024 Your Company. All rights reserved.</p>
     </footer>
