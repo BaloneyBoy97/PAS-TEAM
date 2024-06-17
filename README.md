@@ -38,15 +38,15 @@ The objective of this project is to create a centralized system for airport mana
 - Load the Docker image from the .tar file using the following command in your
 terminal:
 
-- docker load -i path_to_your_tar/my-python-app-v1.tar
+- RUN docker load -i path_to_your_tar/my-python-app-v1.tar
 
 - To ensure the image is now available on your system, list the Docker images:
 
-- docker images
+- RUN docker images
 
 - Run a container from the image to see if it works:
 
-- docker run <yourname>/my-python-app:v1
+- RUN docker run <yourname>/my-python-app:v1
 
 - Finally, enter the following link in your browser:
 
