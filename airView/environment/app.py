@@ -33,6 +33,7 @@ Routes to Server:
     - Forget Password Page
     - flight search page
     - booking page
+    - check in
 """
 @app.route('/')
 def serve_html():
