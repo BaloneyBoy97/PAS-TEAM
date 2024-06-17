@@ -26,6 +26,24 @@
             text-align: center;
             padding: 1em 0;
             width: 100%;
+            position: relative;
+        }
+
+        #logout-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #0048a6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #logout-button:hover {
+            background-color: #0051bbcb;
         }
 
         main {
@@ -85,13 +103,48 @@
             width: 100%;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const logoutButton = document.querySelector("#logout-button");
+
+            logoutButton.addEventListener("click", async () => {
+                try {
+                    const token = localStorage.getItem("token");
+
+                    if (!token) {
+                        console.error("No token found. You are not logged in.");
+                        window.location.href = "/"; // Redirect to login page
+                        return;
+                    }
+
+                    const response = await fetch("/auth/logout", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (response.ok) {
+                        localStorage.removeItem("token");
+                        window.location.href = "/"; // Redirect to login page
+                    } else {
+                        const data = await response.json();
+                        console.error("Logout failed:", data);
+                    }
+                } catch (error) {
+                    console.error("Logout error:", error);
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
     <header>
         <h1>Admin Home</h1>
+        <button id="logout-button">Logout</button>
     </header>
-
     <main>
         <h1>Welcome to the Admin Dashboard</h1>
         <div class="dashboard">

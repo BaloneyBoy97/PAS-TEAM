@@ -20,7 +20,7 @@
         }
 
         header {
-            background-color: #002f53c8;
+            background-color: #002f53;
             color: white;
             text-align: center;
             padding: 1em 0;
@@ -29,12 +29,15 @@
 
         main {
             padding: 20px;
-            background-color: #001c62bc;
+            background-color: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-            width: 120vh;
-            max-width: 1200px;
+            width: 100%;
+            max-width: 800px;
             margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card {
@@ -42,13 +45,15 @@
             padding: 1.5rem;
             border-radius: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            flex: 1;
             margin: 10px;
             min-width: 300px;
+            width: 100%;
+            max-width: 400px;
         }
 
         .card h2 {
             margin-top: 0;
+            text-align: center;
         }
 
         .card form {
@@ -71,20 +76,22 @@
         }
 
         .card form button:hover {
-            background-color: #0051bbcb;
+            background-color: #0051bb;
         }
 
         .form-container {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
         }
 
         footer {
             text-align: center;
             padding: 1rem;
-            background-color: #002f53c8;
-            color: #fff;
+            background-color: #002f53;
+            color: white;
             width: 100%;
         }
     </style>
@@ -100,18 +107,20 @@
                 <h2>Update Flight</h2>
                 <form id="update-flight-form">
                     <input type="hidden" name="flightid" id="update-flight-id">
-                    <input type="text" name="flightnumber" placeholder="Flight Number" id="update-flight-number" required>
-                    <input type="text" name="departure" placeholder="Departure" id="update-departure" required>
-                    <input type="text" name="arrival" placeholder="Arrival" id="update-arrival" required>
-                    <input type="datetime-local" name="departuretime" placeholder="Departure Time" id="update-departure-time" required>
-                    <input type="datetime-local" name="arrivaltime" placeholder="Arrival Time" id="update-arrival-time" required>
+                    <input type="text" name="flightnumber" placeholder="Flight Number" required>
+                    <input type="text" name="departure" placeholder="Departure" required>
+                    <input type="text" name="arrival" placeholder="Arrival" required>
+                    <input type="datetime-local" name="departuretime" placeholder="Departure Time" required>
+                    <input type="datetime-local" name="arrivaltime" placeholder="Arrival Time" required>
+                    <input type="text" name="status" placeholder="Status" required>
+                    <input type="text" name="gate_number" placeholder="Gate number" required>
                     <button type="submit">Update</button>
                 </form>
             </div>
             <div class="card">
                 <h2>Delete Flight</h2>
                 <form id="delete-flight-form">
-                    <input type="text" name="flightid" placeholder="Flight ID" id="delete-flight-id" required>
+                    <input type="text" name="flightid" placeholder="Flight ID" required>
                     <button type="submit">Delete</button>
                 </form>
             </div>
@@ -123,6 +132,8 @@
                     <input type="text" name="arrival" placeholder="Arrival" required>
                     <input type="datetime-local" name="departuretime" placeholder="Departure Time" required>
                     <input type="datetime-local" name="arrivaltime" placeholder="Arrival Time" required>
+                    <input type="text" name="status" placeholder="Status" required>
+                    <input type="text" name="gate_number" placeholder="Gate number" required>
                     <button type="submit">Create</button>
                 </form>
             </div>
@@ -138,12 +149,16 @@
             document.getElementById('create-flight-form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 const formData = new FormData(event.target);
+                const jsonData = {};
+                formData.forEach((value, key) => {
+                    jsonData[key] = value;
+                });
                 fetch('/api/flights', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                    body: JSON.stringify(jsonData)
                 })
                 .then(response => response.json())
                 .then(data => alert(data.message))
@@ -153,12 +168,16 @@
             document.getElementById('update-flight-form').addEventListener('submit', function(event) {
                 event.preventDefault();
                 const formData = new FormData(event.target);
-                fetch(`/api/flights/${document.getElementById('update-flight-id').value}`, {
+                const jsonData = {};
+                formData.forEach((value, key) => {
+                    jsonData[key] = value;
+                });
+                fetch(`/api/flights/${jsonData.flightid}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                    body: JSON.stringify(jsonData)
                 })
                 .then(response => response.json())
                 .then(data => alert(data.message))
@@ -167,7 +186,8 @@
 
             document.getElementById('delete-flight-form').addEventListener('submit', function(event) {
                 event.preventDefault();
-                fetch(`/api/flights/${document.getElementById('delete-flight-id').value}`, {
+                const flightId = document.getElementById('delete-flight-id').value;
+                fetch(`/api/flights/${flightId}`, {
                     method: 'DELETE'
                 })
                 .then(response => response.json())

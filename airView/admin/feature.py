@@ -18,13 +18,13 @@ def add_flight():
     create_flight(data['flightnumber'], data['origin'], data['destination'], data['departuretime'], data['arrivaltime'], data['status'], data['gate_number'])
     return jsonify({'message': 'Flight created successfully'}), 201
 
-@admin_bp.route('/api/flights/<int:flight_id>', methods=['PUT'])
+@admin_bp.route('/api/flights', methods=['PUT'])
 def edit_flight(flight_id):
     data = request.get_json()
     update_flight(flight_id, data['flightnumber'], data['origin'], data['destination'], data['departuretime'], data['arrivaltime'], data['status'], data['gate_number'])
     return jsonify({'message': 'Flight updated successfully'})
 
-@admin_bp.route('/api/flights/<int:flight_id>', methods=['DELETE'])
+@admin_bp.route('/api/flights', methods=['DELETE'])
 def remove_flight(flight_id):
     delete_flight(flight_id)
     return jsonify({'message': 'Flight deleted successfully'})

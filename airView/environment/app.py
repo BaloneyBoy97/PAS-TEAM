@@ -20,6 +20,7 @@ from booking.feature import booking_bp
 from checkin.feature import checkin_bp
 from authentication import operation as auth_ops
 from flightsearch.feature import flights_bp
+from admin.feature import admin_bp
 
 load_dotenv()
 
@@ -91,6 +92,30 @@ def flight_booking():
         app.logger.error('An error occurred while serving HTML: %s', str(e))
         return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
     
+@app.route('/admin-home.html')
+def admin():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'admin-home.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/flight-management.html')
+def flight_management():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'flight-management.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
+@app.route('/user-management.html')
+def user_management():
+    try:
+        return send_from_directory(os.path.join(os.path.dirname(__file__), '..', 'templates'), 'user-management.html')
+    except Exception as e:
+        app.logger.error('An error occurred while serving HTML: %s', str(e))
+        return make_response(jsonify({'error': 'An internal server error occurred'}), 500)
+    
 # Configure app from environment variables
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'supersecretjwtkey')
@@ -138,7 +163,7 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(booking_bp, url_prefix='/booking')
 app.register_blueprint(checkin_bp, url_prefix='/checkin')
 app.register_blueprint(flights_bp, url_prefix='/flights')
-
+app.register_blueprint(admin_bp, url_prefix='/admin')
 def open_browser():
     host = '127.0.0.1'
     port = 5000
