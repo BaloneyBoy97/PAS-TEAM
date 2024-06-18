@@ -73,3 +73,45 @@
 2024-06-17 20:08:26,443 - environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
 2024-06-17 20:08:26,443 - environment.app - ERROR - Error type: AttributeError
 >>>>>>> ccb6dd7896eef987e31fdbfe22a762c9f87e7d83
+2024-06-17 20:51:19,973 - environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 20:51:19,973 - environment.app - ERROR - Error type: AttributeError
+2024-06-17 20:51:20,208 - environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 20:51:20,208 - environment.app - ERROR - Error type: AttributeError
+2024-06-17 20:51:20,679 - environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 20:51:20,679 - environment.app - ERROR - Error type: AttributeError
+2024-06-17 20:51:20,912 - environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 20:51:20,912 - environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 20:55:41,388 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 20:55:41,388 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 20:58:14,111 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 20:58:14,112 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:01:48,018 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:01:48,018 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:04:31,729 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:04:31,730 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:04:31,969 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:04:31,969 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:04:32,448 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:04:32,448 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:04:32,689 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:04:32,689 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:04:57,811 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:04:57,811 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:04:58,279 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:04:58,279 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:04:58,513 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:04:58,513 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:07:43,296 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:07:43,296 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:07:43,766 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:07:43,766 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:07:44,001 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:07:44,001 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:17:14,511 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:17:14,511 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:17:14,984 - airView.environment.app - ERROR - An error occurred: 'tuple' object has no attribute 'get'
+2024-06-17 21:17:14,984 - airView.environment.app - ERROR - Error type: AttributeError
+2024-06-17 21:17:15,218 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:17:15,218 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-17 21:21:44,321 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2024-06-17 21:21:44,321 - airView.environment.app - ERROR - Error type: UnsupportedMediaType

@@ -1,12 +1,12 @@
 import sqlite3
 import logging
-from flask import jsonify, session
+from flask import jsonify
+from flask_mail import Message, Mail
 import sys
 import os
-from flask_mail import Message, Mail
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Initialize DATABASE.
 DATABASE = None 
 mail = Mail()
 logging.basicConfig(level=logging.DEBUG)
@@ -22,24 +22,15 @@ def set_mail_instance(mail_instance):
     mail = mail_instance
 
 def get_db_connection():
-    """
-    Establish database connection
-    """
     if DATABASE is None:
         raise ValueError("Database path is not set. Call set_database_path() first.")
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
-    
-# Function to fetch booked flights for a user
+
 def get_booked_flights(user_id):
     try:
-        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
-        os.makedirs(database_dir, exist_ok=True)
-
-        db_path = os.path.join(database_dir, 'appdata.db')
-
-        conn = sqlite3.connect(db_path)
+        conn = get_db_connection()
         curr = conn.cursor()
 
         if user_id is not None:
@@ -56,18 +47,10 @@ def get_booked_flights(user_id):
     except sqlite3.Error as e:
         logger.error("Error : %s", e)
         return None
-    
+
 def get_flight_details(flight_id):
-    """
-    Fetch flight details based on flight ID.
-    """
     try:
-        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
-        os.makedirs(database_dir, exist_ok=True)
-
-        db_path = os.path.join(database_dir, 'appdata.db')
-
-        conn = sqlite3.connect(db_path)
+        conn = get_db_connection()
         curr = conn.cursor()
 
         flight_details = curr.execute("SELECT * FROM flights WHERE flightid=?", (flight_id,)).fetchone()
@@ -76,95 +59,70 @@ def get_flight_details(flight_id):
     except sqlite3.Error as e:
         logger.error("Error retrieving flight details by flight ID: %s", e)
         return None
-    
+
 def get_user_details(user_id):
-    """
-    Fetch user details based on user ID.
-    """
     try:
-        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
-        os.makedirs(database_dir, exist_ok=True)
-
-        db_path = os.path.join(database_dir, 'appdata.db')
-
-        conn = sqlite3.connect(db_path)
+        conn = get_db_connection()
         curr = conn.cursor()
-            
+
         user_details = curr.execute("SELECT * FROM userdata WHERE userid=?", (user_id,)).fetchone()
         logger.debug("User details retrieved by user ID: %s", user_id)
         return user_details
     except sqlite3.Error as e:
         logger.error("Error retrieving user details by user ID: %s", e)
         return None
-    
+
 def check_in(user_id, flight_id):
     try:
-        # Define your database path
-        database_dir = os.path.join(os.path.dirname(__file__), '..', 'database')
-        os.makedirs(database_dir, exist_ok=True)
-        db_path = os.path.join(database_dir, 'appdata.db')
-
-        # Connect to the database
-        conn = sqlite3.connect(db_path)
+        conn = get_db_connection()
         curr = conn.cursor()
 
-        # Update the is_checked_in column in bookings table
         if user_id and flight_id:
             curr.execute("UPDATE bookings SET is_checked_in = ? WHERE userid = ? AND flightid = ?", (1, user_id, flight_id))
             conn.commit()
 
-            # Check if update was successful
             if curr.rowcount > 0:
-                conn.close()  # Close the connection
+                conn.close()
 
-                # Get flight details for the email confirmation
                 flight_details = get_flight_details(flight_id)
                 if flight_details:
-                    # Assuming you have a function to render the email template
                     user_details = get_user_details(user_id)
                     if user_details:
-                        user_name = user_details[2]
-                        user_email = user_details[1]  # Assuming 'email' is the column name
+                        user_name = user_details['username']
+                        user_email = user_details['email']
                         email_content = f"""
-                                            <html>
-                                            <head></head>
-                                            <body>
-                                                <p>Dear {user_name},</p>
-                                                <p>Your check-in for the flight {flight_details[1]} has been successfully confirmed.</p>
-                                                <p>Flight Details:</p>
-                                                <ul>
-                                                    <li>Origin: {flight_details[2]}</li>
-                                                    <li>Destination: {flight_details[3]}</li>
-                                                    <li>Departure Time: {flight_details[4]}</li>
-                                                    <li>Arrival Time: {flight_details[5]}</li>
-                                                    <li>Status: {flight_details[6]}</li>
-                                                    <li>Gate Number: {flight_details[7]}</li>
-                                                    <!-- Add more flight details as needed -->
-                                                </ul>
-                                                <p>Have a pleasant journey!</p>
-                                            </body>
-                                            </html>
-                                        """
-
-                        # Send the email
+                            <html>
+                            <head></head>
+                            <body>
+                                <p>Dear {user_name},</p>
+                                <p>Your check-in for the flight {flight_details['flight_number']} has been successfully confirmed.</p>
+                                <p>Flight Details:</p>
+                                <ul>
+                                    <li>Origin: {flight_details['origin']}</li>
+                                    <li>Destination: {flight_details['destination']}</li>
+                                    <li>Departure Time: {flight_details['departure_time']}</li>
+                                    <li>Arrival Time: {flight_details['arrival_time']}</li>
+                                    <li>Status: {flight_details['status']}</li>
+                                    <li>Gate Number: {flight_details['gate_number']}</li>
+                                </ul>
+                                <p>Have a pleasant journey!</p>
+                            </body>
+                            </html>
+                        """
                         send_checkin_confirmation_email(user_email, email_content)
-                        return {'message': 'Check-in successful'}
+                        return {'message': 'Check-in successful'}, 200
                     else:
-                        conn.close()
                         return {'message': 'User details not found'}, 404
                 else:
-                    conn.close()
                     return {'message': 'Flight details not found'}, 404
             else:
-                conn.close()
                 return {'message': 'No rows updated. User ID or Flight ID not found in bookings.'}, 404
         else:
-            conn.close()
             return {'message': 'User ID or Flight ID not provided'}, 400
     except Exception as e:
+        logger.error("Error during check-in: %s", e)
         return {'message': str(e)}, 500
 
-    
 def send_checkin_confirmation_email(email, content):
     try:
         msg = Message(subject="Check-in Confirmation", recipients=[email], html=content)

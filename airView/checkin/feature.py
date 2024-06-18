@@ -1,6 +1,7 @@
+# checkin/feature.py
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-# from checkin.operation import check_in_flight
 from checkin.operation import get_booked_flights, get_flight_details, check_in
 
 checkin_bp = Blueprint('checkin_bp', __name__)
@@ -23,9 +24,6 @@ def get_booked_flights_endpoint():
                         flight_detail_list = list(flight_details)
                         flight_detail_list.append(is_checked_in)
                         flights_data.append(flight_detail_list)
-                # Extract data from the sqlite3.Row object
-                # for column_name in flight_details.keys():
-                #     print(f"{column_name}: {flight_details[column_name]}")
                 flights_data.append(user_id)
                 return jsonify({'flights': flights_data}), 200
             else:
@@ -34,13 +32,19 @@ def get_booked_flights_endpoint():
             return jsonify({'message': 'Unauthorized access. Token invalid or expired.'}), 401
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
 @checkin_bp.route('/check-in', methods=['POST'])
+@jwt_required()
 def handle_check_in():
-    data = request.get_json()
-    user_id = data.get('user_id')
-    flight_id = data.get('flight_id')
-    if not user_id:
-        return jsonify({'message': 'User ID not provided'}), 400
-    result = check_in(user_id,flight_id)
-    return jsonify(result), 200 if result.get('message') == 'Check-in successful' else 500
+    try:
+        user_id = get_jwt_identity()
+        data = request.get_json()
+        flight_id = data.get('flight_id')
+        if not user_id:
+            return jsonify({'message': 'User ID not provided'}), 400
+        if not flight_id:
+            return jsonify({'message': 'Flight ID not provided'}), 400
+        result, status_code = check_in(user_id, flight_id)
+        return jsonify(result), status_code
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
