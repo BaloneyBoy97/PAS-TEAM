@@ -157,7 +157,7 @@
                                 "Content-Type": "application/json",
                                 Authorization: `Bearer ${token}`,
                             },
-                            body: JSON.stringify({ flight_id: flightId, user_id: userId }), // Send flightId and userId here
+                            body: JSON.stringify({ flight_id: flightId }), // Send flightId here
                         });
 
                         if (response.ok) {
