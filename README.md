@@ -34,11 +34,11 @@ The objective of this project is to create a centralized system for airport mana
 
 - Download Docker Desktop Application
 - Login to Docker account
-- Retrieve .tar from this Google Drive link:
+- locate my-python-app-v9.tar file from project root directory
 - Load the Docker image from the .tar file using the following command in your
 terminal:
 
-- RUN docker load -i path_to_your_tar/my-python-app-v1.tar
+- RUN docker load -i path_to_your_tar/my-python-app-v9.tar
 
 - To ensure the image is now available on your system, list the Docker images:
 
@@ -46,7 +46,7 @@ terminal:
 
 - Run a container from the image to see if it works:
 
-- RUN docker run <yourname>/my-python-app:v1
+- RUN docker run <yourname>/my-python-app:v9
 
 - Finally, enter the following link in your browser:
 
