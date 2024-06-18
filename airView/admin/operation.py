@@ -101,8 +101,10 @@ def delete_flight(flight_id):
         conn = get_db_connection()
         conn.execute('DELETE FROM flights WHERE flightid = ?', (flight_id,))
         conn.commit()
+        return {"message": "Flight deleted successfully"}
     except Exception as e:
         # Log the error or handle it as needed
         print(f"Error deleting flight: {str(e)}")
+        return {"error": str(e)}
     finally:
         conn.close()

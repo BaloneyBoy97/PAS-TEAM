@@ -115,3 +115,11 @@
 2024-06-17 21:17:15,218 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
 2024-06-17 21:21:44,321 - airView.environment.app - ERROR - An error occurred: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
 2024-06-17 21:21:44,321 - airView.environment.app - ERROR - Error type: UnsupportedMediaType
+2024-06-18 02:08:48,761 - airView.environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-18 02:08:48,761 - airView.environment.app - ERROR - Error type: NotFound
+2024-06-18 02:08:49,661 - airView.environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-18 02:08:49,661 - airView.environment.app - ERROR - Error type: NotFound
+2024-06-18 02:08:50,644 - airView.environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-18 02:08:50,644 - airView.environment.app - ERROR - Error type: NotFound
+2024-06-18 02:08:51,551 - airView.environment.app - ERROR - An error occurred: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2024-06-18 02:08:51,551 - airView.environment.app - ERROR - Error type: NotFound
