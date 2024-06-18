@@ -20,9 +20,8 @@ def get_booked_flights_endpoint():
             if booked_flights:
                 flights_data = []
                 for flight in booked_flights:
-                    flight_id = flight[2]  # Assuming 'flightid' is the column name
-                    is_checked_in = flight[7]
-                    # Get flight details using the flight_id
+                    flight_id = flight['flightid']  # Adjust if needed based on your data structure
+                    is_checked_in = flight['is_checked_in']
                     flight_details = get_flight_details(flight_id)
                     logger.debug(f"Flight Details for Flight ID {flight_id}: {flight_details}")
                     if flight_details:
@@ -49,11 +48,11 @@ def handle_check_in():
         user_id = get_jwt_identity()
         data = request.get_json()
         flight_id = data.get('flight_id')
-        if not user_id:
-            return jsonify({'message': 'User ID not provided'}), 400
+        logger.debug(f"Check-in request for User ID: {user_id}, Flight ID: {flight_id}")
         if not flight_id:
             return jsonify({'message': 'Flight ID not provided'}), 400
         result, status_code = check_in(user_id, flight_id)
         return jsonify(result), status_code
     except Exception as e:
+        logger.error(f"Error: {str(e)}")
         return jsonify({'message': str(e)}), 500
