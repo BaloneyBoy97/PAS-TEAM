@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Management</title>
     <style>
+        html {
+            overflow: -moz-scrollbars-none;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
         body {
+            overflow: auto;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -61,7 +73,8 @@
             flex-direction: column;
         }
 
-        .card form input, .card form button {
+        .card form input,
+        .card form button {
             padding: 10px;
             margin: 10px 0;
             border-radius: 20px;
@@ -96,6 +109,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Flight Management</h1>
@@ -108,8 +122,8 @@
                 <form id="update-flight-form">
                     <input type="hidden" name="flightid" id="update-flight-id">
                     <input type="text" name="flightnumber" placeholder="Flight Number" required>
-                    <input type="text" name="departure" placeholder="Departure" required>
-                    <input type="text" name="arrival" placeholder="Arrival" required>
+                    <input type="text" name="origin" placeholder="origin" required>
+                    <input type="text" name="destination" placeholder="destination" required>
                     <input type="datetime-local" name="departuretime" placeholder="Departure Time" required>
                     <input type="datetime-local" name="arrivaltime" placeholder="Arrival Time" required>
                     <input type="text" name="status" placeholder="Status" required>
@@ -120,7 +134,7 @@
             <div class="card">
                 <h2>Delete Flight</h2>
                 <form id="delete-flight-form">
-                    <input type="text" name="flightid" placeholder="Flight ID" required>
+                    <input type="text" name="flightid" id="delete-flight-id" placeholder="Flight ID" required>
                     <button type="submit">Delete</button>
                 </form>
             </div>
@@ -128,8 +142,8 @@
                 <h2>Create Flight</h2>
                 <form id="create-flight-form">
                     <input type="text" name="flightnumber" placeholder="Flight Number" required>
-                    <input type="text" name="departure" placeholder="Departure" required>
-                    <input type="text" name="arrival" placeholder="Arrival" required>
+                    <input type="text" name="origin" placeholder="origin" required>
+                    <input type="text" name="destination" placeholder="destination" required>
                     <input type="datetime-local" name="departuretime" placeholder="Departure Time" required>
                     <input type="datetime-local" name="arrivaltime" placeholder="Arrival Time" required>
                     <input type="text" name="status" placeholder="Status" required>
@@ -145,56 +159,87 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('create-flight-form').addEventListener('submit', function(event) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('create-flight-form').addEventListener('submit', function (event) {
                 event.preventDefault();
                 const formData = new FormData(event.target);
                 const jsonData = {};
                 formData.forEach((value, key) => {
                     jsonData[key] = value;
                 });
-                fetch('/api/flights', {
+                console.log("Create Flight Data:", jsonData); // Added for debugging
+                fetch('/admin/api/flights', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(jsonData)
                 })
-                .then(response => response.json())
-                .then(data => alert(data.message))
-                .catch(error => console.error('Error:', error));
+                    .then(response => {
+                        console.log("Response status:", response.status); // Added for debugging
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => alert(data.message))
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to create flight. Please check the console for more details.');
+                    });
             });
 
-            document.getElementById('update-flight-form').addEventListener('submit', function(event) {
+            document.getElementById('update-flight-form').addEventListener('submit', function (event) {
                 event.preventDefault();
                 const formData = new FormData(event.target);
                 const jsonData = {};
                 formData.forEach((value, key) => {
                     jsonData[key] = value;
                 });
-                fetch(`/api/flights/${jsonData.flightid}`, {
+                console.log("Update Flight Data:", jsonData); // Added for debugging
+                fetch(`/admin/api/flights/${jsonData.flightid}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(jsonData)
                 })
-                .then(response => response.json())
-                .then(data => alert(data.message))
-                .catch(error => console.error('Error:', error));
+                    .then(response => {
+                        console.log("Response status:", response.status); // Added for debugging
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => alert(data.message))
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to update flight. Please check the console for more details.');
+                    });
             });
 
-            document.getElementById('delete-flight-form').addEventListener('submit', function(event) {
+            document.getElementById('delete-flight-form').addEventListener('submit', function (event) {
                 event.preventDefault();
                 const flightId = document.getElementById('delete-flight-id').value;
-                fetch(`/api/flights/${flightId}`, {
+                console.log("Delete Flight ID:", flightId); // Added for debugging
+                fetch(`/admin/api/flights/${flightId}`, {
                     method: 'DELETE'
                 })
-                .then(response => response.json())
-                .then(data => alert(data.message))
-                .catch(error => console.error('Error:', error));
+                    .then(response => {
+                        console.log("Response status:", response.status); // Added for debugging
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => alert(data.message))
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to delete flight. Please check the console for more details.');
+                    });
             });
         });
     </script>
 </body>
+
 </html>
