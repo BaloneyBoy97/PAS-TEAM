@@ -7,7 +7,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-DATABASE = None 
+DATABASE = os.path.join(os.path.dirname(__file__), '..', 'database', 'appdata.db') 
 mail = Mail()
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -71,7 +71,6 @@ def get_user_details(user_id):
     except sqlite3.Error as e:
         logger.error("Error retrieving user details by user ID: %s", e)
         return None
-
 def check_in(user_id, flight_id):
     try:
         conn = get_db_connection()
@@ -82,39 +81,41 @@ def check_in(user_id, flight_id):
             conn.commit()
 
             if curr.rowcount > 0:
+                # Close connection after commit
                 conn.close()
 
+                # Fetch flight details after checking in
+                conn = get_db_connection()
                 flight_details = get_flight_details(flight_id)
-                if flight_details:
-                    user_details = get_user_details(user_id)
-                    if user_details:
-                        user_name = user_details['username']
-                        user_email = user_details['email']
-                        email_content = f"""
-                            <html>
-                            <head></head>
-                            <body>
-                                <p>Dear {user_name},</p>
-                                <p>Your check-in for the flight {flight_details['flight_number']} has been successfully confirmed.</p>
-                                <p>Flight Details:</p>
-                                <ul>
-                                    <li>Origin: {flight_details['origin']}</li>
-                                    <li>Destination: {flight_details['destination']}</li>
-                                    <li>Departure Time: {flight_details['departure_time']}</li>
-                                    <li>Arrival Time: {flight_details['arrival_time']}</li>
-                                    <li>Status: {flight_details['status']}</li>
-                                    <li>Gate Number: {flight_details['gate_number']}</li>
-                                </ul>
-                                <p>Have a pleasant journey!</p>
-                            </body>
-                            </html>
-                        """
-                        send_checkin_confirmation_email(user_email, email_content)
-                        return {'message': 'Check-in successful'}, 200
-                    else:
-                        return {'message': 'User details not found'}, 404
+                user_details = get_user_details(user_id)
+                conn.close()  # Close connection after fetch
+
+                if flight_details and user_details:
+                    user_name = user_details['username']
+                    user_email = user_details['email']
+                    email_content = f"""
+                        <html>
+                        <head></head>
+                        <body>
+                            <p>Dear {user_name},</p>
+                            <p>Your check-in for the flight {flight_details['flightnumber']} has been successfully confirmed.</p>
+                            <p>Flight Details:</p>
+                            <ul>
+                                <li>Origin: {flight_details['origin']}</li>
+                                <li>Destination: {flight_details['destination']}</li>
+                                <li>Departure Time: {flight_details['departuretime']}</li>
+                                <li>Arrival Time: {flight_details['arrivaltime']}</li>
+                                <li>Status: {flight_details['status']}</li>
+                                <li>Gate Number: {flight_details['gate_number']}</li>
+                            </ul>
+                            <p>Have a pleasant journey!</p>
+                        </body>
+                        </html>
+                    """
+                    send_checkin_confirmation_email(user_email, email_content)
+                    return {'message': 'Check-in successful'}, 200
                 else:
-                    return {'message': 'Flight details not found'}, 404
+                    return {'message': 'Flight or User details not found'}, 404
             else:
                 return {'message': 'No rows updated. User ID or Flight ID not found in bookings.'}, 404
         else:
